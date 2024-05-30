@@ -151,7 +151,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className={`fixed w-full z-10 bg-white   `}>
+      <div className={`fixed w-full z-10 bg-blue-400 bg-opacity-50 backdrop-blur-sm `}>
         <div
           className={`mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8 ${
             isMenuOpen ? "hidden " : ""
@@ -186,13 +186,13 @@ export default function Navbar() {
               {filteredMenuItems?.map((item) => {
                 const active =
                   mainUrl[0] === item.href
-                    ? "bg-gray-300 duration-1000 transition-colors ease-in-out text-teal-500"
+                    ? "bg-blue-500 duration-1000 transition-colors ease-in-out"
                     : "";
                 return (
                   <li key={item.name}>
                     <NavLink
                       to={item.href}
-                      className={`text-lg px-2 rounded-md py-1 font-semibold text-gray-700 no-underline  hover:text-teal-500 ${active}`}
+                      className={`text-lg px-2 rounded-md py-2 font-semibold text-white no-underline  hover:text-teal-300 ${active} hover:text-teal-300`}
                       onClick={() => {
                         setIsUserMenuOpen(false);
                       }}
@@ -206,7 +206,7 @@ export default function Navbar() {
           </div>
           <div
             onClick={toggleUserMenu}
-            className="relative flex gap-4 bg-slate-200 shadow-sm px-6 6 cursor-pointer rounded-lg py-2"
+            className="relative flex gap-4 bg-white shadow-sm px-6 6 cursor-pointer rounded-lg py-2"
           >
             <div>
               <h4 className="text-xl font-semibold">{userData.userName}</h4>
@@ -223,7 +223,7 @@ export default function Navbar() {
                         <button
                           key={item.name}
                           onClick={item.onClick}
-                          className="block px-4 py-1 text-md font-medium text-gray-600 hover:bg-gray-200 hover:text-blue-500 w-full text-left"
+                          className="block px-4 py-1 text-md font-semibold text-gray-700 hover:bg-gray-200 hover:text-blue-500 w-full text-left"
                         >
                           {item.name}
                         </button>

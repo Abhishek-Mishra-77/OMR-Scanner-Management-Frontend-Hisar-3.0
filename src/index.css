@@ -8,27 +8,31 @@
   box-sizing: border-box;
 }
 body {
-  background-image: url("assets/images/bg-image.jpg");
+  /* background-image: url("assets/images/bg-image.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  height: 100vh; */
+  background: #E4EBF6;
 }
 
 .bgImage {
-  background-image: url("assets/images/uploaderbg.jpg");
+  /* background-image: url("assets/images/uploaderbg.jpg");
   background-position: 50% 0;
-  background-size: cover;
+  background-size: cover; */
   height: 100vh;
+  background: #2878ce;
 }
 a {
   text-decoration: none !important;
 }
 
 .scannerbg {
-  background-image: url("assets/images/scannerbg.jpg");
+  /* background-image: url("assets/images/scannerbg.jpg");
   background-position: 50% 0;
   background-size: cover;
-  height: auto;
+  height: auto; */
+  height: 100vh;
+  background: #3987da;
 }
 
 .csvuploader {
