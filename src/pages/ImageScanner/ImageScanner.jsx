@@ -42,7 +42,7 @@ const ImageScanner = () => {
 
   useEffect(() => {
     if (imageURL && imageURL.length > 0) {
-      setImage(imageURL[currentImageIndex]);
+      setImage(imageURL[currentImageIndex]); // Set the first image from the array
     }
   }, [currentImageIndex]);
 
@@ -186,7 +186,6 @@ const ImageScanner = () => {
         pageCount: imageURL.length,
       },
       metaData: [...selectedCoordinates],
-      imageData: imageURL,
     };
 
     try {
@@ -229,18 +228,18 @@ const ImageScanner = () => {
   };
 
   return (
-    <div className="flex scannerbg border-1 pt-16 ">
+    <div className="flex scannerbg border-1 pt-20 ">
       {/* LEFT SECTION  */}
       <div className="flex w-[25%]">
-        <div className="flex flex-1  flex-col justify-between border-e bg-teal-50">
+        <div className="flex flex-1  flex-col justify-between ">
           <div className="px-4 py-6">
             <div className="space-y-1">
               <div
                 style={{ marginTop: "40px" }}
-                className="block w-full rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium  mb-5"
+                className="block w-full rounded-3xl bg-gray-100 px-4 py-2 text-sm font-medium  mb-5"
               >
                 <div className="overflow-x-auto">
-                  <div className="my-3 table-auto  border-collapse border border-gray-400 min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded-lg">
+                  <div className="my-3 table-auto  border-collapse border border-gray-400 min-w-full divide-y-2 divide-gray-200 bg-white text-sm rounded-3xl">
                     <div className="ltr:text-left rtl:text-right flex justify-around text-gray-600">
                       <div className="text-center whitespace-nowrap py-2 w-1/3">
                         Name
@@ -253,7 +252,7 @@ const ImageScanner = () => {
                       </div>
                     </div>
 
-                    <div className="divide-y divide-gray-200">
+                    <div className="divide-y divide-gray-200 overflow-y-auto min-h-[25vh]">
                       {selectedCoordinates &&
                         selectedCoordinates?.map((data) => (
                           <div
@@ -290,11 +289,11 @@ const ImageScanner = () => {
               <div>
                 {/* Form Field Area */}
 
-                <div className=" bg-gradient-to-b from-white to-gray-100 rounded-3xl px-4 pt-1 pb-4 border-1 border-gray shadow-md mb-10">
+                <div className=" bg-gray-100 rounded-3xl px-4 pt-1 pb-4 border-1 border-gray shadow-md mb-10">
                   <form onSubmit={onSubmitHandler}>
                     <input
                       required
-                      className="input w-full font-semibold bg-white  border-none rounded-xl p-3 mt-6 shadow-xl   focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                      className="input w-full font-semibold bg-white  border-none rounded-xl p-3 mt-6 shadow-lg shadow-blue-100 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
                       type="text"
                       value={templateData.attribute}
                       onChange={(e) =>
@@ -307,7 +306,7 @@ const ImageScanner = () => {
                     />
                     <input
                       required
-                      className="input w-full font-semibold bg-white border-none rounded-xl p-3 mt-6 shadow-xl   focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none focus:outline-none"
+                      className="input w-full font-semibold bg-white border-none rounded-xl p-3 mt-6 shadow-lg shadow-blue-100   focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none focus:outline-none"
                       type="text"
                       value={templateData.other}
                       onChange={(e) =>
@@ -318,7 +317,7 @@ const ImageScanner = () => {
                       }
                       placeholder="enter other.."
                     />
-                    <button className="ms-auto group  mt-4 flex items-center  rounded-lg bg-teal-600 hover:shadow-lg hover:shadow-blue-200  py-2 px-2 transition-colors hover:bg-teal-700 focus:outline-none focus:ring">
+                    <button className="ms-auto group  mt-4 flex items-center  rounded-3xl bg-teal-500 hover:shadow-lg hover:shadow-blue-200  py-2 px-3 transition-colors hover:bg-teal-700 focus:outline-none focus:ring">
                       <span className="font-medium  flex text-white transition-colors group-hover:text-white  group-active:text-white mx-auto">
                         Save Template
                       </span>
@@ -514,18 +513,18 @@ const ImageScanner = () => {
           </div>
         </div>
       ) : (
-        <div className="pb-2 w-[75%]">
-          <div className="mx-auto max-w-screen-xl px-2 lg:pt-2 sm:px-6 lg:px-8">
-            <h1 className="text-center my-4 pt-1 text-xl font-bold text-blue-700">
+        <div className=" w-[75%]">
+          <div className="mx-auto max-w-screen-xl px-2  sm:px-6 lg:px-8">
+            <h1 className="text-center my-3  text-xl font-bold text-white">
               {currentImageIndex + 1} out of {imageURL.length}
             </h1>
-            <div className="mt-2 flex justify-center">
+            <div className="mb-3 flex justify-center">
               <div>
                 {image && (
                   <div
                     style={{
                       position: "relative",
-                      border: "3px solid purple",
+                      // border: "3px solid purple",
                       height: "50rem",
                     }}
                     className="w-full overflow-y-auto"
