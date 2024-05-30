@@ -151,7 +151,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className={`fixed w-full z-10 bg-blue-400 bg-opacity-50 backdrop-blur-sm `}>
+      <div className={`fixed w-full z-10 bg-opacity-50 backdrop-blur-sm `} style={{backgroundColor: "#E6FEED"}}>
         <div
           className={`mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8 ${
             isMenuOpen ? "hidden " : ""
@@ -186,13 +186,13 @@ export default function Navbar() {
               {filteredMenuItems?.map((item) => {
                 const active =
                   mainUrl[0] === item.href
-                    ? "bg-blue-500 duration-1000 transition-colors ease-in-out"
+                    ? "bg-blue-500 text-white duration-1000 transition-colors ease-in-out"
                     : "";
                 return (
                   <li key={item.name}>
                     <NavLink
                       to={item.href}
-                      className={`text-lg px-2 rounded-md py-2 font-semibold text-white no-underline  hover:text-teal-300 ${active} hover:text-teal-300`}
+                      className={`text-lg px-2 rounded-md py-2 font-semibold no-underline  hover:text-teal-300 ${active} hover:text-teal-300`}
                       onClick={() => {
                         setIsUserMenuOpen(false);
                       }}

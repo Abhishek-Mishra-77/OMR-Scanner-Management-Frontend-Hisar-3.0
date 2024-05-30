@@ -228,9 +228,9 @@ const ImageScanner = () => {
   };
 
   return (
-    <div className="flex scannerbg border-1 pt-20 ">
+    <div className="flex flex-col-reverse lg:flex-row justify-center items-center scannerbg border-1 pt-20 ">
       {/* LEFT SECTION  */}
-      <div className="flex w-[25%]">
+      <div className="flex w-[40%] lg:w-[25%] ">
         <div className="flex flex-1  flex-col justify-between ">
           <div className="px-4 py-6">
             <div className="space-y-1">
@@ -252,7 +252,7 @@ const ImageScanner = () => {
                       </div>
                     </div>
 
-                    <div className="divide-y divide-gray-200 overflow-y-auto min-h-[25vh]">
+                    <div className="divide-y divide-gray-200 overflow-y-auto min-h-[25vh] h-[30vh]">
                       {selectedCoordinates &&
                         selectedCoordinates?.map((data) => (
                           <div
