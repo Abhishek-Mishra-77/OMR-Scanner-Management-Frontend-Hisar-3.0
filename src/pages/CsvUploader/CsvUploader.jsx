@@ -5,12 +5,12 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import dataContext from "../../Store/DataContext";
+import { MdDelete } from "react-icons/md";
+import { CiEdit } from "react-icons/ci";
 import {
   onGetTemplateHandler,
   onGetVerifiedUserHandler,
 } from "../../services/common";
-import { CiEdit } from "react-icons/ci";
-import { MdDelete } from "react-icons/md";
 import { REACT_APP_IP } from "../../services/common";
 
 const CsvUploader = () => {
@@ -152,14 +152,6 @@ const CsvUploader = () => {
     }
   };
 
-  const onRemoveTemplateHanlder = (id) => {
-    console.log(id);
-  };
-
-  const onEditTemplateHandler = (id) => {
-    console.log(id);
-  };
-
   return (
     <div className="flex justify-center items-center h-auto w-full">
       {dataCtx?.isLoading ? (
@@ -169,14 +161,17 @@ const CsvUploader = () => {
           <div className="pt-4 xl:pt-0">
             <div className="xl:flex justify-center items-center gap-5  mx-5 pt-20 ">
               <div
-                className="mx-auto max-w-xl  min-h-[300px] bg-white px-16 py-8  text-center shadow-lg"
+                className="mx-auto max-w-xl  min-h-[300px] bg-white px-8 py-4  text-center shadow-lg"
                 style={{ borderRadius: "20px" }}
               >
-                <h1 className="pb-2 text-xl font-semibold text-center">
+                <h1 className="mb-3 text-xl font-semibold text-center text-blue-500">
                   Template Name
                 </h1>
                 <div className="form relative pb-3">
-                  <button className="absolute" style={{ top: "10px" }}>
+                  <button
+                    className="absolute"
+                    style={{ top: "10px", left: "10px" }}
+                  >
                     <svg
                       className="w-5 h-5 text-gray-700"
                       aria-labelledby="search"
@@ -201,42 +196,30 @@ const CsvUploader = () => {
                     onChange={(e) => setTemplateName(e.target.value)}
                     required
                     placeholder="Search..."
-                    className="input rounded-full  py-1 border-2 rounded-4 border-transparent  focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                    className="input rounded-full ps-8 py-1 border-2 rounded-4   focus:outline-none focus:border-blue-500 placeholder-gray-400"
                   />
                 </div>
-                <div className="overflow-y-scroll h-[20vh] px-6 bg-white">
+                <div className="overflow-y-scroll h-[20vh] px-2 bg-white">
                   {filteredTemplates?.map((template) => (
-                    <div className="flex justify-around items-center ">
-                      <button
+                    <>
+                      <p
                         key={template.id}
                         onClick={() => setSelectedId(template.id)}
-                        className={`group flex items-center justify-between w-full mt-2 rounded-lg hover:bg-gray-300 bg-gray-100 px-4 py-2 text-gray-700 ${
-                          selectedId === template.id
-                            ? "bg-gray-500 text-white"
-                            : "text-gray-500  hover:text-gray-700"
-                        }`}
+                        className={`group flex items-center justify-between w-full mt-2 rounded-lg px-4 py-2  text-black `}
                       >
-                        <span className="text-sm font-medium">
+                        <span
+                          className={`{ ${
+                            selectedId === template.id
+                              ? "text-blue-700  font-semibold text-lg  rounded-lg w-1/3"
+                              : "text-black hover:text-teal-700 text-sm font-medium w-1/3"
+                          }`}
+                        >
                           {template.name}
                         </span>
-                      </button>
-                      <button
-                        onClick={() => onRemoveTemplateHanlder(template.id)}
-                        className={`group flex items-center justify-between w-full mt-2 rounded-lg hover:bg-gray-300 bg-gray-100 px-4 py-2 text-gray-700 `}
-                      >
-                        <span className="text-sm font-medium">
-                          {<CiEdit />}
-                        </span>
-                      </button>
-                      <button
-                        onClick={() => onEditTemplateHandler(template.id)}
-                        className={`group flex items-center justify-between w-full mt-2 rounded-lg hover:bg-gray-300 bg-gray-100 px-4 py-2 text-gray-700 `}
-                      >
-                        <span className="text-sm font-medium">
-                          {<MdDelete />}
-                        </span>
-                      </button>
-                    </div>
+                        <CiEdit className="mx-auto text-blue-600 text-xl cursor-pointer w-1/3"/>
+                        <MdDelete className="mx-auto text-red-500 text-xl cursor-pointer w-1/3" />
+                          </p>
+                    </>
                   ))}
                 </div>
                 <div className="mt-4">
@@ -256,11 +239,11 @@ const CsvUploader = () => {
                                 placeholder={
                                   data.pageCount === 1
                                     ? "image name"
-                                    : `enter ${
+                                    : `${
                                         index === 0 ? "first" : "second"
                                       } image name`
                                 }
-                                className="input rounded-full px-3 mb-5 py-1  border-1 border-gray-200 rounded-3 border-transparent shadow focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                                className="input rounded-full px-3 mb-5 py-1  border-1 border-gray-200 rounded-3 border-transparent shadow shadow-blue-200 focus:outline-none focus:border-blue-500 placeholder-gray-400"
                               />
                             </div>
                           )
@@ -270,7 +253,7 @@ const CsvUploader = () => {
                 </div>
               </div>
               <div
-                className="mx-auto max-w-xl border-4 border-dashed px-28 mt-5 text-center shadow-md shadow-teal-400 pb-5"
+                className="mx-auto max-w-xl border-4 border-dashed px-28 mt-5 text-center  shadow-teal-400 pb-5"
                 style={{ borderColor: "skyblue", borderRadius: "60px" }}
               >
                 <img
@@ -284,7 +267,7 @@ const CsvUploader = () => {
                 </h2>
                 <div className="relative flex justify-center">
                   <label
-                    className="flex items-center font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-700 rounded-3xl shadow-md cursor-pointer select-none text-lg px-6 py-2 hover:shadow-xl active:shadow-md"
+                    className="flex items-center font-medium text-white bg-blue-500 rounded-3xl shadow-md cursor-pointer select-none text-lg px-6 py-2 hover:shadow-xl active:shadow-md"
                     htmlFor="file-upload"
                   >
                     <span>Upload CSV File : {csvFile?.name}</span>
@@ -319,7 +302,7 @@ const CsvUploader = () => {
                 </h2>
                 <div className="relative flex justify-center">
                   <label
-                    className="flex items-center font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-700 rounded-3xl shadow-md cursor-pointer select-none text-lg px-6 py-2 hover:shadow-xl active:shadow-md"
+                    className="flex items-center font-medium text-white bg-blue-500 rounded-3xl shadow-md cursor-pointer select-none text-lg px-6 py-2 hover:shadow-xl active:shadow-md"
                     htmlFor="image-folder-upload"
                   >
                     <span>Upload Zip file : {imageFolder?.name}</span>
