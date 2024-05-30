@@ -252,7 +252,7 @@ const ImageScanner = () => {
                       </div>
                     </div>
 
-                    <div className="divide-y divide-gray-200 overflow-y-auto min-h-[25vh]">
+                    <div className="divide-y divide-gray-200 overflow-y-auto min-h-[25vh] h-[30vh]">
                       {selectedCoordinates &&
                         selectedCoordinates?.map((data) => (
                           <div

@@ -161,7 +161,7 @@ const CsvUploader = () => {
           <div className="pt-4 xl:pt-0">
             <div className="xl:flex justify-center items-center gap-5  mx-5 pt-20 ">
               <div
-                className="mx-auto max-w-xl  min-h-[300px] bg-white px-8 py-4  text-center shadow-lg"
+                className="mx-auto max-w-xl  min-h-[300px] bg-white px-4 py-4  text-center shadow-lg"
                 style={{ borderRadius: "20px" }}
               >
                 <h1 className="mb-3 text-xl font-semibold text-center text-blue-500">
@@ -199,7 +199,7 @@ const CsvUploader = () => {
                     className="input rounded-full ps-8 py-1 border-2 rounded-4   focus:outline-none focus:border-blue-500 placeholder-gray-400"
                   />
                 </div>
-                <div className="overflow-y-scroll h-[20vh] px-2 bg-white">
+                <div className="overflow-y-scroll h-[20vh]  bg-white">
                   {filteredTemplates?.map((template) => (
                     <>
                       <p
@@ -210,14 +210,14 @@ const CsvUploader = () => {
                         <span
                           className={`{ ${
                             selectedId === template.id
-                              ? "text-blue-700  font-semibold text-lg  rounded-lg w-1/3"
-                              : "text-black hover:text-teal-700 text-sm font-medium w-1/3"
+                              ? "text-blue-700  font-semibold text-lg hover:text-xl  rounded-lg w-2/4 text-ellipsis overflow-x-hidden"
+                              : "text-black hover:text-teal-700 hover:text-xl text-md font-medium w-2/4 text-ellipsis overflow-x-hidden"
                           }`}
                         >
                           {template.name}
                         </span>
-                        <CiEdit className="mx-auto text-blue-600 text-xl cursor-pointer w-1/3"/>
-                        <MdDelete className="mx-auto text-red-500 text-xl cursor-pointer w-1/3" />
+                        <CiEdit className="mx-auto text-blue-600 hover:text-2xl text-xl cursor-pointer w-1/4 hover:text-blue-700"/>
+                        <MdDelete className="mx-auto text-red-500 hover:text-2xl text-xl cursor-pointer w-1/4" />
                           </p>
                     </>
                   ))}
