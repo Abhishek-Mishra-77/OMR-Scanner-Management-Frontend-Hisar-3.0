@@ -152,6 +152,14 @@ const CsvUploader = () => {
     }
   };
 
+  const onRemoveTemplateHanlder = (id) => {
+    console.log(id);
+  };
+
+  const onEditTemplateHandler = (id) => {
+    console.log(id);
+  };
+
   return (
     <div className="flex justify-center items-center h-auto w-full">
       {dataCtx?.isLoading ? (
@@ -161,7 +169,7 @@ const CsvUploader = () => {
           <div className="pt-4 xl:pt-0">
             <div className="xl:flex justify-center items-center gap-5  mx-5 pt-20 ">
               <div
-                className="mx-auto max-w-xl  min-h-[300px] bg-white px-8 py-4  text-center shadow-lg"
+                className="mx-auto max-w-xl  min-h-[300px] bg-white px-16 py-8  text-center shadow-lg"
                 style={{ borderRadius: "20px" }}
               >
                 <h1 className="pb-2 text-xl font-semibold text-center">
@@ -193,28 +201,42 @@ const CsvUploader = () => {
                     onChange={(e) => setTemplateName(e.target.value)}
                     required
                     placeholder="Search..."
-                    className="input rounded-full ps-5 py-1 border-2 rounded-4 border-transparent  focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                    className="input rounded-full  py-1 border-2 rounded-4 border-transparent  focus:outline-none focus:border-blue-500 placeholder-gray-400"
                   />
                 </div>
-                <div className="overflow-y-scroll h-[20vh] px-1 bg-white">
+                <div className="overflow-y-scroll h-[20vh] px-6 bg-white">
                   {filteredTemplates?.map((template) => (
-                    <button
-                      key={template.id}
-                      onClick={() => setSelectedId(template.id)}
-                      className={`group flex items-center justify-between w-full mt-2 rounded-lg hover:bg-gray-300 bg-gray-100 px-4 py-2 text-gray-700 ${
-                        selectedId === template.id
-                          ? "bg-gray-500 text-white"
-                          : "text-gray-500  hover:text-gray-700"
-                      }`}
-                    >
-                      <span className="text-sm font-medium">
-                        {template.name}
-                      </span>
-                      <span className="text-sm font-medium">{<CiEdit />}</span>
-                      <span className="text-sm font-medium">
-                        {<MdDelete />}
-                      </span>
-                    </button>
+                    <div className="flex justify-around items-center ">
+                      <button
+                        key={template.id}
+                        onClick={() => setSelectedId(template.id)}
+                        className={`group flex items-center justify-between w-full mt-2 rounded-lg hover:bg-gray-300 bg-gray-100 px-4 py-2 text-gray-700 ${
+                          selectedId === template.id
+                            ? "bg-gray-500 text-white"
+                            : "text-gray-500  hover:text-gray-700"
+                        }`}
+                      >
+                        <span className="text-sm font-medium">
+                          {template.name}
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => onRemoveTemplateHanlder(template.id)}
+                        className={`group flex items-center justify-between w-full mt-2 rounded-lg hover:bg-gray-300 bg-gray-100 px-4 py-2 text-gray-700 `}
+                      >
+                        <span className="text-sm font-medium">
+                          {<CiEdit />}
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => onEditTemplateHandler(template.id)}
+                        className={`group flex items-center justify-between w-full mt-2 rounded-lg hover:bg-gray-300 bg-gray-100 px-4 py-2 text-gray-700 `}
+                      >
+                        <span className="text-sm font-medium">
+                          {<MdDelete />}
+                        </span>
+                      </button>
+                    </div>
                   ))}
                 </div>
                 <div className="mt-4">
