@@ -204,7 +204,7 @@ const CsvUploader = () => {
                     onChange={(e) => setTemplateName(e.target.value)}
                     required
                     placeholder="Search..."
-                    className="input rounded-full ps-8 py-1 border-2 rounded-4   focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                    className="input rounded-full ps-8 py-1 border-2 rounded-4 focus:outline-none focus:border-blue-500 placeholder-gray-400"
                   />
                 </div>
                 <div className="overflow-y-scroll h-[20vh]  bg-white">
