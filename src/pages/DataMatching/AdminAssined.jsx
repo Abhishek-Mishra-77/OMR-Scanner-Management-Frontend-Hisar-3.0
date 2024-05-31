@@ -259,7 +259,7 @@ const AdminAssined = () => {
 
 
   return (
-    <div className="h-[100vh] flex justify-center items-center templatemapping pt-20">
+    <div className="h-[100vh] flex justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 templatemapping pt-20">
       <div className="">
         {/* MAIN SECTION  */}
         <section className=" lg:mx-auto max-w-6xl px-8 py-10 bg-white rounded-xl w-[100vw]">
@@ -388,7 +388,7 @@ const AdminAssined = () => {
                               className={`rounded px-4 py-1 font-semibold ${
                                 taskData.blankTaskStatus &&
                                 taskData.multTaskStatus
-                                  ? "bg-indigo-500 text-white border border-indigo-500"
+                                  ? "bg-teal-300"
                                   : "bg-gray-400 text-gray-600 cursor-not-allowed"
                               }`}
                               disabled={
@@ -480,7 +480,7 @@ const AdminAssined = () => {
                                     />
                                   </svg>
                                 )}
-                                <p className="whitespace-nowrap text-sm">
+                                <p className="whitespace-nowrap text-sm mt-1">
                                   {taskData.blankTaskStatus &&
                                   taskData.multTaskStatus
                                     ? "Completed"
@@ -492,7 +492,7 @@ const AdminAssined = () => {
                           <div className="whitespace-nowrap text-center w-[150px] py-2">
                             <button
                               onClick={() => onCompleteHandler(taskData)}
-                              className={`rounded px-4 py-1 font-semibold ${
+                              className={`rounded-3xl px-4 py-1 font-semibold ${
                                 taskData.blankTaskStatus &&
                                 taskData.multTaskStatus
                                   ? "bg-indigo-500 text-white border border-indigo-500"
@@ -509,7 +509,7 @@ const AdminAssined = () => {
                           <div className="whitespace-nowrap text-center w-[150px] py-2">
                             <button
                               onClick={() => onDownloadHandler(taskData)}
-                              className="rounded border border-indigo-500 bg-indigo-500 px-4 py-1 font-semibold text-white"
+                              className="rounded-3xl border border-indigo-500 bg-indigo-500 px-4 py-1 font-semibold text-white"
                             >
                               Download
                             </button>

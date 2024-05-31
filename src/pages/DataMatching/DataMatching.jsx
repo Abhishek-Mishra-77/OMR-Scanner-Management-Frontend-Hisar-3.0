@@ -481,7 +481,7 @@ const DataMatching = () => {
   };
 
   const onDataTypeSelectHandler = (taskData) => {
-    if (taskData.blankTaskStatus && taskData.multTaskStatus) {
+    if (taskData.taskStatus) {
       toast.warning("Task is aready completed.");
       return;
     }
@@ -549,7 +549,7 @@ const DataMatching = () => {
           {popUp && (
             <>
               {startModal ? (
-                <div className="h-[100vh] flex justify-center items-center templatemapping pt-20">
+                <div className="h-[100vh] flex justify-center bg-gradient-to-r from-blue-700 to-purple-700  items-center templatemapping pt-20">
                   <div className="">
                     {/* MAIN SECTION  */}
                     <section className="mx-auto max-w-4xl  px-12 py-10 bg-white rounded-xl w-[100vw]">
@@ -562,29 +562,29 @@ const DataMatching = () => {
                       </div>
                       <div className="mt-6 flex flex-col">
                         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                          <div className="inline-block  py-2 align-middle md:px-6 lg:px-8">
+                          <div className="inline-block  py-2 align-middle md:px-6 ">
                             <div className=" border border-gray-200 md:rounded-lg">
                               <div className="divide-y divide-gray-200 ">
                                 <div className="bg-gray-50 w-full">
-                                  <div className="flex gap-x-8">
-                                    <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-1/6">
+                                  <div className="flex">
+                                    <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
                                       <span>Templates</span>
                                     </div>
 
-                                    <div className=" py-3.5 px-4 text-center  text-xl font-semibold text-gray-700 w-1/6">
+                                    <div className=" py-3.5 px-4 text-center  text-xl font-semibold text-gray-700 w-[100px]">
                                       Min
                                     </div>
 
-                                    <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-1/6">
+                                    <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[100px]">
                                       Max
                                     </div>
-                                    <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-1/6">
-                                      Module Type
+                                    <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                                      Module
                                     </div>
-                                    <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-1/6">
+                                    <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
                                       Status
                                     </div>
-                                    <div className=" px-4 py-3.5 text-center text-xl font-semibold text-gray-700 w-1/6">
+                                    <div className=" px-4 py-3.5 text-center text-xl font-semibold text-gray-700 w-[150px]">
                                       Start Task
                                     </div>
                                   </div>
@@ -596,29 +596,29 @@ const DataMatching = () => {
                                         key={taskData.id}
                                         className="flex  py-2 w-full"
                                       >
-                                        <div className="whitespace-nowrap w-1/6 px-4">
+                                        <div className="whitespace-nowrap w-[150px] px-4">
                                           <div className="text-md text-center">
                                             {taskData.templateName}
                                           </div>
                                         </div>
-                                        <div className="whitespace-nowrap w-1/6 px-4">
+                                        <div className="whitespace-nowrap w-[100px] px-4">
                                           <div className="text-md text-center">
                                             {taskData.min}
                                           </div>
                                         </div>
-                                        <div className="whitespace-nowrap w-1/6 px-4">
+                                        <div className="whitespace-nowrap w-[100px] px-4">
                                           <div className="text-md text-center">
                                             {taskData.max}
                                           </div>
                                         </div>
 
-                                        <div className="whitespace-nowrap w-1/6 px-4">
+                                        <div className="whitespace-nowrap w-[150px] px-4">
                                           <div className="text-md text-center font-semibold py-1 border-2">
                                             {taskData.moduleType}
                                           </div>
                                         </div>
 
-                                        <div className="whitespace-nowrap w-1/6 px-4">
+                                        <div className="whitespace-nowrap w-[150px] px-4">
                                           <div className="text-md text-center">
                                             <span
                                               className={`inline-flex items-center justify-center rounded-full ${
@@ -669,12 +669,12 @@ const DataMatching = () => {
                                             </span>
                                           </div>
                                         </div>
-                                        <div className="whitespace-nowrap text-center w-1/6 px-4">
+                                        <div className="whitespace-nowrap text-center w-[150px] px-4">
                                           <button
                                             onClick={() =>
                                               onDataTypeSelectHandler(taskData)
                                             }
-                                            className="rounded border border-indigo-500 bg-indigo-500 px-6 py-1 font-semibold text-white"
+                                            className="rounded-3xl border border-indigo-500 bg-indigo-500 px-6 py-1 font-semibold text-white"
                                           >
                                             Start
                                           </button>
@@ -687,29 +687,29 @@ const DataMatching = () => {
                                       key={taskData.id}
                                       className="grid grid-cols-7 gap-x-6 py-2"
                                     >
-                                      <div className="whitespace-nowrap w-1/6 w-1/6">
+                                      <div className="whitespace-nowrap w-1/6">
                                         <div className="text-md text-center">
                                           {taskData.templateName}
                                         </div>
                                       </div>
-                                      <div className="whitespace-nowrap w-1/6 w-1/6">
+                                      <div className="whitespace-nowrap  w-1/6">
                                         <div className="text-md text-center">
                                           {taskData.min}
                                         </div>
                                       </div>
-                                      <div className="whitespace-nowrap w-1/6 w-1/6">
+                                      <div className="whitespace-nowrap w-1/6">
                                         <div className="text-md text-center">
                                           {taskData.max}
                                         </div>
                                       </div>
 
-                                      <div className="whitespace-nowrap w-1/6 w-1/6">
+                                      <div className="whitespace-nowrap w-1/6">
                                         <div className="text-md text-center font-semibold py-1 border-2">
                                           {taskData.moduleType}
                                         </div>
                                       </div>
 
-                                      <div className="whitespace-nowrap w-1/6 w-1/6">
+                                      <div className="whitespace-nowrap w-1/6">
                                         <div className="text-md text-center">
                                           <span
                                             className={`inline-flex items-center justify-center rounded-full ${
@@ -795,7 +795,7 @@ const DataMatching = () => {
                       >
                         &#8203;
                       </span>
-                      <div className=" inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full">
+                      <div className=" inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full">
                         <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                           <div className="sm:flex sm:items-start">
                             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
@@ -926,9 +926,9 @@ const DataMatching = () => {
             </>
           )}
           {!popUp && (
-            <div className=" flex flex-col lg:flex-row md:flex-col-reverse bg-gradient-to-r from-[rgb(255,195,36)] to-orange-500">
+            <div className=" flex flex-col lg:flex-row md:flex-col-reverse bg-gradient-to-r from-blue-600 to-purple-700 dataEntry">
               {/* LEFT SECTION */}
-              <div className=" border-e lg:w-3/12 xl:w-2/12 order-lg-1 second">
+              <div className=" border-e lg:w-3/12 xl:w-2/12 order-lg-1 second ">
                 <div className=" flex flex-col overflow-hidden w-[100%]">
                   <article className="pt-10 shadow transition lg:pt-28 hover:shadow-lg mx-auto overflow-auto h-[100vh]">
                     {csvCurrentData &&
@@ -947,13 +947,13 @@ const DataMatching = () => {
                                 className="w-5/6 px-3 py-1  overflow-x font-bold"
                               >
                                 <label className=" w-full overflow-hidden  rounded-md  font-semibold  py-2 shadow-sm  ">
-                                  <span className="text-sm text-gray-700 font-bold flex">
+                                  <span className="text-sm text-white font-bold flex">
                                     {key?.toUpperCase()}
                                   </span>
                                 </label>
                                 <input
                                   type="text"
-                                  className="mt-1 border-none p-2 focus:border-transparent text-center rounded focus:outline-none focus:ring-0 sm:text-sm w-48"
+                                  className="mt-1 border-none p-2 focus:border-transparent text-center rounded-lg focus:outline-none focus:ring-0 sm:text-sm w-48"
                                   value={csvCurrentData[key]}
                                   onChange={(e) =>
                                     changeCurrentCsvDataHandler(
@@ -995,7 +995,7 @@ const DataMatching = () => {
                       <div className="">
                         <button
                           onClick={() => setPopUp(true)}
-                          className=" px-4 py-2 bg-blue-600 text-white rounded-md mx-2 hover:bg-blue-700"
+                          className=" px-6 py-2 bg-blue-600 text-white rounded-3xl mx-2 hover:bg-blue-700"
                         >
                           Back
                         </button>
@@ -1008,7 +1008,7 @@ const DataMatching = () => {
                         </Button> */}
 
                         <button
-                          className="px-4 py-2 bg-blue-600 text-white rounded-md mx-2 hover:bg-blue-700"
+                          className="px-6 py-2 bg-blue-600 text-white rounded-3xl mx-2 hover:bg-blue-700"
                           onClick={() =>
                             onImageHandler(
                               "prev",
@@ -1023,7 +1023,7 @@ const DataMatching = () => {
                         </button>
 
                         <button
-                          className="px-4 py-2 bg-blue-600 text-white rounded-md mx-2 hover:bg-blue-700"
+                          className="px-6 py-2 bg-blue-600 text-white rounded-3xl mx-2 hover:bg-blue-700"
                           onClick={() =>
                             onImageHandler(
                               "next",
@@ -1036,20 +1036,17 @@ const DataMatching = () => {
                         >
                           Next
                         </button>
+                        {currentIndex === csvData.length - 1 && (
+                          <button
+                            onClick={onCompleteHandler}
+                            className="px-4 py-2 bg-teal-600 mx-2 text-white rounded-3xl hover:bg-teal-700"
+                          >
+                            Task Completed
+                          </button>
+                        )}
                       </div>
-                      {currentIndex === csvData.length - 1 && (
-                        <button
-                          onClick={onCompleteHandler}
-                          variant="contained"
-                          color="success"
-                          className="px-4 py-2 bg-teal-600 text-white rounded-md mx-2 hover:bg-teal-700"
-                          endIcon={<CheckIcon />}
-                        >
-                          Task Completed
-                        </button>
-                      )}
                     </div>
-                    <h3 className="ms-5 text-lg font-semibold py-3">
+                    <h3 className="ms-5 text-lg font-semibold py-3 text-white">
                       Data No : {currentIndex}
                       <span className="m-20">
                         {" "}
@@ -1057,23 +1054,23 @@ const DataMatching = () => {
                         {imageUrls.length}
                       </span>
                     </h3>
-                    <div className="flex justify-center my-2">
+                    <div className="flex justify-center my-4">
                       <button
                         onClick={zoomInHandler}
-                        className="px-4 py-2 bg-teal-600 text-white rounded-md mx-2 hover:bg-teal-700"
+                        className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
                       >
                         Zoom In
                       </button>
 
                       <button
                         onClick={onInialImageHandler}
-                        className="px-4 py-2 bg-teal-600 text-white rounded-md mx-2 hover:bg-teal-700"
+                        className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
                       >
                         Initial
                       </button>
                       <button
                         onClick={zoomOutHandler}
-                        className="px-4 py-2 bg-teal-600 text-white rounded-md mx-2 hover:bg-teal-700"
+                        className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
                       >
                         Zoom Out
                       </button>
@@ -1122,7 +1119,7 @@ const DataMatching = () => {
                             )
                         )}
                     </div>
-                    <div className="w-full xl:w-2/3 xl:px-6 mx-auto">
+                    <div className="w-full xl:w-2/3 xl:px-6 mx-auto text-white">
                       <div className="mt-4 w-full ">
                         <label
                           className="text-xl font-semibold ms-2 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -1158,7 +1155,7 @@ const DataMatching = () => {
                                           <input
                                             type="text"
                                             id={`Quantity${i}`}
-                                            className="h-7 w-7 border-transparent text-center rounded text-sm"
+                                            className="h-7 w-7 border-transparent text-center text-black rounded text-sm"
                                             placeholder={value}
                                             value={csvCurrentData[key]}
                                             onChange={(e) =>
