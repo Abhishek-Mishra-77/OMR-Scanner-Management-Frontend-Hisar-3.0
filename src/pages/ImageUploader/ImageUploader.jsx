@@ -155,7 +155,7 @@ const ImageUploader = () => {
     <div>
       <section className="bgImage flex justify-center items-center w-full  bg-gradient-to-r from-blue-700 to-purple-800">
         <div className="mx-auto max-w-screen-sm lg:flex lg:h-screen lg:items-center">
-          <div className=" border-4 border-white backdrop-blur   border-dashed rounded-3xl px-16 py-10 shadow-lg">
+          <div className=" border-2 border-white backdrop-blur  rounded-3xl px-16 py-10 shadow-white shadow-sm">
             <div className="text-white z-10">
               <h1 className="text-white text-center text-4xl mb-12 font-bold">
                 OMR India Outsources
@@ -173,7 +173,7 @@ const ImageUploader = () => {
             {openUpload && (
               <div className="relative flex justify-center mt-8">
                 <label
-                  className="flex items-center font-medium text-white bg-blue-500 rounded-3xl shadow-md cursor-pointer select-none text-lg px-6 py-3 hover:shadow-xl active:shadow-md"
+                  className="flex items-center font-medium text-white bg-blue-600 rounded-3xl shadow-md cursor-pointer select-none text-lg px-6 py-3 hover:shadow-xl active:shadow-md"
                   htmlFor="file-upload"
                 >
                   <img src={uploadIcon} alt="uploadIcon" className="mr-2" />
@@ -193,7 +193,7 @@ const ImageUploader = () => {
             <div className="mt-8 flex justify-center">
               <button
                 onClick={handleFinalSubmit}
-                className="bg-teal-400 font-medium text-white px-4 py-3 rounded-3xl text-center"
+                className="bg-teal-600 font-medium text-white px-4 py-3 rounded-3xl text-center"
               >
                 Submit All Images
               </button>

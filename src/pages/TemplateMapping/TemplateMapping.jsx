@@ -1,3 +1,5 @@
+
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -136,21 +138,21 @@ const TemplateMapping = () => {
   };
 
   return (
-    <div className=" min-h-[100vh] overflow-y overflow-x-auto flex justify-center items-center templatemapping pt-20 pb-12">
+    <div className=" min-h-[100vh] overflow-y overflow-x-auto flex justify-center bg-gradient-to-r from-blue-700 to-purple-800 items-center templatemapping pt-20 pb-12">
       <div className="w-[700px]">
         <h1 className="text-white text-4xl text-center mb-10">Mapping</h1>
         <div>
-          <div className="flex w-full justify-center mb-4">
+          <div className="flex w-full justify-around mb-4">
             <div className="w-1/3 text-center">
-              <label className="block text-xl font-semibold">CSV Header</label>
+              <label className="block text-xl text-white font-semibold">CSV Header</label>
             </div>
             <div className="w-1/3 text-center">
-              <label className="block text-xl font-semibold">
+              <label className="block text-xl text-white font-semibold">
                 Template Header
               </label>
             </div>
           </div>
-          <div>
+          <div className="h-[50vh] overflow-y-auto">
             {csvHeaders &&
               csvHeaders
                 .filter(
@@ -159,7 +161,7 @@ const TemplateMapping = () => {
                     csvHeader !== "Updated Details"
                 )
                 .map((csvHeader, index) => (
-                  <div key={index} className="flex w-full justify-center mb-3">
+                  <div key={index} className="flex w-full justify-around mb-3">
                     <select
                       className="block w-1/3 py-1 me-10 text-xl font-semibold text-center border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                       aria-label="CSV Header Name"
@@ -207,8 +209,8 @@ const TemplateMapping = () => {
         <div className="text-center mt-5 pt-5">
           <label
             onClick={() => setShowModal(true)}
-            className="font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-700 rounded-xl
-               shadow-md cursor-pointer select-none text-xl px-12 py-2 hover:shadow-xl active:shadow-md"
+            className="font-medium text-white bg-teal-600 rounded-3xl
+               shadow-md cursor-pointer select-none text-xl px-16 py-2 hover:shadow-xl active:shadow-md"
           >
             <span>Save</span>
           </label>

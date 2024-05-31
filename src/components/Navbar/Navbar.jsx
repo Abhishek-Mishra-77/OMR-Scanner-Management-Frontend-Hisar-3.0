@@ -151,7 +151,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className={`fixed w-full z-10 bg-opacity-50 backdrop-blur-sm `} style={{backgroundColor: "#E6FEED"}}>
+      <div className={`fixed w-full z-10 bg-white  backdrop-blur-sm `}>
         <div
           className={`mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8 ${
             isMenuOpen ? "hidden " : ""
@@ -186,13 +186,13 @@ export default function Navbar() {
               {filteredMenuItems?.map((item) => {
                 const active =
                   mainUrl[0] === item.href
-                    ? "bg-blue-500 text-white duration-1000 transition-colors ease-in-out"
-                    : "";
+                    ? "bg-blue-500 font-bold  text-white hover:text-white duration-1000 rounded-2xl transition-colors ease-in-out"
+                    : "font-semibold";
                 return (
                   <li key={item.name}>
                     <NavLink
                       to={item.href}
-                      className={`text-lg px-2 rounded-md py-2 font-semibold no-underline  hover:text-teal-300 ${active} hover:text-teal-300`}
+                      className={`text-lg px-2 xl:px-4 rounded-3xl py-2  no-underline  hover:text-blue-700 hover:font-bold ${active} `}
                       onClick={() => {
                         setIsUserMenuOpen(false);
                       }}
@@ -206,7 +206,7 @@ export default function Navbar() {
           </div>
           <div
             onClick={toggleUserMenu}
-            className="relative flex gap-4 bg-white shadow-sm px-6 6 cursor-pointer rounded-lg py-2"
+            className="relative flex gap-4 bg-teal-100 shadow-sm px-6 6 cursor-pointer rounded-lg py-2"
           >
             <div>
               <h4 className="text-xl font-semibold">{userData.userName}</h4>
@@ -217,7 +217,7 @@ export default function Navbar() {
             </button>
             {userData?.role === "Admin"
               ? isUserMenuOpen && (
-                  <div className="absolute right-0 mt-16 w-48 bg-white rounded-lg shadow-xl z-20 ">
+                  <div className="absolute right-20 top-16 mt-3 w-48 bg-white rounded-lg shadow-xl z-20 ">
                     <div className="py-1">
                       {userMenuItems?.map((item) => (
                         <button
