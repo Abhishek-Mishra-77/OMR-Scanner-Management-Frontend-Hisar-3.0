@@ -119,7 +119,7 @@ const TemplateMapping = () => {
   };
 
   return (
-    <div className=" min-h-[100vh] flex justify-center items-center pt-20 templatemapping">
+    <div className=" min-h-[100vh] flex justify-center items-center pt-20 templatemapping bg-gradient-to-r from-blue-700 to-purple-800">
       <div className=" w-full">
         {/* MAIN SECTION  */}
         <section className="mx-auto max-w-[90%] xl:max-w-6xl  px-12 py-4 bg-white rounded-xl">
@@ -146,7 +146,7 @@ const TemplateMapping = () => {
                       <tr>
                         <th
                           scope="col"
-                          className="px-8 py-3.5 text-left text-xl font-semibold text-gray-700"
+                          className="px-12 py-3.5 text-left text-xl font-semibold text-gray-700"
                         >
                           <span>Users</span>
                         </th>
@@ -176,7 +176,7 @@ const TemplateMapping = () => {
                       <tr>
                         <td className="whitespace-nowrap px-4 py-4 border-2">
                           <div className="flex items-center">
-                            <div className="ml-4 w-full">
+                            <div className=" w-full">
                               <div className="overflow-y-auto h-[310px] ">
                                 {allUsers?.map((user, i) => {
                                   if (user.role !== "Admin") {
@@ -189,14 +189,14 @@ const TemplateMapping = () => {
                                             userName: user.userName,
                                           })
                                         }
-                                        className={`group flex items-center justify-between  mt-2 rounded-lg hover:bg-gray-300 bg-gray-100 px-4 py-2 text-gray-700 
+                                        className={`group flex items-center justify-between  mt-2 rounded-lg hover:bg-blue-200 hover:text-black w-full bg-blue-100 px-4 py-2 text-gray-700 
                                        ${
                                          selectedUser.userId === user.id
-                                           ? "bg-gray-500 text-white"
+                                           ? "bg-blue-500 text-white"
                                            : "text-gray-500  hover:text-gray-700"
                                        }`}
                                       >
-                                        <span className="text-sm font-medium">
+                                        <span className="text-md font-medium w-full">
                                           {user.userName}
                                         </span>
                                       </button>
@@ -241,7 +241,7 @@ const TemplateMapping = () => {
                         <td className="whitespace-nowrap px-12 py-4">
                           <button
                             onClick={onTaskAssignedHandler}
-                            className="rounded border border-indigo-500 bg-indigo-500 px-3 py-1 font-semibold text-white"
+                            className="rounded-3xl border border-indigo-500 bg-indigo-500 px-4 py-1 font-semibold text-white"
                           >
                             Assign
                           </button>
@@ -257,7 +257,7 @@ const TemplateMapping = () => {
           <div className="text-right mt-6">
             <label
               onClick={() => setShowModal(true)}
-              className="font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-700 rounded-xl
+              className="font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-700 rounded-3xl
                shadow-md cursor-pointer select-none text-xl px-12 py-2 hover:shadow-xl active:shadow-md"
             >
               <span>Save</span>
