@@ -40,21 +40,6 @@ const ImageScanner = () => {
   const imageURL = JSON.parse(localStorage.getItem("images"));
 
   useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      event.preventDefault();
-      navigate("/imageuploader/scanner");
-      event.returnValue =
-        "Are you sure you want to leave? Changes you made may not be saved.";
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
-
-  useEffect(() => {
     if (imageURL && imageURL.length > 0) {
       setImage(imageURL[currentImageIndex]);
     }
@@ -111,6 +96,13 @@ const ImageScanner = () => {
     const offsetX = e.clientX - boundingRect.left;
     const offsetY = e.clientY - boundingRect.top;
 
+    const container = imageRef.current.parentElement;
+    if (offsetY > container.clientHeight - 100) {
+      container.scrollTop += 100; // Adjust this value as needed
+    } else {
+      container.scrollTop -= 50;
+    }
+
     setSelection({
       coordinateX: Math.min(dragStart.x, offsetX),
       coordinateY: Math.min(dragStart.y, offsetY),
@@ -159,7 +151,7 @@ const ImageScanner = () => {
     const newObj = {
       ...selection,
       fieldType,
-      id: Math.random().toString(),
+      fId: Math.random().toString(),
       attribute:
         fieldType === "formField"
           ? inputField
@@ -177,7 +169,9 @@ const ImageScanner = () => {
   };
 
   const onRemoveSelectedHandler = () => {
-    const newArray = selectedCoordinates.filter((data) => data.id !== removeId);
+    const newArray = selectedCoordinates.filter(
+      (data) => data.fId !== removeId
+    );
     setSelectedCoordinates(newArray);
     toast.success("Successfully deleted coordinate.");
     setRemoveId("");
@@ -226,6 +220,7 @@ const ImageScanner = () => {
         },
       });
       toast.success("Template created successfully!");
+      localStorage.removeItem("images");
       navigate("/imageuploader");
     } catch (error) {
       console.log(error);
@@ -258,7 +253,7 @@ const ImageScanner = () => {
     }
 
     const updatedData = selectedCoordinates.map((coordinate) => {
-      if (editId === coordinate.id) {
+      if (editId === coordinate.fId) {
         return { ...coordinate, attribute: editInput };
       }
 
@@ -300,7 +295,7 @@ const ImageScanner = () => {
                       {selectedCoordinates &&
                         selectedCoordinates?.map((data) => (
                           <div
-                            key={data.id}
+                            key={data.fId}
                             className="odd:bg-gray-50 h-[40px] flex justify-around"
                           >
                             <div className="whitespace-nowrap px-4 py-2 text-center font-semibold text-md text-gray-900 text-ellipsis overflow-x-hidden w-1/3">
@@ -309,7 +304,7 @@ const ImageScanner = () => {
                             <div className="whitespace-nowrap px-4 py-2 text-center font-semibold text-md text-gray-900 w-1/3">
                               <CiEdit
                                 onClick={() => {
-                                  setEditID(data.id);
+                                  setEditID(data.fId);
                                   setEditModal(true);
                                 }}
                                 className="mx-auto text-blue-500 text-xl cursor-pointer hover:text-2xl hover:font-bold"
@@ -319,7 +314,7 @@ const ImageScanner = () => {
                               <MdDelete
                                 onClick={() => {
                                   setRemoveModal(true);
-                                  setRemoveId(data.id);
+                                  setRemoveId(data.fId);
                                 }}
                                 className="mx-auto text-red-500 text-xl hover:text-2xl hover:font-bold cursor-pointer"
                               />
@@ -568,7 +563,6 @@ const ImageScanner = () => {
                   <div
                     style={{
                       position: "relative",
-                      // border: "3px solid purple",
                       height: "50rem",
                     }}
                     className="w-full overflow-y-auto"
