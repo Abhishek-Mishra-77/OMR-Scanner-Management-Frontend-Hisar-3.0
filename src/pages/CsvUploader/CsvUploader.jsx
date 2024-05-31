@@ -161,16 +161,16 @@ const CsvUploader = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-auto w-full">
+    <div className="flex justify-center items-center h-auto w-full ">
       {dataCtx?.isLoading ? (
         <Loader />
       ) : (
-        <div className="csvuploader xl:h-[100vh] w-full flex flex-col justify-center items-center">
+        <div className="csvuploader bg-gradient-to-r from-blue-700 to-purple-700 xl:h-[100vh] w-full flex flex-col justify-center items-center">
           <div className="pt-4 xl:pt-0">
             <div className="xl:flex justify-center items-center gap-5  mx-5 pt-20 ">
               <div
-                className="mx-auto max-w-xl  min-h-[300px] bg-white px-4 py-4  text-center shadow-lg"
-                style={{ borderRadius: "20px" }}
+                className="mx-auto max-w-xl mt-5  min-h-[300px] bg-white px-4 py-4  text-center shadow-lg rounded-3xl"
+                
               >
                 <h1 className="mb-3 text-xl font-semibold text-center text-blue-500">
                   Template Name
@@ -213,7 +213,7 @@ const CsvUploader = () => {
                       <p
                         key={template.id}
                         onClick={() => setSelectedId(template.id)}
-                        className={`group flex items-center justify-between w-full mt-2 rounded-lg px-4 py-2  text-black `}
+                        className={`group flex items-center justify-between w-full mt-2 rounded-lg px-4 py-2  text-black ${selectedId === template.id ? "bg-blue-100": ""}`}
                       >
                         <span
                           className={`{ ${
@@ -261,7 +261,7 @@ const CsvUploader = () => {
                 </div>
               </div>
               <div
-                className="mx-auto max-w-xl border-4 border-dashed px-28 mt-5 text-center  shadow-teal-400 pb-5"
+                className="mx-auto max-w-xl border-2  px-28 mt-5 text-center  shadow-teal-400 pb-5"
                 style={{ borderColor: "skyblue", borderRadius: "60px" }}
               >
                 <img
@@ -295,7 +295,7 @@ const CsvUploader = () => {
               </div>
               {/* 2nd section */}
               <div
-                className="mx-auto max-w-xl border-4 border-dashed px-28 mt-5 text-center shadow-md pb-5"
+                className="mx-auto max-w-xl border-2 px-28 mt-5 text-center shadow-md pb-5"
                 style={{ borderColor: "skyblue", borderRadius: "60px" }}
               >
                 <img
@@ -331,11 +331,11 @@ const CsvUploader = () => {
                 </p>
               </div>
             </div>
-            <div className="mt-4 mb-4 w-full flex justify-center">
+            <div className="my-6 w-full flex justify-center">
               <button
                 type="submit"
                 onClick={onSaveFilesHandler}
-                className="bg-teal-600 px-5 text-white py-3 text-xl font-medium rounded-xl"
+                className="bg-teal-600 px-8 text-white py-3 text-xl font-medium rounded-3xl"
               >
                 Save Files
               </button>
