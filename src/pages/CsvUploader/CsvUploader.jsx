@@ -152,6 +152,14 @@ const CsvUploader = () => {
     }
   };
 
+  const onTemplateEditHandler = (id) => {
+    console.log("edit ---", id);
+  };
+
+  const onTemplateRemoveHandler = (id) => {
+    console.log("remove ---", id);
+  };
+
   return (
     <div className="flex justify-center items-center h-auto w-full">
       {dataCtx?.isLoading ? (
@@ -216,9 +224,9 @@ const CsvUploader = () => {
                         >
                           {template.name}
                         </span>
-                        <CiEdit className="mx-auto text-blue-600 hover:text-2xl text-xl cursor-pointer w-1/4 hover:text-blue-700"/>
+                        <CiEdit className="mx-auto text-blue-600 hover:text-2xl text-xl cursor-pointer w-1/4 hover:text-blue-700" />
                         <MdDelete className="mx-auto text-red-500 hover:text-2xl text-xl cursor-pointer w-1/4" />
-                          </p>
+                      </p>
                     </>
                   ))}
                 </div>

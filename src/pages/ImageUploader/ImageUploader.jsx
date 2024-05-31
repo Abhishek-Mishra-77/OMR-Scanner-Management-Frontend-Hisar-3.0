@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import uploadIcon from "../../assets/images/uploaderIcon.png";
 import { toast } from "react-toastify";
@@ -8,18 +8,8 @@ const ImageUploader = () => {
   // const [image, setImage] = useState(null);
   const [images, setImages] = useState([]);
   const [imageNames, setImageNames] = useState([]);
-  const [selectedFormat, setSelectedFormat] = useState("tiff");
-  const [newValue, setNewValue] = useState(1);
   const [openUpload, setOpenUpload] = useState(true);
-
   const navigate = useNavigate();
-
-  // Function to handle image drop
-  const handleDrop = (e, index) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    handleImages(file, index);
-  };
 
   // Function to handle image selection
   const handleImageChange = (e) => {
@@ -42,7 +32,6 @@ const ImageUploader = () => {
           ...prevImageNames,
           ...newImageNames,
         ]);
-        localStorage.setItem("images", JSON.stringify([...newImages]));
         toast.success("Images selected successfully.");
       }
     };
@@ -114,35 +103,11 @@ const ImageUploader = () => {
     });
   };
 
-  // Prevent default behavior on drag over
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleFormatChange = (e) => {
-    setSelectedFormat(e.target.value);
-    setOpenUpload(!openUpload);
-  };
-
-  const handlePageValueChange = (e) => {
-    e.preventDefault();
-    setNewValue(e.target.value);
-  };
-
-  const handleSubmitNoPages = () => {
-    setOpenUpload(!openUpload);
-  };
-
-  // const handleFinalSubmit = () => {
-  //   if (images.every((image) => image)) {
-  //     localStorage.setItem("images", JSON.stringify(images));
-  //     navigate("/imageuploader/scanner");
-  //   } else {
-  //     toast.error("Please upload all required images.");
-  //   }
-  // };
-
   const handleFinalSubmit = () => {
+    if (images.length === 0) {
+      toast.warning("Please select the images.");
+      return;
+    }
     if (images.every((image) => image)) {
       localStorage.setItem("images", JSON.stringify(images));
       navigate("/imageuploader/scanner");
@@ -164,7 +129,10 @@ const ImageUploader = () => {
 
             <div>
               {imageNames.map((name, index) => (
-                <div key={index} className="text-white text-center text-lg mb-2">
+                <div
+                  key={index}
+                  className="text-white text-center text-lg mb-2"
+                >
                   {name}
                 </div>
               ))}
