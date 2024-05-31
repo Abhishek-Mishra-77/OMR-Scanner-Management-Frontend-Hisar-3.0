@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, Fragment } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ImageNotFound from "../../components/ImageNotFound/ImageNotFound";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -37,12 +37,26 @@ const ImageScanner = () => {
   const token = JSON.parse(localStorage.getItem("userData"));
   const imageRef = useRef(null);
   const navigate = useNavigate();
-
   const imageURL = JSON.parse(localStorage.getItem("images"));
 
   useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      navigate("/imageuploader/scanner");
+      event.returnValue =
+        "Are you sure you want to leave? Changes you made may not be saved.";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  useEffect(() => {
     if (imageURL && imageURL.length > 0) {
-      setImage(imageURL[currentImageIndex]); // Set the first image from the array
+      setImage(imageURL[currentImageIndex]);
     }
   }, [currentImageIndex]);
 
@@ -188,25 +202,55 @@ const ImageScanner = () => {
       metaData: [...selectedCoordinates],
     };
 
+    const formData = new FormData();
+
+    // Convert data object to JSON string and append it
+    formData.append("data", JSON.stringify(data));
+
+    // Append the binary data of each image directly to FormData under the key "images"
+    imageURL.forEach((imageData, index) => {
+      const contentType = imageData.split(";")[0].split(":")[1];
+      const blob = base64ToBlob(imageData.split(",")[1], contentType);
+      const file = new File([blob], `image_${index}.${contentType}`, {
+        type: contentType,
+      });
+      formData.append("images", file);
+    });
+
+    // Append the array of image files under the key "images"
     try {
-      await axios.post(
-        `http://${REACT_APP_IP}:4000/add/templete`,
-        { data },
-        {
-          headers: {
-            token: token,
-          },
-        }
-      );
+      await axios.post(`http://${REACT_APP_IP}:4000/add/templete`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: token,
+        },
+      });
       toast.success("Template created successfully!");
       navigate("/imageuploader");
-      console.log(data);
     } catch (error) {
       console.log(error);
       toast.error(error.message);
     }
   };
 
+  function base64ToBlob(base64String, contentType) {
+    const byteCharacters = atob(base64String);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      const slice = byteCharacters.slice(offset, offset + 512);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, { type: contentType });
+  }
   const onEditCoordinateHanlder = () => {
     if (!editInput) {
       toast.warning("Please enter the new name.");
