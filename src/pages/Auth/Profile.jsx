@@ -16,9 +16,9 @@ const Profile = () => {
         user()
     },[])
   return (
-  <div className="pt-52 flex justify-center">
-     <div className="bg-white w-4/6 lg:w-1/2 xl:w-1/3 rounded-lg py-6 px-8 shadow-md">
-        <h1 className="px-6 py-4 text-3xl font-semibold flex items-center "><BiSolidUserPin className="mt-1 me-2 text-blue-600" /> Profile</h1>
+  <div className=" flex justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 h-[100vh] pt-20">
+     <div className="bg-white w-4/6 lg:w-1/2 xl:w-1/3 rounded-lg py-8 px-8 shadow-md">
+        <h1 className="px-6 py-2 text-3xl font-semibold flex items-center "><BiSolidUserPin className="mt-1 me-2 text-blue-600" /> Profile</h1>
       <div className="flow-root px-4 py-3 shadow-sm">
         <dl className="-my-3 divide-y divide-gray-100 text-md">
           <div className="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-1">

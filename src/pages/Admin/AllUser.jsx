@@ -163,8 +163,8 @@ export function AllUser() {
   //   return regex.test(value);
   // };
   return (
-    <div className="pt-[10%]">
-      <section className="md:mx-auto w-full max-w-6xl   px-12 py-10 bg-white rounded-xl">
+    <div className="flex justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 h-[100vh] pt-20">
+      <section className="md:mx-auto w-full max-w-7xl   px-12 py-10 bg-white rounded-xl">
         <div className="flex flex-col space-y-4  sm:flex-row md:items-center sm:justify-between sm:space-y-0">
           <div>
             <h2 className="text-3xl font-semibold">All Users</h2>
@@ -196,7 +196,13 @@ export function AllUser() {
                         scope="col"
                         className="px-12 py-3.5 text-left  text-md font-semibold text-gray-700"
                       >
-                        Mobile
+                        User details
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-12 py-3.5 text-left  text-md font-semibold text-gray-700"
+                      >
+                        Updated details
                       </th>
 
                       <th
@@ -236,7 +242,12 @@ export function AllUser() {
                         </td>
                         <td className="whitespace-nowrap px-12 py-4">
                           <div className="text-sm text-gray-900 ">
-                            {user.mobile}
+                            <button className="bg-indigo-600 text-white px-2 py-1 rounded-3xl">User detail</button>
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-12 py-4">
+                          <div className="text-sm text-gray-900 ">
+                            <button className="bg-indigo-600 text-white px-2 py-1 rounded-3xl">Updated detail</button>
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-12 py-4">

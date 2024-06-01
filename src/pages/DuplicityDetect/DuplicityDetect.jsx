@@ -8,7 +8,6 @@ import axios, { all } from "axios";
 import { REACT_APP_IP } from "../../services/common";
 import { Dialog, Transition } from "@headlessui/react";
 
-
 const ImageScanner = () => {
   const [csvHeaders, setCsvHeaders] = useState([]);
   const [duplicatesData, setDuplicatesData] = useState([]);
@@ -269,9 +268,9 @@ const ImageScanner = () => {
   };
 
   return (
-    <div className="flex duplicateImg h-[100vh] bg-gradient-to-r from-blue-700 to-purple-700 border-1 justify-center items-center pt-20">
+    <div className="flex duplicateImg  bg-gradient-to-r from-blue-700 to-purple-700 border-1 justify-center items-center   ">
       {showDuplicates ? (
-        <div className="flex justify-center w-[100%]">
+        <div className="flex justify-center items-center w-[100%] pt-20 h-[100vh]">
           <div className=" w-[800px]">
             {/* MAIN SECTION  */}
             <section className="mx-auto w-full max-w-7xl  px-12 py-6 bg-white rounded-xl">
@@ -340,21 +339,28 @@ const ImageScanner = () => {
           </div>
         </div>
       ) : (
-        <>
+        <div className="flex flex-col w-full justify-center items-center lg:flex-row pt-20  ">
           {/* LEFT SECTION  */}
-          <div className="flex w-[25%] bg-red-100">
+          <div className="flex w-full my-2 lg:my-7 lg:w-[30%] xl:w-[25%] ">
             <div className="text-center sm:block sm:p-0 w-full">
               {!editModal ? (
-                <div className="inline-block align-bottom h-[91vh]  bg-teal-100  rounded-lg text-left shadow-md overflow-hidden transform transition-all  sm:align-middle  sm:w-full">
+                <div className="inline-block align-bottom h-[30vh] lg:h-[85vh]  bg-teal-100  rounded-xl lg:ms-4 text-left shadow-md overflow-hidden transform transition-all  sm:align-middle w-[90%] ">
                   <div className="px-4">
                     <div className="sm:flex ">
                       <div className="text-center sm:mt-0  sm:text-left w-full">
                         <div className="flex justify-between mt-4 ">
-                          <h1 className="text-xl font-bold  mb-6">
-                            Duplicates : {duplicatesData.length}
+                          <h1 className="text-xl text-center font-bold  mb-6  w-1/2">
+                            Duplicates :<br />{" "}
+                            <span className="text-lg font-medium text-blue-600">
+                              {duplicatesData.length}
+                            </span>
                           </h1>
-                          <h1 className="text-xl font-bold  mb-6">
-                            Field : {columnName}
+                          <h1 className="text-xl text-center font-bold  mb-6 w-1/2">
+                            Field :<br />{" "}
+                            <span className="text-lg font-medium text-blue-600">
+                              {" "}
+                              {columnName}
+                            </span>
                           </h1>
                         </div>
                         <div className=" font-semibold my-2">
@@ -368,7 +374,7 @@ const ImageScanner = () => {
                             </div>
                           </dl>
                         </div>
-                        <div className=" font-semibold my-2 overflow-y-auto h-[80vh] mt-7">
+                        <div className=" font-semibold my-2 overflow-y-auto h-[15vh] mt-7">
                           <dl className="-my-3 divide-y divide-gray-100 text-sm">
                             {duplicatesData?.map((data, index) => (
                               <div
@@ -406,177 +412,194 @@ const ImageScanner = () => {
                   <div>
                     {showDuplicateField && (
                       <Transition.Root show={showDuplicateField} as={Fragment}>
-                      <Dialog
-                        as="div"
-                        className="relative z-10"
-                        initialFocus={cancelButtonRef}
-                        onClose={setShowDuplicateField}
-                      >
-                        <Transition.Child
-                          as={Fragment}
-                          enter="ease-out duration-300"
-                          enterFrom="opacity-0"
-                          enterTo="opacity-100"
-                          leave="ease-in duration-200"
-                          leaveFrom="opacity-100"
-                          leaveTo="opacity-0"
+                        <Dialog
+                          as="div"
+                          className="relative z-10"
+                          initialFocus={cancelButtonRef}
+                          onClose={setShowDuplicateField}
                         >
-                          <div className="fixed inset-0  bg-opacity-5 backdrop-blur-sm transition-opacity "></div>
-                        </Transition.Child>
-                    
-                        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                            <Transition.Child
-                              as={Fragment}
-                              enter="ease-out duration-300"
-                              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                              enterTo="opacity-100 translate-y-0 sm:scale-100"
-                              leave="ease-in duration-200"
-                              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                            >
-                              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                                <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                                  <div className="sm:flex sm:items-start">
-                                    <div className="mt-3 text-center  sm:mt-0 sm:text-left w-full">
-                                      <Dialog.Title
-                                        as="h2"
-                                        className="text-xl mb-5 font-semibold leading-6 text-gray-900"
-                                      >
-                                        Roll
-                                      </Dialog.Title>
-                                      <div className="mt-2">
-                                        <div className="min-w-full divide-y divide-gray-200">
-                                          <div className="bg-gray-50 ">
-                                            <div className="flex">
-                                              <div className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
-                                                {columnName}
-                                              </div>
-                                              <div className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
-                                                Row Index
-                                              </div>
-                                              <div className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
-                                                Edit
-                                              </div>
-                                              <div className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
-                                                Remove
+                          <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                          >
+                            <div className="fixed inset-0  bg-opacity-5 backdrop-blur-sm transition-opacity "></div>
+                          </Transition.Child>
+
+                          <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                            <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                              <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                              >
+                                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                    <div className="sm:flex sm:items-start">
+                                      <div className="mt-3 text-center  sm:mt-0 sm:text-left w-full">
+                                        <Dialog.Title
+                                          as="h2"
+                                          className="text-xl mb-5 font-semibold leading-6 text-gray-900"
+                                        >
+                                          Roll
+                                        </Dialog.Title>
+                                        <div className="mt-2">
+                                          <div className="min-w-full divide-y divide-gray-200">
+                                            <div className="bg-gray-50 ">
+                                              <div className="flex">
+                                                <div className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
+                                                  {columnName}
+                                                </div>
+                                                <div className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
+                                                  Row Index
+                                                </div>
+                                                <div className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
+                                                  Edit
+                                                </div>
+                                                <div className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">
+                                                  Remove
+                                                </div>
                                               </div>
                                             </div>
-                                          </div>
-                                          <div className="overflow-y-auto h-[400px]">
-                                            {allCurrentData &&
-                                              allCurrentData.map((data, index) => (
-                                                <div className="" key={index}>
-                                                  <div
-                                                    className={
-                                                      index % 2 === 0
-                                                        ? "bg-white flex-col"
-                                                        : "bg-teal-100 flex-col"
-                                                    }
-                                                  >
-                                                    <div className="flex">
-                                                      <div className="text-center py-4 whitespace-nowrap text-xs font-medium text-gray-900 w-1/4">
-                                                        {data.row[columnName]}
-                                                      </div>
-                                                      <div className="text-center py-4 whitespace-nowrap text-sm font-medium text-gray-900 w-1/4 text-center">
-                                                        {data.index}
-                                                      </div>
-                                                      <div className="text-center py-4 whitespace-nowrap text-sm text-gray-500 w-1/4">
-                                                        <button
-                                                          onClick={() =>
-                                                            onEditModalHandler(data, index)
-                                                          }
-                                                          className="border-e px-3 bg-gray-100 py-2 text-sm/none text-blue-600 rounded hover:bg-gray-200 hover:text-gray-700"
-                                                        >
-                                                          Edit
-                                                        </button>
-                                                      </div>
+                                            <div className="overflow-y-auto h-[400px]">
+                                              {allCurrentData &&
+                                                allCurrentData.map(
+                                                  (data, index) => (
+                                                    <div
+                                                      className=""
+                                                      key={index}
+                                                    >
                                                       <div
-                                                        className="text-center py-4 whitespace-nowrap text-red-500 text-2xl  w-1/4"
-                                                        onClick={() =>
-                                                          onRemoveDuplicateHandler(
-                                                            index,
-                                                            data.index,
-                                                            data.row[columnName]
-                                                          )
+                                                        className={
+                                                          index % 2 === 0
+                                                            ? "bg-white flex-col"
+                                                            : "bg-teal-100 flex-col"
                                                         }
                                                       >
-                                                        <MdDelete className="mx-auto" />
+                                                        <div className="flex">
+                                                          <div className="text-center py-4 whitespace-nowrap text-xs font-medium text-gray-900 w-1/4">
+                                                            {
+                                                              data.row[
+                                                                columnName
+                                                              ]
+                                                            }
+                                                          </div>
+                                                          <div className=" py-4 whitespace-nowrap text-sm font-medium text-gray-900 w-1/4 text-center">
+                                                            {data.index}
+                                                          </div>
+                                                          <div className="text-center py-4 whitespace-nowrap text-sm text-gray-500 w-1/4">
+                                                            <button
+                                                              onClick={() =>
+                                                                onEditModalHandler(
+                                                                  data,
+                                                                  index
+                                                                )
+                                                              }
+                                                              className="border-e px-4 bg-gray-100 py-2 text-sm/none text-blue-600 rounded-3xl hover:bg-blue-200"
+                                                            >
+                                                              Edit
+                                                            </button>
+                                                          </div>
+                                                          <div
+                                                            className="text-center py-4 whitespace-nowrap text-red-500 text-2xl  w-1/4"
+                                                            onClick={() =>
+                                                              onRemoveDuplicateHandler(
+                                                                index,
+                                                                data.index,
+                                                                data.row[
+                                                                  columnName
+                                                                ]
+                                                              )
+                                                            }
+                                                          >
+                                                            <MdDelete className="mx-auto text-2xl hover:text-3xl" />
+                                                          </div>
+                                                        </div>
                                                       </div>
                                                     </div>
-                                                  </div>
-                                                </div>
-                                              ))}
+                                                  )
+                                                )}
+                                            </div>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </Dialog.Panel>
-                            </Transition.Child>
+                                </Dialog.Panel>
+                              </Transition.Child>
+                            </div>
                           </div>
-                        </div>
-                      </Dialog>
-                    </Transition.Root>
-                    
+                        </Dialog>
+                      </Transition.Root>
                     )}
                   </div>
                 </div>
               ) : (
-                <div className="inline-block align-bottom h-[91vh] bg-teal-100 rounded-lg text-left shadow-md transform transition-all  sm:align-middle md:max-w-xl sm:w-full">
-                  <div className=" py-4 px-4">
-                    <div className="sm:flex ">
-                      <div className="text-center sm:mt-0 sm:ml-4 sm:text-left">
-                        <div className=" font-semibold my-2 overflow-y-auto h-[75vh] mt-7">
-                          <div className="divide-y divide-gray-100 text-sm">
-                            <div>
-                              {currentRowData &&
-                                currentRowData.row &&
-                                Object.entries(currentRowData.row).map(
-                                  ([key, value], index) => {
-                                    if (
-                                      key === "User Details" ||
-                                      key === "Updated Details"
-                                    ) {
-                                      return null;
-                                    } else {
-                                      return (
-                                        <tr key={index}>
-                                          <div className="py-2 px-2 text-center">
-                                            {key.toUpperCase()}
+                <div className="flex flex-row lg:flex-col justify-center items-center">
+                  <div className="mx-6 inline-block align-bottom lg:mt-8 lg:mb-2 bg-teal-100 rounded-xl  text-left shadow-md transform transition-all  sm:align-middle  w-[90%] lg:w-full">
+                    <div className="px-4 py-2 lg:py-3">
+                      <div className="sm:flex w-full">
+                        <div className="text-center  sm:text-left w-full">
+                          <div className=" font-semibold my-2 overflow-x-auto lg:overflow-y-auto lg:h-[70vh]">
+                            <div className="divide-y divide-gray-100 text-sm">
+                              <div className="flex lg:block">
+                                {currentRowData &&
+                                  currentRowData.row &&
+                                  Object.entries(currentRowData.row).map(
+                                    ([key, value], index) => {
+                                      if (
+                                        key === "User Details" ||
+                                        key === "Updated Details"
+                                      ) {
+                                        return null;
+                                      } else {
+                                        return (
+                                          <div
+                                            key={index}
+                                            className="flex flex-col lg:flex-row justify-center"
+                                          >
+                                            <div className="py-2 px-2 text-center lg:w-1/3">
+                                              {key.toUpperCase()}
+                                            </div>
+                                            <div className="py-2 p-2 px-2 text-center lg:w-2/3">
+                                              <input
+                                                className="text-center p-2 rounded-3xl"
+                                                type="text"
+                                                placeholder={value}
+                                                value={value}
+                                                onChange={(e) =>
+                                                  changeCurrentCsvDataHandler(
+                                                    key,
+                                                    e.target.value
+                                                  )
+                                                }
+                                              />
+                                            </div>
                                           </div>
-                                          <td className="py-2 p-2 px-2 text-center">
-                                            <input
-                                              className="text-center p-2 rounded-3xl"
-                                              type="text"
-                                              placeholder={value}
-                                              value={value}
-                                              onChange={(e) =>
-                                                changeCurrentCsvDataHandler(
-                                                  key,
-                                                  e.target.value
-                                                )
-                                              }
-                                            />
-                                          </td>
-                                        </tr>
-                                      );
+                                        );
+                                      }
                                     }
-                                  }
-                                )}
+                                  )}
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex py-2 justify-between px-7 ">
+                    {/* <div className="flex flex-col space-y-4 lg:space-y-0 lg:space-x-12 lg:flex-row lg:pt-2 lg:pb-1  px-4 lg:px-7 w-[25%] lg:w-full">
                     <button
                       onClick={() => setEditModal(false)}
                       class="group inline-block rounded-3xl bg-blue-500 p-[2px] text-white hover:bg-indigo-600 focus:outline-none focus:ring active:text-opacity-75"
                     >
-                      <span class="block rounded-sm  px-8 py-2 text-md font-medium group-hover:bg-transparent">
+                      <span class="block rounded-sm  text-center lg:px-8 py-2 text-md font-medium group-hover:bg-transparent">
                         Back
                       </span>
                     </button>
@@ -584,10 +607,29 @@ const ImageScanner = () => {
                       onClick={onUpdateCurrentDataHandler}
                       class="group inline-block rounded-3xl bg-blue-500 p-[2px] text-white hover:bg-indigo-600 focus:outline-none focus:ring active:text-opacity-75"
                     >
-                      <span class="block rounded-sm  px-8 py-2 text-md font-medium group-hover:bg-transparent">
+                      <span class="block rounded-sm  text-center lg:px-8 py-2 text-md font-medium group-hover:bg-transparent">
                         Save
                       </span>
                     </button>
+                  </div> */}
+                    <div className="flex  justify-around pb-3 lg:pb-5  px-4 lg:px-7 lg:w-full">
+                      <button
+                        onClick={() => setEditModal(false)}
+                        class="group inline-block rounded-3xl bg-blue-500 p-[2px] text-white hover:bg-indigo-600 focus:outline-none focus:ring active:text-opacity-75"
+                      >
+                        <span class="block rounded-sm  px-10 py-2 text-md font-medium group-hover:bg-transparent">
+                          Back
+                        </span>
+                      </button>
+                      <button
+                        onClick={onUpdateCurrentDataHandler}
+                        class="group inline-block rounded-3xl bg-blue-500 p-[2px] text-white hover:bg-indigo-600 focus:outline-none focus:ring active:text-opacity-75"
+                      >
+                        <span class="block rounded-sm  px-10 py-2 text-md font-medium group-hover:bg-transparent">
+                          Save
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -596,7 +638,7 @@ const ImageScanner = () => {
 
           {/* RIGHT SECTION  */}
           {!imageUrl ? (
-            <div className="flex w-[75%] justify-center items-center ">
+            <div className="flex lg:w-[70%] xl:w-[75%] justify-center items-center ">
               <div className="">
                 <ImageNotFound />
 
@@ -612,7 +654,7 @@ const ImageScanner = () => {
           ) : (
             <div className=" w-[75%]">
               <div className="mx-auto max-w-screen-xl px-2 lg:py-1 sm:px-6 lg:px-8">
-                <h2 className="text-center text-lg  font-bold text-blue-700 w-full ">
+                <h2 className="text-center text-lg  font-bold text-white w-full ">
                   {currentImageIndex + 1} out of{" "}
                   {currentRowData?.base64Images.length}
                 </h2>
@@ -635,8 +677,6 @@ const ImageScanner = () => {
                             height: "49rem",
                           }}
                           draggable={false}
-                          data-bs-toggle="modal"
-                          data-bs-target="#exampleModal"
                         />
                       </div>
                     )}
@@ -645,7 +685,7 @@ const ImageScanner = () => {
               </div>
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );
