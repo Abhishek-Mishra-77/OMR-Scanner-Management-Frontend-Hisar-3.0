@@ -137,7 +137,7 @@ export default function Login() {
                 <div>
                   <button
                     type="submit"
-                    className="inline-flex w-full items-center mt-3 justify-center mb-4 hover:shadow-gray-200 hover:shadow-xl  rounded-3xl bg-blue-600 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                    className="inline-flex w-full items-center mt-3 justify-center mb-4 hover:shadow-indigo-200 hover:shadow-md  rounded-3xl bg-blue-600 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-indigo-600"
                   >
                     Sign In <FaArrowRight className="ml-4 " size={16} />
                   </button>

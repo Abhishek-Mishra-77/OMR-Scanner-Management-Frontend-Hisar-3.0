@@ -14,19 +14,19 @@ const menuItems = [
     permission: "createTemplate",
   },
   {
-    name: "Csv Uploader",
+    name: "CSV Uploader",
     href: "csvuploader",
     permission: "csvuploader",
-  },
-  {
-    name: "CSV Compare",
-    href: "comparecsv",
-    permission: "comparecsv",
   },
   {
     name: "Data Entry",
     permission: "dataEntry",
     href: "datamatching",
+  },
+  {
+    name: "CSV Compare",
+    href: "comparecsv",
+    permission: "comparecsv",
   },
 
   {
