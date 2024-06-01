@@ -20,6 +20,7 @@ const initialData = {
   userData: {},
   uploadZipImage: [],
   formFeilds: [],
+  templateData: {},
 };
 
 const DataProvider = (props) => {
@@ -177,6 +178,17 @@ const DataProvider = (props) => {
       };
     });
   };
+
+  const modifyTemplateDataHandler = (templateData) => {
+    console.log("templateData saving" , templateData)
+    setDataState((item) => {
+      return {
+        ...item,
+        templateData: templateData,
+      };
+    });
+  };
+
   const dataContext = {
     isLogin: dataState.isLogin,
     loginData: dataState.loginData,
@@ -197,6 +209,8 @@ const DataProvider = (props) => {
     userData: dataState.userData,
     uploadZipImage: dataState.uploadZipImage,
     formFeilds: dataState.formFeilds,
+    templateData: dataState.templateData,
+    modifyTemplateData: modifyTemplateDataHandler,
     modifyAuth: modifyAuthHandler,
     modifyLoginData: modifyLoginDataHandler,
     modifyIsLoading: modifyIsLoadingHandler,

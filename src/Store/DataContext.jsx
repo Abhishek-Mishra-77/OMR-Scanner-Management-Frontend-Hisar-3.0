@@ -19,7 +19,9 @@ const dataContext = React.createContext({
   loginData: {},
   uploadZipImage: [],
   formFeilds: [],
+  templateData: {},
 
+  modifyTemplateData: () => {},
   modifyUserData: () => {},
   modifyLoginData: () => {},
   modifyIsLoading: () => {},

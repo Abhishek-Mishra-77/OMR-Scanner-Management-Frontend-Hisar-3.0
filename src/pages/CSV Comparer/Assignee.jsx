@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import dataContext from "../../Store/DataContext";
 import {
@@ -9,7 +9,6 @@ import {
 import { REACT_APP_IP } from "../../services/common";
 import axios from "axios";
 import classes from "./Assignee.module.css";
-import TextField from "@mui/material/TextField";
 const Assignee = () => {
   const [showModal, setShowModal] = useState(false);
   const [assignedUsers, setAssignedUsers] = useState([]);
@@ -93,7 +92,7 @@ const Assignee = () => {
     }
 
     if (!input.value) {
-      input.focus()
+      input.focus();
       toast.warning("Template name cannot be empty.");
       return;
     }

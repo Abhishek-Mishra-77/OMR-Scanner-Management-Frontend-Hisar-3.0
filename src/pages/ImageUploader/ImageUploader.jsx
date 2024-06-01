@@ -110,6 +110,7 @@ const ImageUploader = () => {
     }
     if (images.every((image) => image)) {
       localStorage.setItem("images", JSON.stringify(images));
+      localStorage.setItem("templateOption", JSON.stringify("creating"));
       navigate("/imageuploader/scanner");
     } else {
       toast.error("Please upload all required images.");

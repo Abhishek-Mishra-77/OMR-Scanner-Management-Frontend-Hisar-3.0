@@ -1,5 +1,11 @@
-import React, { useState, useRef, useEffect, Fragment } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  Fragment,
+  useContext,
+} from "react";
+import { useNavigate } from "react-router-dom";
 import ImageNotFound from "../../components/ImageNotFound/ImageNotFound";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -8,6 +14,7 @@ import axios from "axios";
 import { Dialog, Transition } from "@headlessui/react";
 import { RxCross1 } from "react-icons/rx";
 import { CiEdit } from "react-icons/ci";
+import dataContext from "../../Store/DataContext";
 import { REACT_APP_IP } from "../../services/common";
 
 const ImageScanner = () => {
@@ -25,6 +32,7 @@ const ImageScanner = () => {
   const [open, setOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const cancelButtonRef = useRef(null);
+  const dataCtx = useContext(dataContext);
   const [templateData, setTemplateData] = useState({
     name: "",
     other: "",
@@ -38,20 +46,37 @@ const ImageScanner = () => {
   const imageRef = useRef(null);
   const navigate = useNavigate();
   const imageURL = JSON.parse(localStorage.getItem("images"));
+  const templateOption =
+    JSON.parse(localStorage.getItem("templateOption")) || "creating";
 
   useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      event.preventDefault();
-      navigate("/imageuploader/scanner");
-      event.returnValue =
-        "Are you sure you want to leave? Changes you made may not be saved.";
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
+    if (templateOption === "updating") {
+      if (Object.keys(dataCtx.templateData).length === 0) {
+        navigate("/csvuploader");
+      } else {
+        const selectedCoordinatesData = dataCtx?.templateData?.metaData.map(
+          (data, index) => {
+            const newObj = {
+              coordinateX: +data.coordinateX,
+              coordinateY: +data.coordinateY,
+              width: +data.width,
+              height: +data.height,
+              pageNo: data.pageNo,
+              fieldType: data.fieldType,
+              fId: index,
+              attribute: data.attribute,
+            };
+            return newObj;
+          }
+        );
+        setTemplateData((prevState) => ({
+          ...prevState,
+          name: dataCtx.templateData.templateData.name,
+          pageCount: dataCtx.templateData.templateData.pageCount,
+        }));
+        setSelectedCoordinates(selectedCoordinatesData);
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -111,6 +136,11 @@ const ImageScanner = () => {
     const offsetX = e.clientX - boundingRect.left;
     const offsetY = e.clientY - boundingRect.top;
 
+    const container = imageRef.current.parentElement;
+    if (offsetY > container.clientHeight - 100) {
+      container.scrollTop += 100;
+    }
+
     setSelection({
       coordinateX: Math.min(dragStart.x, offsetX),
       coordinateY: Math.min(dragStart.y, offsetY),
@@ -159,7 +189,7 @@ const ImageScanner = () => {
     const newObj = {
       ...selection,
       fieldType,
-      id: Math.random().toString(),
+      fId: Math.random().toString(),
       attribute:
         fieldType === "formField"
           ? inputField
@@ -177,7 +207,9 @@ const ImageScanner = () => {
   };
 
   const onRemoveSelectedHandler = () => {
-    const newArray = selectedCoordinates.filter((data) => data.id !== removeId);
+    const newArray = selectedCoordinates.filter(
+      (data) => data.fId !== removeId
+    );
     setSelectedCoordinates(newArray);
     toast.success("Successfully deleted coordinate.");
     setRemoveId("");
@@ -199,6 +231,9 @@ const ImageScanner = () => {
         other: templateData.other,
         pageCount: imageURL.length,
       },
+      templateId: dataCtx?.templateData?.templateData?.id
+        ? dataCtx?.templateData?.templateData?.id
+        : undefined,
       metaData: [...selectedCoordinates],
     };
 
@@ -226,6 +261,7 @@ const ImageScanner = () => {
         },
       });
       toast.success("Template created successfully!");
+      localStorage.removeItem("images");
       navigate("/imageuploader");
     } catch (error) {
       console.log(error);
@@ -258,7 +294,7 @@ const ImageScanner = () => {
     }
 
     const updatedData = selectedCoordinates.map((coordinate) => {
-      if (editId === coordinate.id) {
+      if (editId === coordinate.fId) {
         return { ...coordinate, attribute: editInput };
       }
 
@@ -300,7 +336,7 @@ const ImageScanner = () => {
                       {selectedCoordinates &&
                         selectedCoordinates?.map((data) => (
                           <div
-                            key={data.id}
+                            key={data.fId}
                             className="odd:bg-gray-50 h-[40px] flex justify-around"
                           >
                             <div className="whitespace-nowrap px-4 py-2 text-center font-semibold text-md text-gray-900 text-ellipsis overflow-x-hidden w-1/3">
@@ -309,7 +345,7 @@ const ImageScanner = () => {
                             <div className="whitespace-nowrap px-4 py-2 text-center font-semibold text-md text-gray-900 w-1/3">
                               <CiEdit
                                 onClick={() => {
-                                  setEditID(data.id);
+                                  setEditID(data.fId);
                                   setEditModal(true);
                                 }}
                                 className="mx-auto text-blue-500 text-xl cursor-pointer hover:text-2xl hover:font-bold"
@@ -319,7 +355,7 @@ const ImageScanner = () => {
                               <MdDelete
                                 onClick={() => {
                                   setRemoveModal(true);
-                                  setRemoveId(data.id);
+                                  setRemoveId(data.fId);
                                 }}
                                 className="mx-auto text-red-500 text-xl hover:text-2xl hover:font-bold cursor-pointer"
                               />
@@ -332,14 +368,13 @@ const ImageScanner = () => {
               </div>
               <div>
                 {/* Form Field Area */}
-
                 <div className=" bg-gray-100 rounded-3xl px-8 py-6 border-1 border-gray shadow-md mb-10">
                   <form onSubmit={onSubmitHandler}>
                     <input
                       required
                       className="input w-full font-semibold bg-white  border-none rounded-xl p-3 mt-6 shadow-lg shadow-blue-100 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
                       type="text"
-                      value={templateData.attribute}
+                      value={templateData.name}
                       onChange={(e) =>
                         setTemplateData({
                           ...templateData,
@@ -568,7 +603,6 @@ const ImageScanner = () => {
                   <div
                     style={{
                       position: "relative",
-                      // border: "3px solid purple",
                       height: "50rem",
                     }}
                     className="w-full overflow-y-auto"
