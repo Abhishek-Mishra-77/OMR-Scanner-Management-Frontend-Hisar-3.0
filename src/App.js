@@ -21,6 +21,8 @@ import Navbar from "./components/Navbar/Navbar";
 import Profile from "./pages/Auth/Profile";
 import Assignee from "./pages/CSV Comparer/Assignee";
 import DuplicityDetect from "./pages/DuplicityDetect/DuplicityDetect";
+import UserDetail from "./pages/Admin/UserDetail";
+import UpdatedDetials from "./pages/Admin/UpdatedDetials";
 
 function App() {
   const datactx = useContext(dataContext);
@@ -47,7 +49,8 @@ function App() {
       <Routes>
         {datactx.isLogin && (
           <>
-            {/* <Route path="/home" element={""} /> */}
+            <Route path="/user-detail" element={<UserDetail/>} />
+            <Route path="/updated-details" element={<UpdatedDetials/>} />
             {role === "Admin" && (
               <>
                 <Route path="/profile" element={<Profile />} />

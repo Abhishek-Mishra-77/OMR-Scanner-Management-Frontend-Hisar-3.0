@@ -186,13 +186,13 @@ export default function Navbar() {
               {filteredMenuItems?.map((item) => {
                 const active =
                   mainUrl[0] === item.href
-                    ? "bg-blue-500 font-bold  text-white hover:text-white duration-1000 rounded-2xl transition-colors ease-in-out"
+                    ? "bg-blue-500  text-white hover:text-white duration-1000 rounded-2xl transition-colors ease-in-out"
                     : "font-semibold";
                 return (
-                  <li key={item.name}>
+                  <li key={item.name} className="">
                     <NavLink
                       to={item.href}
-                      className={`text-lg px-2 xl:px-4 rounded-3xl py-2  no-underline  hover:text-blue-700 hover:font-bold ${active} `}
+                      className={`text-lg px-2 xl:px-4 rounded-3xl py-2  no-underline  hover:text-blue-700 ${active}`}
                       onClick={() => {
                         setIsUserMenuOpen(false);
                       }}

@@ -156,9 +156,9 @@ const CreateUser = () => {
   };
 
   return (
-    <div className="pt-28">
-      <div className="max-w-2xl mx-auto mt-8 shadow-lg rounded-xl py-10 px-16 bg-green-50">
-        <div className="mb-10">
+    <div className="flex justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 h-[100vh] pt-20">
+      <div className="max-w-2xl mx-auto shadow-lg rounded-3xl py-8 px-16 bg-green-50">
+        <div className="mb-5">
           <h2 className="text-center text-3xl font-bold leading-tight text-black">
             Create a New User
           </h2>
@@ -344,10 +344,10 @@ const CreateUser = () => {
               </div>
             </div>
           </div>
-          <div className="pt-1">
+          <div className="pt-4">
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-md shadow-indigo-200 text-md font-medium text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="mx-auto flex justify-center py-2 px-8 border border-transparent rounded-3xl shadow-md shadow-indigo-200 text-md font-medium text-white bg-blue-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Create User
             </button>
