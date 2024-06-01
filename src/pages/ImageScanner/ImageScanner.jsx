@@ -236,7 +236,7 @@ const ImageScanner = () => {
         : undefined,
       metaData: [...selectedCoordinates],
     };
- 
+
     const formData = new FormData();
 
     // Convert data object to JSON string and append it
@@ -368,7 +368,6 @@ const ImageScanner = () => {
               </div>
               <div>
                 {/* Form Field Area */}
-                {console.log(templateData)}
                 <div className=" bg-gray-100 rounded-3xl px-8 py-6 border-1 border-gray shadow-md mb-10">
                   <form onSubmit={onSubmitHandler}>
                     <input
