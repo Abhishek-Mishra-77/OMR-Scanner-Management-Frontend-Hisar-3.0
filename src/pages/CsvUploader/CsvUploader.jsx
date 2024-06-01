@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios, { all } from "axios";
+import axios from "axios";
 import UploadFile from "../../assets/images/CsvUploaderImg copy.png";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -172,6 +172,17 @@ const CsvUploader = () => {
         return;
       }
 
+      const data = response.data.template;
+      const templateData = {
+        templateData: {
+          name: data.name,
+          pageCount: data.pageCount,
+          id: data.id,
+        },
+        metaData: [...data.templetedata],
+      };
+      dataCtx.modifyTemplateData(templateData);
+      localStorage.setItem("templateOption", JSON.stringify("updating"));
       localStorage.setItem("images", JSON.stringify(response.data.imagePaths));
       navigate("/imageuploader/scanner");
     } catch (error) {
