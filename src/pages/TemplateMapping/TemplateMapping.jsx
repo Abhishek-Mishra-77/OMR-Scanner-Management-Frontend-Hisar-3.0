@@ -1,5 +1,3 @@
-
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -144,7 +142,9 @@ const TemplateMapping = () => {
         <div>
           <div className="flex w-full justify-around mb-4">
             <div className="w-1/3 text-center">
-              <label className="block text-xl text-white font-semibold">CSV Header</label>
+              <label className="block text-xl text-white font-semibold">
+                CSV Header
+              </label>
             </div>
             <div className="w-1/3 text-center">
               <label className="block text-xl text-white font-semibold">
@@ -157,11 +157,14 @@ const TemplateMapping = () => {
               csvHeaders
                 .filter(
                   (csvHeader) =>
-                    csvHeader !== "User Details" &&
-                    csvHeader !== "Updated Details"
+                    csvHeader !== "Previous Values" ||
+                    csvHeader !== "Updated Values" ||
+                    csvHeader !== "User Details" ||
+                    csvHeader !== "Updated Col. Name"
                 )
                 .map((csvHeader, index) => (
                   <div key={index} className="flex w-full justify-around mb-3">
+                    {console.log(csvHeader)}
                     <select
                       className="block w-1/3 py-1 me-10 text-xl font-semibold text-center border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
                       aria-label="CSV Header Name"

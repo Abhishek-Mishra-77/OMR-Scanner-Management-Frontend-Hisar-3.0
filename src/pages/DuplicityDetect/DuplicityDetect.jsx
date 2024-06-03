@@ -143,18 +143,21 @@ const ImageScanner = () => {
   }, [currentImageIndex, currentRowData, onUpdateCurrentDataHandler]);
 
   const changeCurrentCsvDataHandler = (key, newValue) => {
-    setCurrentRowData((prevData) => ({
-      ...prevData,
-      row: {
-        ...prevData.row,
-        [key]: newValue,
-      },
-    }));
+    setCurrentRowData((prevData) => {
+      const previousValue = prevData.row[key];
 
-    setModifiedKeys((prevKeys) => {
-      return {
+      // Set the modified keys with both new and previous values
+      setModifiedKeys((prevKeys) => ({
         ...prevKeys,
-        [key]: true,
+        [key]: [newValue, previousValue],
+      }));
+
+      return {
+        ...prevData,
+        row: {
+          ...prevData.row,
+          [key]: newValue,
+        },
       };
     });
   };
@@ -293,8 +296,11 @@ const ImageScanner = () => {
                         </div>
                         <div className="divide-y divide-gray-200 bg-white overflow-y-auto max-h-[300px] w-full">
                           {csvHeaders?.map((columnName, index) =>
+                            columnName === "Previous Values" ||
+                            columnName === "Updated Values" ||
                             columnName === "User Details" ||
-                            columnName === "Updated Details" ? null : (
+                            columnName === "Updated Col. Name" ||
+                            imageNames?.includes(columnName) ? null : (
                               <div
                                 key={index}
                                 className="flex justify-between items-center"
@@ -557,7 +563,8 @@ const ImageScanner = () => {
                                     ([key, value], index) => {
                                       if (
                                         key === "User Details" ||
-                                        key === "Updated Details"
+                                        key === "Updated Details" ||
+                                        imageNames.includes(key)
                                       ) {
                                         return null;
                                       } else {

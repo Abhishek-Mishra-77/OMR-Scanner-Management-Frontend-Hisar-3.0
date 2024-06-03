@@ -5,7 +5,8 @@ import logo from "../../assets/images/image.png";
 import { FaCircleUser } from "react-icons/fa6";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import dataContext from "../../Store/DataContext";
-import { onGetVerifiedUserHandler } from "../../services/common";
+import axios from "axios";
+import { onGetVerifiedUserHandler, REACT_APP_IP } from "../../services/common";
 
 const menuItems = [
   {
@@ -45,6 +46,7 @@ export default function Navbar() {
   // const userData = JSON.parse(localStorage.getItem("userData"));
   const [userData, setUserData] = useState({});
   const datactx = useContext(dataContext);
+  const token = JSON.parse(localStorage.getItem("userData"));
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -107,15 +109,33 @@ export default function Navbar() {
     },
     {
       name: "Logout",
-      onClick: () => {
-        localStorage.clear();
-        setUserData({});
-        datactx.modifyIslogin(false);
-        navigate("/");
-        setIsUserMenuOpen(false);
+      onClick: async () => {
+        try {
+          await axios.post(`http://${REACT_APP_IP}:4000/users/logout`, {
+            userId: userData.id,
+          });
+          localStorage.clear();
+          setUserData({});
+          datactx.modifyIslogin(false);
+          navigate("/");
+          setIsUserMenuOpen(false);
+        } catch (error) {
+          console.log(error);
+        }
       },
     },
   ];
+
+  // {
+  //   name: "Logout",
+  //   onClick: () => {
+  //     localStorage.clear();
+  //     setUserData({});
+  //     datactx.modifyIslogin(false);
+  //     navigate("/");
+  //     setIsUserMenuOpen(false);
+  //   },
+  // },
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

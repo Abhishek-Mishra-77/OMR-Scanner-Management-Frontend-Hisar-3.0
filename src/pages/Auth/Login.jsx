@@ -31,7 +31,6 @@ export default function Login() {
         localStorage.setItem("userData", JSON.stringify(response.data.token));
         dataCtx.modifyIslogin(true);
         dataCtx.modifyLoginData(response.data);
-        console.log(response.data, "logonadta");
         toast.success("Login Successfull", {
           position: "bottom-left",
           autoClose: 1000,
