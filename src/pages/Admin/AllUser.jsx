@@ -15,14 +15,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { REACT_APP_IP } from "../../services/common";
 import dataContext from "../../Store/DataContext";
 
-import {
-  onGetAllUsersHandler,
-  onGetVerifiedUserHandler,
-} from "../../services/common";
+import { onGetAllUsersHandler } from "../../services/common";
 
 export function AllUser() {
   const [users, setUsers] = useState([]);
-  // const [currentUser, setCurrentUser] = useState([]);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -30,15 +26,12 @@ export function AllUser() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const token = JSON.parse(localStorage.getItem("userData"));
   const dataCtx = useContext(dataContext);
-  // console.log(dataCtx.userData.user.id,"-----------login id")
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await onGetAllUsersHandler();
-        // const curentUser = await onGetVerifiedUserHandler();
         const { users } = response;
-        // setCurrentUser(curentUser.user)
         setUsers(users);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -47,6 +40,7 @@ export function AllUser() {
 
     fetchUsers();
   }, [updateSuccess]);
+  
   const onModelHandler = async (user) => {
     setOpen(true);
     setSelectedUser(user);
@@ -162,6 +156,15 @@ export function AllUser() {
   //   const regex = /^\d{10}$/;
   //   return regex.test(value);
   // };
+
+  const onUserDetailHandler = (id) => {
+    navigate(`/user-detail/${id}`);
+  };
+
+  const onUserUpdatedDetailsHandler = (id) => {
+    navigate(`/updated-details/${id}`);
+  };
+
   return (
     <div className="flex justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 h-[100vh] pt-20">
       <section className="md:mx-auto w-full max-w-7xl   px-12 py-10 bg-white rounded-xl">
@@ -241,13 +244,23 @@ export function AllUser() {
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-12 py-4">
-                          <div className="text-sm text-gray-900 ">
-                            <button className="bg-indigo-600 text-white px-2 py-1 rounded-3xl">User detail</button>
+                          <div
+                            onClick={() => onUserDetailHandler(user.id)}
+                            className="text-sm text-gray-900 "
+                          >
+                            <button className="bg-indigo-600 text-white px-2 py-1 rounded-3xl">
+                              User detail
+                            </button>
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-12 py-4">
-                          <div className="text-sm text-gray-900 ">
-                            <button className="bg-indigo-600 text-white px-2 py-1 rounded-3xl">Updated detail</button>
+                          <div
+                            onClick={() => onUserUpdatedDetailsHandler(user.id)}
+                            className="text-sm text-gray-900 "
+                          >
+                            <button className="bg-indigo-600 text-white px-2 py-1 rounded-3xl">
+                              Updated detail
+                            </button>
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-12 py-4">
@@ -430,7 +443,7 @@ export function AllUser() {
                                     htmlFor="password"
                                     className="block text-lg mt-2 w-[200px]  font-medium text-gray-700"
                                   >
-                                   New Password
+                                    New Password
                                   </label>
                                   <input
                                     type="text"

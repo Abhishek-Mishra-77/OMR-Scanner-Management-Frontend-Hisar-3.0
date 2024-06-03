@@ -22,7 +22,7 @@ import Profile from "./pages/Auth/Profile";
 import Assignee from "./pages/CSV Comparer/Assignee";
 import DuplicityDetect from "./pages/DuplicityDetect/DuplicityDetect";
 import UserDetail from "./pages/Admin/UserDetail";
-import UpdatedDetials from "./pages/Admin/UpdatedDetials";
+import UpdatedDetails from "./pages/Admin/UpdatedDetails";
 
 function App() {
   const datactx = useContext(dataContext);
@@ -49,13 +49,16 @@ function App() {
       <Routes>
         {datactx.isLogin && (
           <>
-            <Route path="/user-detail" element={<UserDetail/>} />
-            <Route path="/updated-details" element={<UpdatedDetials/>} />
             {role === "Admin" && (
               <>
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/create-user" element={<CreateUser />} />
                 <Route path="/all-user" element={<AllUser />} />
+                <Route path="/user-detail/:id" element={<UserDetail />} />
+                <Route
+                  path="/updated-details/:id"
+                  element={<UpdatedDetails />}
+                />
               </>
             )}
 

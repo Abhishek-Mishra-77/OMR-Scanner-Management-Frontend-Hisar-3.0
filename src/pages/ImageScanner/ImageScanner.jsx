@@ -261,6 +261,7 @@ const ImageScanner = () => {
         },
       });
       toast.success("Template created successfully!");
+      dataCtx.modifyTemplateData(null);
       localStorage.removeItem("images");
       navigate("/imageuploader");
     } catch (error) {

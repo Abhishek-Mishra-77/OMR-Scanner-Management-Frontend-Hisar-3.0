@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import UTIF from "utif";
 
 const ImageUploader = () => {
-  // const [image, setImage] = useState(null);
   const [images, setImages] = useState([]);
   const [imageNames, setImageNames] = useState([]);
   const [openUpload, setOpenUpload] = useState(true);

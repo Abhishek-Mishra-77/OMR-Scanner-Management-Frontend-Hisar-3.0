@@ -1,15 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { onGetTaskHandler } from "../../services/common";
+import { useParams } from "react-router-dom";
 
 function UpdatedDetails() {
   const [isVisible, setIsVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [allTasks, setAllTasks] = useState([]);
   const rowsPerPage = 5;
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const userTasks = await onGetTaskHandler(id);
+        setAllTasks(userTasks);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
 
   const handleClose = () => {
     setIsVisible(false);
   };
 
-  const handleBackgroundClick = (e) => {
+  const onBackGroundClickHandler = (e) => {
     if (e.target.id === "modalBackground") {
       handleClose();
     }
@@ -26,31 +43,88 @@ function UpdatedDetails() {
     { id: 8, task: "Development", moduleType: "Module 8" },
     { id: 9, task: "Testing", moduleType: "Module 9" },
     { id: 10, task: "Deployment", moduleType: "Module 10" },
+    { id: 5, task: "Send Emails", moduleType: "Module 5" },
+    { id: 6, task: "Data Analysis", moduleType: "Module 6" },
+    { id: 7, task: "Research", moduleType: "Module 7" },
+    { id: 8, task: "Development", moduleType: "Module 8" },
+    { id: 9, task: "Testing", moduleType: "Module 9" },
+    { id: 10, task: "Deployment", moduleType: "Module 10" },
   ];
 
-  const totalPages = Math.ceil(tasks.length / rowsPerPage);
-
-  const handleClickPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  const totalPages = Math.ceil(allTasks.length / rowsPerPage);
 
   const renderTableRows = () => {
     const startIndex = (currentPage - 1) * rowsPerPage;
-    const selectedRows = tasks.slice(startIndex, startIndex + rowsPerPage);
+    const selectedRows = allTasks.slice(startIndex, startIndex + rowsPerPage);
 
-    return selectedRows.map((task) => (
-      <div
-        className="flex text-center py-1 odd:bg-blue-100 text-md"
-        key={task.id}
-      >
-        <div className="whitespace-nowrap mt-1 px-4 py-2 font-medium text-gray-900 w-1/3">
-          {task.id}
+    return selectedRows.map((taskData, index) => (
+      <div key={taskData.id} className="flex  py-2 w-full">
+        <div className="whitespace-nowrap w-[150px] px-4">
+          <div className="text-md text-center">{index + 1}</div>
         </div>
-        <div className="whitespace-nowrap px-4 mt-1 py-2 text-gray-700 w-1/3">
-          {task.task}
+        <div className="whitespace-nowrap w-[100px] px-4">
+          <div className="text-md text-center">{taskData.min}</div>
         </div>
-        <div className="whitespace-nowrap px-4 py-2 text-gray-700 w-1/3">
-          <button className="bg-blue-600 text-white px-4 py-1 rounded-3xl">
+        <div className="whitespace-nowrap w-[100px] px-4">
+          <div className="text-md text-center">{taskData.max}</div>
+        </div>
+
+        <div className="whitespace-nowrap w-[150px] px-4">
+          <div className="text-md text-center font-semibold py-1 border-2">
+            {taskData.moduleType}
+          </div>
+        </div>
+
+        <div className="whitespace-nowrap w-[150px] px-4">
+          <div className="text-md text-center">
+            <span
+              className={`inline-flex items-center justify-center rounded-full ${
+                !taskData.blankTaskStatus || !taskData.multTaskStatus
+                  ? "bg-amber-100 text-amber-700"
+                  : "bg-emerald-100 text-emerald-700"
+              } px-2.5 py-0.5 `}
+            >
+              {!taskData.blankTaskStatus || !taskData.multTaskStatus ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="-ms-1 me-1.5 h-4 w-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="-ms-1 me-1.5 h-4 w-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              )}
+              <p className="whitespace-nowrap text-sm">
+                {taskData.blankTaskStatus && taskData.multTaskStatus
+                  ? "Completed"
+                  : "Pending"}
+              </p>
+            </span>
+          </div>
+        </div>
+        <div className="whitespace-nowrap text-center w-[150px] px-4">
+          <button className="rounded-3xl border border-indigo-500 bg-indigo-500 px-6 py-1 font-semibold text-white">
             Show
           </button>
         </div>
@@ -63,7 +137,7 @@ function UpdatedDetails() {
       <ol className="flex justify-end gap-1 text-xs font-medium">
         <li>
           <button
-            onClick={() => handleClickPage(currentPage - 1)}
+            onClick={() => setCurrentPage(currentPage - 1)}
             disabled={currentPage === 1}
             className={`inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180 ${
               currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
@@ -88,7 +162,7 @@ function UpdatedDetails() {
         {[...Array(totalPages)].map((_, index) => (
           <li key={index}>
             <button
-              onClick={() => handleClickPage(index + 1)}
+              onClick={() => setCurrentPage(index + 1)}
               className={`block size-8 rounded border border-gray-100 bg-white text-center leading-8 ${
                 currentPage === index + 1
                   ? "bg-blue-600 text-white"
@@ -102,7 +176,7 @@ function UpdatedDetails() {
 
         <li>
           <button
-            onClick={() => handleClickPage(currentPage + 1)}
+            onClick={() => setCurrentPage(currentPage + 1)}
             disabled={currentPage === totalPages}
             className={`inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180 ${
               currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
@@ -133,66 +207,57 @@ function UpdatedDetails() {
         <div
           id="modalBackground"
           className="flex justify-center items-center"
-          onClick={handleBackgroundClick}
+          onClick={onBackGroundClickHandler}
         >
           <div
             role="alert"
-            className="rounded-xl border border-gray-100 bg-white p-4 w-[600px]"
+            className="rounded-xl border border-gray-100 bg-white p-12"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start gap-4">
-              <div className="flex-1 py-4 px-4">
+              <div className="flex-1">
                 <h1 className="block text-gray-900 text-3xl font-semibold">
                   All Tasks
                 </h1>
               </div>
-
-              <button
-                className="text-gray-500 transition hover:text-gray-600"
-                onClick={handleClose}
-              >
-                <span className="sr-only">Dismiss popup</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="h-8 w-8 hover:text-red-500 "
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
             </div>
-            <div className="mx-4 border-2 rounded-xl my-4">
-              <div className="rounded-lg border border-gray-200">
-                <div className="overflow-x-auto rounded-t-lg">
-                  <div className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                    <div className="ltr:text-left rtl:text-right">
-                      <div className="flex text-center text-lg">
-                        <div className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 w-1/3">
-                          Task
-                        </div>
-                        <div className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 w-1/3">
-                          Module Type
-                        </div>
-                        <div className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 w-1/3">
-                          Updated details
+            <div className="mx-4 border-2 rounded-xl my-8 py-4 px-16">
+              <div className="rounded-lg ">
+                <div className="inline-block align-middle md:px-6 py-4 px-16">
+                  <div className=" border border-gray-200 md:rounded-lg">
+                    <div className="divide-y divide-gray-200 py-4 px-8">
+                      <div className="bg-gray-50 w-full">
+                        <div className="flex">
+                          <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                            <span>SN.</span>
+                          </div>
+
+                          <div className=" py-3.5 px-4 text-center  text-xl font-semibold text-gray-700 w-[100px]">
+                            Min
+                          </div>
+
+                          <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[100px]">
+                            Max
+                          </div>
+                          <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                            Module
+                          </div>
+                          <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                            Status
+                          </div>
+                          <div className=" px-4 py-3.5 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                            UpdatedDetails
+                          </div>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="divide-y divide-gray-200">
-                      {renderTableRows()}
+                      <div className="divide-y divide-gray-200 bg-white overflow-y-auto max-h-[300px]">
+                        {renderTableRows()}
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="rounded-b-lg border-t border-gray-200 px-4 py-4">
+                <div className="rounded-b-lg border-gray-200">
                   {renderPagination()}
                 </div>
               </div>

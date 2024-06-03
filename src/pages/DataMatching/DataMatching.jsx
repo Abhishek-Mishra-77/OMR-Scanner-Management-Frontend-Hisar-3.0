@@ -8,10 +8,8 @@ import {
   onGetVerifiedUserHandler,
   REACT_APP_IP,
 } from "../../services/common";
-import Button from "@mui/material/Button";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import CheckIcon from "@mui/icons-material/Check";
 import { useNavigate } from "react-router-dom";
 import AdminAssined from "./AdminAssined";
 
@@ -113,14 +111,13 @@ const DataMatching = () => {
       toast.success("Data updated successfully.");
       return;
     }
-
     try {
       await axios.post(
         `http://${REACT_APP_IP}:4000/updatecsvdata/${parseInt(
           currentTaskData?.fileId
         )}`,
         {
-          data: csvCurrentData,
+          updatedData: csvCurrentData,
           index: csvCurrentData.rowIndex + 2,
           updatedColumn: modifiedKeys,
         },
@@ -283,20 +280,42 @@ const DataMatching = () => {
     }
   };
 
-  const changeCurrentCsvDataHandler = (key, value) => {
+  // const changeCurrentCsvDataHandler = (key, value) => {
+  //   if (!imageNotFound) {
+  //     return;
+  //   }
+
+  //   setCsvCurrentData((prevData) => ({
+  //     ...prevData,
+  //     [key]: value,
+  //   }));
+
+  //   setModifiedKeys((prevKeys) => {
+  //     return {
+  //       ...prevKeys,
+  //       [key]: true,
+  //     };
+  //   });
+  // };
+
+  const changeCurrentCsvDataHandler = (key, newValue) => {
     if (!imageNotFound) {
       return;
     }
 
-    setCsvCurrentData((prevData) => ({
-      ...prevData,
-      [key]: value,
-    }));
+    // Update the current CSV data
+    setCsvCurrentData((prevData) => {
+      const previousValue = prevData[key];
 
-    setModifiedKeys((prevKeys) => {
-      return {
+      // Set the modified keys with both new and previous values
+      setModifiedKeys((prevKeys) => ({
         ...prevKeys,
-        [key]: true,
+        [key]: [newValue, previousValue],
+      }));
+
+      return {
+        ...prevData,
+        [key]: newValue,
       };
     });
   };
@@ -535,12 +554,6 @@ const DataMatching = () => {
       imageRef.current.style.transformOrigin = "initial";
     }
   };
-
-  console.log(currentTaskData);
-
-  // console.log(currentTaskData.blankTaskStatus && currentTaskData.multTaskStatus)
-
-  console.log(compareTask);
 
   return (
     <>
