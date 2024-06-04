@@ -166,7 +166,7 @@ export function AllUser() {
   };
 
   return (
-    <div className="flex justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 h-[100vh] pt-20">
+    <div className="flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh] pt-20">
       <section className="md:mx-auto w-full max-w-7xl   px-12 py-10 bg-white rounded-xl">
         <div className="flex flex-col space-y-4  sm:flex-row md:items-center sm:justify-between sm:space-y-0">
           <div>
@@ -176,7 +176,7 @@ export function AllUser() {
             <button
               type="button"
               onClick={() => navigate("/create-user")}
-              className="rounded-md  bg-indigo-700 hover:bg-indigo-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 px-3 py-2 text-sm  text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              className="rounded-md  bg-indigo-600 hover:bg-indigo-600 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 px-3 py-2 text-sm  text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
             >
               Add New User
             </button>
@@ -248,7 +248,7 @@ export function AllUser() {
                             onClick={() => onUserDetailHandler(user.id)}
                             className="text-sm text-gray-900 "
                           >
-                            <button className="bg-indigo-600 text-white px-2 py-1 rounded-3xl">
+                            <button className="bg-indigo-500 shadow text-white px-3 py-1 rounded-3xl">
                               User detail
                             </button>
                           </div>
@@ -258,13 +258,13 @@ export function AllUser() {
                             onClick={() => onUserUpdatedDetailsHandler(user.id)}
                             className="text-sm text-gray-900 "
                           >
-                            <button className="bg-indigo-600 text-white px-2 py-1 rounded-3xl">
+                            <button className="bg-blue-500 shadow text-white px-3 py-1 rounded-3xl">
                               Updated detail
                             </button>
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-12 py-4">
-                          <div className="text-sm text-gray-900 ">
+                          <div className="text-sm font-semi bold text-gray-900 ">
                             {user.role}
                           </div>
                         </td>
@@ -288,7 +288,7 @@ export function AllUser() {
                                   {permissionSet.map((key) => (
                                     <span
                                       key={key}
-                                      className="rounded-full bg-blue-100 px-2 py-1 text-sm font-semibold leading-5 my-1 text-blue-800 mr-2"
+                                      className="rounded-full bg-green-100 px-2 py-1 text-sm font-semibold leading-5 my-1 text-green-700 mr-2"
                                     >
                                       {key}
                                     </span>

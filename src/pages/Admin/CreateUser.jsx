@@ -156,10 +156,10 @@ const CreateUser = () => {
   };
 
   return (
-    <div className="flex justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 h-[100vh] pt-20">
-      <div className="max-w-2xl mx-auto shadow-lg rounded-3xl py-8 px-16 bg-green-50">
+    <div className="flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh] pt-20">
+      <div className="max-w-2xl mx-auto shadow-lg rounded-3xl py-8 px-16 bg-gray-50">
         <div className="mb-5">
-          <h2 className="text-center text-3xl font-bold leading-tight text-black">
+          <h2 className="text-center text-3xl font-bold leading-tight text-gray my-4 ">
             Create a New User
           </h2>
         </div>

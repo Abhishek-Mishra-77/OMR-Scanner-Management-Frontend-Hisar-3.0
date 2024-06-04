@@ -236,7 +236,7 @@ function UpdatedDetails() {
   const totalPagesData = Math.ceil(rows.length / rowsPerPageData);
 
   const handleClick = (event) => {
-    setCurrentPage(Number(event.target.id));
+    setCurrentPageData(Number(event.target.id));
   };
 
   const renderPageNumbers = [];
@@ -255,7 +255,7 @@ function UpdatedDetails() {
 
 
   return (
-    <div className="flex justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 h-[100vh] pt-20">
+    <div className="flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh] pt-20">
       {isVisible ? (
         <div
           id="modalBackground"
