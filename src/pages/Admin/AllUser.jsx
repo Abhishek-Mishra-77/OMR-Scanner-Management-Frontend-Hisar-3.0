@@ -354,12 +354,12 @@ export function AllUser() {
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg mx-4 bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full  md:max-w-xl lg:max-w-2xl">
+                  <Dialog.Panel className="relative transform overflow-hidden rounded-3xl mx-4 bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full  md:max-w-xl lg:max-w-2xl">
                     <div className="bg-gray-50 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                       <div className="sm:flex sm:items-start">
                         <form
                           onSubmit={onUpdateHandler}
-                          className="px-4 pb-4  sm:px-6 sm:pb-4"
+                          className="px-4 py-4  sm:px-6 sm:pb-4"
                         >
                           <div className="sm:flex sm:items-start">
                             <div className=" text-center sm:ml-4 sm:mt-0 sm:text-left">
@@ -369,7 +369,7 @@ export function AllUser() {
                               >
                                 Edit User
                               </Dialog.Title>
-                              <div className="mt-8">
+                              <div className="mt-6">
                                 <div className="mb-5 flex gap-4">
                                   <label
                                     htmlFor="userName"
