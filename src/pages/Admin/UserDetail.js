@@ -35,16 +35,16 @@ function UserDetail() {
               <div className="ltr:text-left rtl:text-right">
                 <div className="text-xl flex font-bold text-center">
                   <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                    SN.
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                    Date
+                    S.No
                   </div>
                   <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
                     Action
                   </div>
                   <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                   Time
+                    Date
+                  </div>
+                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
+                    Time
                   </div>
                 </div>
               </div>
