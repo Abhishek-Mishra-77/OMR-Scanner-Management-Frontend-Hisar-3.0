@@ -21,7 +21,9 @@ function UserDetail() {
     fetchUserDetails();
   }, []);
 
-  console.log(userDetails);
+  const sortedUserDetails = [...userDetails]?.sort(
+    (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+  );
 
   return (
     <div className="flex  justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 h-[100vh] pt-20">
@@ -50,7 +52,7 @@ function UserDetail() {
               </div>
 
               <div className="divide-y divide-gray-200 text-center overflow-y-auto h-[280px]">
-                {userDetails.map((data, index) => {
+                {sortedUserDetails.map((data, index) => {
                   const dateObject = new Date(data?.timestamp);
                   // Extract and format the date
                   const date = dateObject.toLocaleDateString("en-GB");
@@ -77,7 +79,7 @@ function UserDetail() {
                       <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
                         {date}
                       </div>
-                      <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
+                      <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
                         {time}
                       </div>
                     </div>

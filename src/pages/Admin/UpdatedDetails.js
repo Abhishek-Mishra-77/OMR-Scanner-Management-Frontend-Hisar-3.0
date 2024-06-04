@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { onGetTaskHandler } from "../../services/common";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import { REACT_APP_IP } from "../../services/common";
 
 function UpdatedDetails() {
   const [isVisible, setIsVisible] = useState(true);
@@ -8,7 +10,8 @@ function UpdatedDetails() {
   const [allTasks, setAllTasks] = useState([]);
   const rowsPerPage = 5;
   const [currentPageData, setCurrentPageData] = useState(1);
-  const [updatedData, setUpdatedData] = useState([]);
+  const [updatedData, setUpdatedData] = useState(null);
+  let token = JSON.parse(localStorage.getItem("userData"));
 
   const { id } = useParams();
 
@@ -24,6 +27,7 @@ function UpdatedDetails() {
 
     fetchTasks();
   }, []);
+
   const handleClose = () => {
     setIsVisible(false);
   };
@@ -34,14 +38,30 @@ function UpdatedDetails() {
     }
   };
 
-  const onShowHandler = () => {
-    setIsVisible(false);
+  const onUpdatedDetailsHandler = async (userId) => {
+    try {
+      const response = await axios.get(
+        `http://${REACT_APP_IP}:4000/updated/details/${userId}`,
+        {},
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      setUpdatedData(response.data);
+      setIsVisible(false);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   const totalPages = Math.ceil(allTasks.length / rowsPerPage);
 
   const renderTableRows = () => {
     const startIndex = (currentPage - 1) * rowsPerPage;
-    const selectedRows = allTasks.slice(startIndex, startIndex + rowsPerPage);
+    const selectedRows = allTasks?.slice(startIndex, startIndex + rowsPerPage);
 
     return selectedRows.map((taskData, index) => (
       <div key={taskData.id} className="flex  py-2 w-full">
@@ -106,7 +126,7 @@ function UpdatedDetails() {
         <div className="whitespace-nowrap text-center w-[150px] px-4">
           <button
             className="rounded-3xl border border-indigo-500 bg-indigo-500 px-6 py-1 font-semibold text-white"
-            onClick={() => onShowHandler()}
+            onClick={() => onUpdatedDetailsHandler(taskData.userId)}
           >
             Show
           </button>
@@ -184,40 +204,6 @@ function UpdatedDetails() {
     );
   };
 
-  const rowsPerPageData = 10;
-  const indexOfLastRow = currentPage * rowsPerPageData;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPageData;
-  const currentRows = updatedData.slice(indexOfFirstRow, indexOfLastRow);
-
-  const totalPagesData = Math.ceil(updatedData.length / rowsPerPageData);
-
-  const handleClick = (event) => {
-    setCurrentPage(Number(event.target.id));
-  };
-
-  const renderPageNumbers = [];
-  for (let i = 1; i <= totalPagesData; i++) {
-    renderPageNumbers.push(
-      <button
-        key={i}
-        id={i}
-        onClick={handleClick}
-        className={`px-3 py-1 mx-1 ${
-          currentPageData === i
-            ? "bg-blue-500 text-white rounded-md"
-            : "bg-gray-200 text-gray-700 rounded-md"
-        }`}
-      >
-        {i}
-      </button>
-    );
-  }
-
-
-  const onUpdatedDetailsHandler = async(userId) => {
-
-  }
-
   return (
     <div className="flex justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 h-[100vh] pt-20">
       {isVisible ? (
@@ -284,46 +270,48 @@ function UpdatedDetails() {
                 <div className="ltr:text-left rtl:text-right">
                   <div className="text-xl flex font-bold text-center">
                     <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                      Task Type
+                      Key
                     </div>
                     <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
                       Row Index
                     </div>
                     <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                      Previous Data
+                      Updated Data
                     </div>
                     <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                      Updated Data
+                      Previous Data
                     </div>
                   </div>
                 </div>
 
                 <div className="divide-y divide-gray-200 text-center overflow-y-auto h-[280px]">
-                  {currentRows.map((row, index) => (
-                    <div
-                      key={index}
-                      className={`flex ${
-                        index % 2 === 0 ? "odd:bg-blue-50" : ""
-                      }`}
-                    >
-                      <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                        {row.taskType}
+                  {Array.from({ length: updatedData.rowIndex.length }).map(
+                    (_, index) => (
+                      <div
+                        key={index}
+                        className={`flex ${
+                          index % 2 === 0 ? "odd:bg-blue-50" : ""
+                        }`}
+                      >
+                        <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
+                          {updatedData?.updatedColumn[index]}
+                        </div>
+                        <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
+                          {updatedData?.rowIndex[index]}
+                        </div>
+                        <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
+                          {updatedData?.currentData[index]}
+                        </div>
+                        <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
+                          {updatedData?.previousData[index]}
+                        </div>
                       </div>
-                      <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                        {row.rowIndex}
-                      </div>
-                      <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                        {row.previousData}
-                      </div>
-                      <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                        {row.updatedData}
-                      </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
 
                 <div className="flex justify-center py-4">
-                  {renderPageNumbers}
+                  {/* {renderPageNumbers} */}
                 </div>
               </div>
             </div>
