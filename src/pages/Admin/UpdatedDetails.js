@@ -9,7 +9,6 @@ function UpdatedDetails() {
   const [currentPage, setCurrentPage] = useState(1);
   const [allTasks, setAllTasks] = useState([]);
   const rowsPerPage = 5;
-  const [currentPageData, setCurrentPageData] = useState(1);
   const [updatedData, setUpdatedData] = useState(null);
   let token = JSON.parse(localStorage.getItem("userData"));
 
@@ -205,7 +204,7 @@ function UpdatedDetails() {
   };
 
   return (
-    <div className="flex justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 h-[100vh] pt-20">
+    <div className="flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh] pt-20">
       {isVisible ? (
         <div
           id="modalBackground"
