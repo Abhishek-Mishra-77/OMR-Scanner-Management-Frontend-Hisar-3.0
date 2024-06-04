@@ -226,7 +226,7 @@ export default function Navbar() {
           </div>
           <div
             onClick={toggleUserMenu}
-            className="relative flex gap-4 bg-teal-100 shadow-sm px-6 6 cursor-pointer rounded-lg py-2"
+            className="relative flex gap-4 bg-blue-50 shadow-sm px-6 6 cursor-pointer rounded-lg py-2"
           >
             <div>
               <h4 className="text-xl font-semibold">{userData.userName}</h4>
@@ -243,7 +243,7 @@ export default function Navbar() {
                         <button
                           key={item.name}
                           onClick={item.onClick}
-                          className="block px-4 py-1 text-md font-semibold text-gray-700 hover:bg-gray-200 hover:text-blue-500 w-full text-left"
+                          className="block px-4 py-1 text-md font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-700 w-full text-left"
                         >
                           {item.name}
                         </button>
