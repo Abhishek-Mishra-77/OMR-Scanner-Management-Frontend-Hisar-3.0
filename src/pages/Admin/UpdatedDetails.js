@@ -21,7 +21,7 @@ function UpdatedDetails() {
 
     fetchTasks();
   }, []);
-
+  console.log(allTasks,"--------------")
   const handleClose = () => {
     setIsVisible(false);
   };
@@ -32,25 +32,27 @@ function UpdatedDetails() {
     }
   };
 
-  const tasks = [
-    { id: 1, task: "Data Entry", moduleType: "Module 1" },
-    { id: 2, task: "Review Reports", moduleType: "Module 2" },
-    { id: 3, task: "Update Records", moduleType: "Module 3" },
-    { id: 4, task: "Prepare Presentation", moduleType: "Module 4" },
-    { id: 5, task: "Send Emails", moduleType: "Module 5" },
-    { id: 6, task: "Data Analysis", moduleType: "Module 6" },
-    { id: 7, task: "Research", moduleType: "Module 7" },
-    { id: 8, task: "Development", moduleType: "Module 8" },
-    { id: 9, task: "Testing", moduleType: "Module 9" },
-    { id: 10, task: "Deployment", moduleType: "Module 10" },
-    { id: 5, task: "Send Emails", moduleType: "Module 5" },
-    { id: 6, task: "Data Analysis", moduleType: "Module 6" },
-    { id: 7, task: "Research", moduleType: "Module 7" },
-    { id: 8, task: "Development", moduleType: "Module 8" },
-    { id: 9, task: "Testing", moduleType: "Module 9" },
-    { id: 10, task: "Deployment", moduleType: "Module 10" },
-  ];
-
+  // const tasks = [
+  //   { id: 1, task: "Data Entry", moduleType: "Module 1" },
+  //   { id: 2, task: "Review Reports", moduleType: "Module 2" },
+  //   { id: 3, task: "Update Records", moduleType: "Module 3" },
+  //   { id: 4, task: "Prepare Presentation", moduleType: "Module 4" },
+  //   { id: 5, task: "Send Emails", moduleType: "Module 5" },
+  //   { id: 6, task: "Data Analysis", moduleType: "Module 6" },
+  //   { id: 7, task: "Research", moduleType: "Module 7" },
+  //   { id: 8, task: "Development", moduleType: "Module 8" },
+  //   { id: 9, task: "Testing", moduleType: "Module 9" },
+  //   { id: 10, task: "Deployment", moduleType: "Module 10" },
+  //   { id: 5, task: "Send Emails", moduleType: "Module 5" },
+  //   { id: 6, task: "Data Analysis", moduleType: "Module 6" },
+  //   { id: 7, task: "Research", moduleType: "Module 7" },
+  //   { id: 8, task: "Development", moduleType: "Module 8" },
+  //   { id: 9, task: "Testing", moduleType: "Module 9" },
+  //   { id: 10, task: "Deployment", moduleType: "Module 10" },
+  // ];
+ const onShowHandler =() =>{
+  setIsVisible(false  )
+ }
   const totalPages = Math.ceil(allTasks.length / rowsPerPage);
 
   const renderTableRows = () => {
@@ -62,12 +64,10 @@ function UpdatedDetails() {
         <div className="whitespace-nowrap w-[150px] px-4">
           <div className="text-md text-center">{index + 1}</div>
         </div>
-        <div className="whitespace-nowrap w-[100px] px-4">
-          <div className="text-md text-center">{taskData.min}</div>
+        <div className="whitespace-nowrap w-[150px] px-4">
+          <div className="text-md text-center">abhi</div>
         </div>
-        <div className="whitespace-nowrap w-[100px] px-4">
-          <div className="text-md text-center">{taskData.max}</div>
-        </div>
+       
 
         <div className="whitespace-nowrap w-[150px] px-4">
           <div className="text-md text-center font-semibold py-1 border-2">
@@ -124,7 +124,7 @@ function UpdatedDetails() {
           </div>
         </div>
         <div className="whitespace-nowrap text-center w-[150px] px-4">
-          <button className="rounded-3xl border border-indigo-500 bg-indigo-500 px-6 py-1 font-semibold text-white">
+          <button className="rounded-3xl border border-indigo-500 bg-indigo-500 px-6 py-1 font-semibold text-white" onClick={() => onShowHandler()}>
             Show
           </button>
         </div>
@@ -201,6 +201,59 @@ function UpdatedDetails() {
     );
   };
 
+
+   const [currentPageData, setCurrentPageData] = useState(1);
+  const rowsPerPageData = 10;
+  const rows = [
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    { taskType: 'John Doe', rowIndex: '24/05/1995', previousData: '24/05/1995', updatedData: '$120,000' },
+    // Add more rows as needed
+  ];
+
+  const indexOfLastRow = currentPage * rowsPerPageData;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPageData;
+  const currentRows = rows.slice(indexOfFirstRow, indexOfLastRow);
+
+  const totalPagesData = Math.ceil(rows.length / rowsPerPageData);
+
+  const handleClick = (event) => {
+    setCurrentPage(Number(event.target.id));
+  };
+
+  const renderPageNumbers = [];
+  for (let i = 1; i <= totalPagesData; i++) {
+    renderPageNumbers.push(
+      <button
+        key={i}
+        id={i}
+        onClick={handleClick}
+        className={`px-3 py-1 mx-1 ${currentPageData === i ? 'bg-blue-500 text-white rounded-md' : 'bg-gray-200 text-gray-700 rounded-md'}`}
+      >
+        {i}
+      </button>
+    );
+  }
+
+
   return (
     <div className="flex justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 h-[100vh] pt-20">
       {isVisible ? (
@@ -221,7 +274,7 @@ function UpdatedDetails() {
                 </h1>
               </div>
             </div>
-            <div className="mx-4 border-2 rounded-xl my-8 py-4 px-16">
+            <div className=" rounded-xl my-6">
               <div className="rounded-lg ">
                 <div className="inline-block align-middle md:px-6 py-4 px-16">
                   <div className=" border border-gray-200 md:rounded-lg">
@@ -232,13 +285,11 @@ function UpdatedDetails() {
                             <span>SN.</span>
                           </div>
 
-                          <div className=" py-3.5 px-4 text-center  text-xl font-semibold text-gray-700 w-[100px]">
-                            Min
+                          <div className=" py-3.5 px-4 text-center  text-xl font-semibold text-gray-700 w-[150px]">
+                            User
                           </div>
 
-                          <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[100px]">
-                            Max
-                          </div>
+                          
                           <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
                             Module
                           </div>
@@ -266,105 +317,37 @@ function UpdatedDetails() {
         </div>
       ) : (
         <div className="overflow-x-auto rounded-3xl w-[800px] shadow-sm shadow-white">
-          <div className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm w-full">
-            <div className="px-4 py-8">
-              <h1 className="text-3xl font-semibold px-4 pb-8 pt-4">
-                User Detail
-              </h1>
-              <div className="mx-4 border-2 rounded-xl">
-                <div className="ltr:text-left rtl:text-right">
-                  <div className="text-xl flex font-bold text-center">
-                    <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                      User
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                      Date
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                      Clock In
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                      Clock Out
-                    </div>
-                  </div>
+        <div className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm w-full">
+          <div className="px-4 py-8">
+            <h1 className="text-3xl font-semibold px-4 pb-8 pt-4">User Detail</h1>
+            <div className="mx-4 border-2 rounded-xl">
+              <div className="ltr:text-left rtl:text-right">
+                <div className="text-xl flex font-bold text-center">
+                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">Task Type</div>
+                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">Row Index</div>
+                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">Previous Data</div>
+                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">Updated Data</div>
                 </div>
-
-                <div className="divide-y divide-gray-200 text-center overflow-y-auto h-[280px]">
-                  <div className="odd:bg-blue-50 flex">
-                    <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                      John Doe
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                      24/05/1995
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                      24/05/1995
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
-                      $120,000
-                    </div>
+              </div>
+  
+              <div className="divide-y divide-gray-200 text-center overflow-y-auto h-[280px]">
+                {currentRows.map((row, index) => (
+                  <div key={index} className={`flex ${index % 2 === 0 ? 'odd:bg-blue-50' : ''}`}>
+                    <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">{row.taskType}</div>
+                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">{row.rowIndex}</div>
+                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">{row.previousData}</div>
+                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">{row.updatedData}</div>
                   </div>
-                  <div className="odd:bg-blue-50 flex">
-                    <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                      John Doe
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                      24/05/1995
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                      24/05/1995
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
-                      $120,000
-                    </div>
-                  </div>
-                  <div className="odd:bg-blue-50 flex">
-                    <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                      John Doe
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                      24/05/1995
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                      24/05/1995
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
-                      $120,000
-                    </div>
-                  </div>
-                  <div className="odd:bg-blue-50 flex">
-                    <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                      John Doe
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                      24/05/1995
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                      24/05/1995
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
-                      $120,000
-                    </div>
-                  </div>
-                  <div className="odd:bg-blue-50 flex">
-                    <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                      John Doe
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                      24/05/1995
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                      24/05/1995
-                    </div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
-                      $120,000
-                    </div>
-                  </div>
-                </div>
+                ))}
+              </div>
+  
+              <div className="flex justify-center py-4">
+                {renderPageNumbers}
               </div>
             </div>
           </div>
         </div>
+      </div>
       )}
     </div>
   );
