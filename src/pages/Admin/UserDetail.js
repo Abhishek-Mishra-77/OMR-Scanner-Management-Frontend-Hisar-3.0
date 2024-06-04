@@ -1,47 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { onGetAllUsersHandler } from "../../services/common";
+import axios from "axios";
+import { REACT_APP_IP } from "../../services/common";
+import { useParams } from "react-router-dom";
 
 function UserDetail() {
-  const [users, setUsers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 8;
+  const [userDetails, setUserDetails] = useState([]);
+  const { id } = useParams();
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchUserDetails = async () => {
       try {
-        const response = await onGetAllUsersHandler();
-        setUsers(response.users);
-        // console.log(response)
+        const response = await axios.get(
+          `http://${REACT_APP_IP}:4000/user/details/${id}`
+        );
+        setUserDetails(response.data?.userActivitydetails);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchUsers();
+    fetchUserDetails();
   }, []);
-console.log(users.length)
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = users.slice(indexOfFirstRow, indexOfLastRow);
 
-  const totalPages = Math.ceil(users.length / rowsPerPage);
-
-  const handleClick = (event) => {
-    setCurrentPage(Number(event.target.id));
-  };
-
-  const renderPageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    renderPageNumbers.push(
-      <button
-        key={i}
-        id={i}
-        onClick={handleClick}
-        className={`px-3 py-1 mx-1 ${currentPage === i ? 'bg-blue-500 text-white rounded-md' : 'bg-gray-200 text-gray-700 rounded-md'}`}
-      >
-        {i}
-      </button>
-    );
-  }
+  console.log(userDetails);
 
   return (
     <div className="flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh] pt-20">
@@ -51,27 +31,56 @@ console.log(users.length)
             <h1 className="text-3xl font-semibold px-4 pb-6">User Detail</h1>
             <div className="mx-4 border-2 rounded-xl">
               <div className="ltr:text-left rtl:text-right">
-                <div className="text-xl flex font-bold text-center border-b-2 border-gray-200">
-                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">User</div>
-                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">Date</div>
-                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">Log In</div>
-                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">Log Out</div>
+                <div className="text-xl flex font-bold text-center">
+                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
+                    S.No
+                  </div>
+                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
+                    Action
+                  </div>
+                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
+                    Date
+                  </div>
+                  <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
+                    Time
+                  </div>
                 </div>
               </div>
-              <div className="divide-y divide-gray-200 text-center min-h-[350px]">
-              {currentRows.map((user, index) => (
-                  <div key={index} className={`flex ${index % 2 === 1 ? 'even:bg-blue-50' : ''}`}>
-                    <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">{user.userName}</div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">{user.date}</div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">{user.logIn}</div>
-                    <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">{user.logOut}</div>
-                  </div>
-                ))}
-                
-              
-              </div>
-              <div className="flex justify-center py-4">
-                {renderPageNumbers}
+
+              <div className="divide-y divide-gray-200 text-center overflow-y-auto h-[280px]">
+                {userDetails.map((data, index) => {
+                  const dateObject = new Date(data?.timestamp);
+                  // Extract and format the date
+                  const date = dateObject.toLocaleDateString("en-GB");
+                  // Extract and format the time in 12-hour format with AM/PM
+                  const timeOptions = {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: true,
+                  };
+                  const time = dateObject.toLocaleTimeString(
+                    "en-US",
+                    timeOptions
+                  );
+
+                  return (
+                    <div key={index} className="odd:bg-blue-50 flex">
+                      <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
+                        {index + 1}
+                      </div>
+                      <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
+                        {data.action}
+                      </div>
+                      <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
+                        {date}
+                      </div>
+                      <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
+                        {time}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
