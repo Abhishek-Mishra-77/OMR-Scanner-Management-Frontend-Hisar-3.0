@@ -1,18 +1,27 @@
-import React, { useEffect } from "react";
-import { onGetAllUsersHandler } from "../../services/common";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { REACT_APP_IP } from "../../services/common";
+import { useParams } from "react-router-dom";
 
 function UserDetail() {
+  const [userDetails, setUserDetails] = useState([]);
+  const { id } = useParams();
+
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchUserDetails = async () => {
       try {
-        const response = await onGetAllUsersHandler();
-        console.log(response);
+        const response = await axios.get(
+          `http://${REACT_APP_IP}:4000/user/details/${id}`
+        );
+        setUserDetails(response.data?.userActivitydetails);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchUsers();
+    fetchUserDetails();
   }, []);
+
+  console.log(userDetails);
 
   return (
     <div className="flex  justify-center items-center bg-gradient-to-r from-blue-700 to-purple-700 h-[100vh] pt-20">
@@ -26,119 +35,54 @@ function UserDetail() {
               <div className="ltr:text-left rtl:text-right">
                 <div className="text-xl flex font-bold text-center">
                   <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                    User
+                    SN.
                   </div>
                   <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
                     Date
                   </div>
                   <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                    Clock In
+                    Action
                   </div>
                   <div className="whitespace-nowrap px-4 py-4 font-medium text-gray-900 w-1/4">
-                    Clock Out
+                   Time
                   </div>
                 </div>
               </div>
 
               <div className="divide-y divide-gray-200 text-center overflow-y-auto h-[280px]">
-                <div className="odd:bg-blue-50 flex">
-                  <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                    John Doe
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
-                    $120,000
-                  </div>
-                </div>
-                <div className="odd:bg-blue-50 flex">
-                  <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                    John Doe
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
-                    $120,000
-                  </div>
-                </div>
-                <div className="odd:bg-blue-50 flex">
-                  <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                    John Doe
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
-                    $120,000
-                  </div>
-                </div>
-                <div className="odd:bg-blue-50 flex">
-                  <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                    John Doe
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
-                    $120,000
-                  </div>
-                </div>
-                <div className="odd:bg-blue-50 flex">
-                  <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                    John Doe
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
-                    $120,000
-                  </div>
-                </div>
-                <div className="odd:bg-blue-50 flex">
-                  <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                    John Doe
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
-                    $120,000
-                  </div>
-                </div>
-                <div className="odd:bg-blue-50 flex">
-                  <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                    John Doe
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                    24/05/1995
-                  </div>
-                  <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
-                    $120,000
-                  </div>
-                </div>
+                {userDetails.map((data, index) => {
+                  const dateObject = new Date(data?.timestamp);
+                  // Extract and format the date
+                  const date = dateObject.toLocaleDateString("en-GB");
+                  // Extract and format the time in 12-hour format with AM/PM
+                  const timeOptions = {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: true,
+                  };
+                  const time = dateObject.toLocaleTimeString(
+                    "en-US",
+                    timeOptions
+                  );
+
+                  return (
+                    <div key={index} className="odd:bg-blue-50 flex">
+                      <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
+                        {index + 1}
+                      </div>
+                      <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
+                        {data.action}
+                      </div>
+                      <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
+                        {date}
+                      </div>
+                      <div className="whitespace-nowrap px-4 py-3 text-gray-704 w-1/4">
+                        {time}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
