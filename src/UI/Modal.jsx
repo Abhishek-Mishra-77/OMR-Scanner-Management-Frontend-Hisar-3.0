@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ModalWithLoadingBar = ({ isOpen, onClose, progress }) => {
+const ModalWithLoadingBar = ({ isOpen, onClose, progress, message }) => {
   return (
     // Modal backdrop and container
     <div
@@ -33,9 +33,7 @@ const ModalWithLoadingBar = ({ isOpen, onClose, progress }) => {
         )}
         {progress === 100 && (
           <div className="mt-6">
-            <h2 className="text-xl font-bold mb-4">
-              Comparing and matching the files...
-            </h2>
+            <h2 className="text-xl font-bold mb-4">{message}</h2>
           </div>
         )}
 

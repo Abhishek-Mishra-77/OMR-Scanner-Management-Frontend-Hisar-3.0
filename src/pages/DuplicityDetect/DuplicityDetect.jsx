@@ -4,7 +4,7 @@ import ImageNotFound from "../../components/ImageNotFound/ImageNotFound";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios, { all } from "axios";
+import axios from "axios";
 import { REACT_APP_IP } from "../../services/common";
 import { Dialog, Transition } from "@headlessui/react";
 
@@ -113,13 +113,13 @@ const ImageScanner = () => {
     const handleKeyDown = (event) => {
       if (event.key === "PageUp" && currentImageIndex > 0) {
         setCurrentImageIndex(currentImageIndex - 1);
-        setImageUrl(currentRowData.base64Images[currentImageIndex - 1]);
+        setImageUrl(currentRowData.imagePaths[currentImageIndex - 1]);
       } else if (
         event.key === "PageDown" &&
-        currentImageIndex < currentRowData?.base64Images.length - 1
+        currentImageIndex < currentRowData?.imagePaths.length - 1
       ) {
         setCurrentImageIndex(currentImageIndex + 1);
-        setImageUrl(currentRowData.base64Images[currentImageIndex + 1]);
+        setImageUrl(currentRowData.imagePaths[currentImageIndex + 1]);
       } else if (event.altKey && event.key === "s") {
         // Ensure currentRowData is not null before updating
         if (currentRowData) {
@@ -198,7 +198,7 @@ const ImageScanner = () => {
 
       setDuplicatesData(result);
       // setDuplicatesData(response.data.duplicates);
-      const url = response.data?.duplicates[0].base64Images[currentImageIndex];
+      const url = response.data?.duplicates[0].imagePaths[currentImageIndex];
       setCurrentRowData(response.data?.duplicates[0]);
       setImageUrl(url);
       setColumnName(columnName);
@@ -259,7 +259,7 @@ const ImageScanner = () => {
   const onEditModalHandler = (data, index) => {
     setCurrentRowData(data);
     setEditModal(true);
-    setImageUrl(allCurrentData[index].base64Images[currentImageIndex]);
+    setImageUrl(allCurrentData[index].imagePaths[currentImageIndex]);
   };
   const onShowModalHandler = (data) => {
     setAllCurrentData(data.sameData);
@@ -665,7 +665,7 @@ const ImageScanner = () => {
               <div className="mx-auto max-w-screen-xl px-2 lg:py-1 sm:px-6 lg:px-8">
                 <h2 className="text-center text-lg  font-bold text-white w-full ">
                   {currentImageIndex + 1} out of{" "}
-                  {currentRowData?.base64Images.length}
+                  {currentRowData?.imagePaths.length}
                 </h2>
 
                 <div className=" flex justify-center ">
@@ -679,7 +679,8 @@ const ImageScanner = () => {
                         className="w-full overflow-y-auto"
                       >
                         <img
-                          src={`data:image/jpeg;base64,${imageUrl}`}
+                          // src={`data:image/jpeg;base64,${imageUrl}`}
+                          src={`http://192.168.0.106:4000/images/${imageUrl}`}
                           alt="Selected"
                           style={{
                             width: "48rem",
