@@ -380,7 +380,7 @@ const ImageScanner = () => {
                             </div>
                           </dl>
                         </div>
-                        <div className=" font-semibold my-2 overflow-y-auto h-[15vh] mt-7">
+                        <div className=" font-semibold my-2 overflow-y-auto h-[40vh] mt-7">
                           <dl className="-my-3 divide-y divide-gray-100 text-sm">
                             {duplicatesData?.map((data, index) => (
                               <div
@@ -562,8 +562,10 @@ const ImageScanner = () => {
                                   Object.entries(currentRowData.row).map(
                                     ([key, value], index) => {
                                       if (
+                                        key === "Previous Values" ||
+                                        key === "Updated Values" ||
                                         key === "User Details" ||
-                                        key === "Updated Details" ||
+                                        key === "Updated Col. Name" ||
                                         imageNames.includes(key)
                                       ) {
                                         return null;

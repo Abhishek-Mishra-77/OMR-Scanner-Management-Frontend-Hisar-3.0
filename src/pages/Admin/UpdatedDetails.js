@@ -10,10 +10,25 @@ function UpdatedDetails() {
   const [allTasks, setAllTasks] = useState([]);
   const rowsPerPage = 5;
   const [updatedData, setUpdatedData] = useState(null);
+  const [currentTask, setCurrentTask] = useState(null);
   let token = JSON.parse(localStorage.getItem("userData"));
-
   const { id } = useParams();
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowLeft") {
+        setIsVisible(true);
+      }
+    };
+
+    // Add event listener for keydown
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -37,11 +52,11 @@ function UpdatedDetails() {
     }
   };
 
-  const onUpdatedDetailsHandler = async (userId) => {
+  const onUpdatedDetailsHandler = async (taskData) => {
     try {
-      const response = await axios.get(
-        `http://${REACT_APP_IP}:4000/updated/details/${userId}`,
-        {},
+      const response = await axios.post(
+        `http://${REACT_APP_IP}:4000/updated/details`,
+        { taskData },
         {
           headers: {
             token: token,
@@ -50,6 +65,7 @@ function UpdatedDetails() {
       );
       setUpdatedData(response.data);
       setIsVisible(false);
+      setCurrentTask(taskData);
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -58,14 +74,32 @@ function UpdatedDetails() {
 
   const totalPages = Math.ceil(allTasks.length / rowsPerPage);
 
+  const rowIndexMin =
+    updatedData && updatedData.rowIndex
+      ? Math.min(...updatedData.rowIndex) + 1
+      : 0;
+  const rowIndexMax =
+    updatedData && updatedData.rowIndex
+      ? Math.max(...updatedData.rowIndex) + 1
+      : 0;
+
   const renderTableRows = () => {
     const startIndex = (currentPage - 1) * rowsPerPage;
     const selectedRows = allTasks?.slice(startIndex, startIndex + rowsPerPage);
-
     return selectedRows.map((taskData, index) => (
       <div key={taskData.id} className="flex  py-2 w-full">
         <div className="whitespace-nowrap w-[150px] px-4">
           <div className="text-md text-center">{index + 1}</div>
+        </div>
+        <div className="whitespace-nowrap w-[150px] px-4">
+          <div className="text-md text-center font-semibold py-1 border-2">
+            {taskData.min}
+          </div>
+        </div>
+        <div className="whitespace-nowrap w-[150px] px-4">
+          <div className="text-md text-center font-semibold py-1 border-2">
+            {taskData.max}
+          </div>
         </div>
 
         <div className="whitespace-nowrap w-[150px] px-4">
@@ -125,7 +159,7 @@ function UpdatedDetails() {
         <div className="whitespace-nowrap text-center w-[150px] px-4">
           <button
             className="rounded-3xl border border-indigo-500 bg-indigo-500 px-6 py-1 font-semibold text-white"
-            onClick={() => onUpdatedDetailsHandler(taskData.userId)}
+            onClick={() => onUpdatedDetailsHandler(taskData)}
           >
             Show
           </button>
@@ -234,6 +268,12 @@ function UpdatedDetails() {
                             <span>SN.</span>
                           </div>
                           <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                            Min
+                          </div>
+                          <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
+                            Max
+                          </div>
+                          <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
                             Module
                           </div>
                           <div className=" py-3.5 px-4 text-center text-xl font-semibold text-gray-700 w-[150px]">
@@ -284,8 +324,17 @@ function UpdatedDetails() {
                 </div>
 
                 <div className="divide-y divide-gray-200 text-center overflow-y-auto h-[280px]">
-                  {Array.from({ length: updatedData.rowIndex.length }).map(
-                    (_, index) => (
+                  {Array.from({ length: updatedData.rowIndex.length })
+                    .filter((_, index) => {
+                      const currentRowIndex = updatedData.rowIndex[index];
+                      return (
+                        currentRowIndex >= currentTask?.min &&
+                        currentRowIndex <= currentTask?.max &&
+                        rowIndexMin >= currentTask?.min &&
+                        rowIndexMax <= currentTask?.max
+                      );
+                    })
+                    .map((_, index) => (
                       <div
                         key={index}
                         className={`flex ${
@@ -305,10 +354,8 @@ function UpdatedDetails() {
                           {updatedData?.previousData[index]}
                         </div>
                       </div>
-                    )
-                  )}
+                    ))}
                 </div>
-
                 <div className="flex justify-center py-4">
                   {/* {renderPageNumbers} */}
                 </div>

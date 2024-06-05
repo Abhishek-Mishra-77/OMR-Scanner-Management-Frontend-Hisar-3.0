@@ -40,7 +40,7 @@ export function AllUser() {
 
     fetchUsers();
   }, [updateSuccess]);
-  
+
   const onModelHandler = async (user) => {
     setOpen(true);
     setSelectedUser(user);
@@ -164,6 +164,8 @@ export function AllUser() {
   const onUserUpdatedDetailsHandler = (id) => {
     navigate(`/updated-details/${id}`);
   };
+
+  console.log(dataCtx);
 
   return (
     <div className="flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh] pt-20">
@@ -310,7 +312,7 @@ export function AllUser() {
                               onClick={() =>
                                 handleDeleteUser(
                                   user.id,
-                                  dataCtx.userData.user.id
+                                  dataCtx?.userData?.user?.id
                                 )
                               }
                             />
