@@ -47,6 +47,11 @@ const ImageScanner = () => {
   }, [fileId, token]);
 
   const onUpdateCurrentDataHandler = async () => {
+    if (!modifiedKeys) {
+      toast.success("Row updated successfully.");
+      return;
+    }
+
     try {
       await axios.post(
         `http://${REACT_APP_IP}:4000/update/duplicatedata`,
@@ -65,7 +70,6 @@ const ImageScanner = () => {
       const indexToUpdate = duplicatesData.findIndex((group) =>
         group.sameData.some((item) => item.index === currentRowData.index)
       );
-
       if (indexToUpdate !== -1) {
         const updatedDuplicateData = duplicatesData.map((group, index) => {
           if (index === indexToUpdate) {
@@ -97,9 +101,17 @@ const ImageScanner = () => {
         const filteredAllCurrentData = updatedAllCurrentData.filter(
           (item) => item.row[columnName] !== currentRowData.row[columnName]
         );
-
-        setDuplicatesData(filteredUpdatedDuplicateData);
-        setAllCurrentData(filteredAllCurrentData);
+        console.log(filteredAllCurrentData);
+        if (filteredUpdatedDuplicateData.length !== 0) {
+          setDuplicatesData(filteredUpdatedDuplicateData);
+        } else {
+          setDuplicatesData(updatedDuplicateData);
+        }
+        if (filteredAllCurrentData.length !== 0) {
+          setAllCurrentData(filteredAllCurrentData);
+        } else {
+          setAllCurrentData(updatedAllCurrentData);
+        }
         setModifiedKeys(null);
       }
       toast.success("The row has been updated successfully.");
@@ -680,7 +692,7 @@ const ImageScanner = () => {
                       >
                         <img
                           // src={`data:image/jpeg;base64,${imageUrl}`}
-                          src={`http://192.168.0.106:4000/images/${imageUrl}`}
+                          src={`http://${REACT_APP_IP}:4000/images/${imageUrl}`}
                           alt="Selected"
                           style={{
                             width: "48rem",

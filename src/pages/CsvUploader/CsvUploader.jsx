@@ -34,6 +34,22 @@ const CsvUploader = () => {
 
   const data = allTemplates?.find((item) => item.id === selectedId);
 
+  // Tab Button disabled
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Tab") {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  // getting all the templates and users
   useEffect(() => {
     const fetchTemplate = async () => {
       try {
@@ -190,6 +206,7 @@ const CsvUploader = () => {
           name: data.name,
           pageCount: data.pageCount,
           id: data.id,
+          typeOption: data.typeOption,
         },
         metaData: [...data.templetedata],
       };
