@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import ImageNotFound from "../../components/ImageNotFound/ImageNotFound";
 import { toast } from "react-toastify";
@@ -144,11 +144,18 @@ const DataMatching = () => {
     }
   };
 
+  // Sortcuts buttons
   useEffect(() => {
     if (!popUp) {
       const handleKeyDown = (event) => {
         if (event.ctrlKey && event.key === "ArrowLeft") {
           setPopUp(true);
+        } else if (event.altKey && (event.key === "s" || event.key === "S")) {
+          console.log("fdljknfj");
+          setCsvCurrentData((prevData) => ({
+            ...prevData,
+          }));
+          onCsvUpdateHandler();
         } else if (event.key === "ArrowLeft" || event.key === "PageUp") {
           if (currentImageIndex > 0) {
             setCurrentImageIndex(currentImageIndex - 1);
@@ -176,12 +183,6 @@ const DataMatching = () => {
             onImageHandler("next", currentIndex, csvData, currentTaskData);
             setCurrentImageIndex(0);
           }
-        } else if (event.altKey && event.key === "s") {
-          console.log("fdljknfj");
-          setCsvCurrentData((prevData) => ({
-            ...prevData,
-          }));
-          onCsvUpdateHandler();
         }
       };
       window.addEventListener("keydown", handleKeyDown);
@@ -190,6 +191,54 @@ const DataMatching = () => {
       };
     }
   }, [csvData, currentTaskData, setCsvCurrentData, onCsvUpdateHandler]);
+
+  // Sortcuts buttons
+  // useEffect(() => {
+  //   if (!popUp) {
+  //     const handleKeyDown = (event) => {
+  //       if (event.ctrlKey && event.key === "ArrowLeft") {
+  //         setPopUp(true);
+  //       } else if (event.altKey && event.key === "s") {
+  //         console.log("fdljknfj");
+  //         setCsvCurrentData((prevData) => ({
+  //           ...prevData,
+  //         }));
+  //         onCsvUpdateHandler();
+  //       } else if (event.key === "ArrowLeft" || event.key === "PageUp") {
+  //         if (currentImageIndex > 0) {
+  //           setCurrentImageIndex(currentImageIndex - 1);
+  //           setSelectedCoordinates(false);
+  //           setZoomLevel(1);
+
+  //           if (imageRef.current) {
+  //             imageRef.current.style.transform = "none";
+  //             imageRef.current.style.transformOrigin = "initial";
+  //           }
+  //         } else {
+  //           onImageHandler("prev", currentIndex, csvData, currentTaskData);
+  //           setCurrentImageIndex(0);
+  //         }
+  //       } else if (event.key === "ArrowRight" || event.key === "PageDown") {
+  //         if (currentImageIndex < imageUrls.length - 1) {
+  //           setCurrentImageIndex(currentImageIndex + 1);
+  //           setSelectedCoordinates(false);
+  //           setZoomLevel(1);
+  //           if (imageRef.current) {
+  //             imageRef.current.style.transform = "none";
+  //             imageRef.current.style.transformOrigin = "initial";
+  //           }
+  //         } else {
+  //           onImageHandler("next", currentIndex, csvData, currentTaskData);
+  //           setCurrentImageIndex(0);
+  //         }
+  //       }
+  //     };
+  //     window.addEventListener("keydown", handleKeyDown);
+  //     return () => {
+  //       window.removeEventListener("keydown", handleKeyDown);
+  //     };
+  //   }
+  // }, [csvData, currentTaskData, setCsvCurrentData, onCsvUpdateHandler]);
 
   // Api for getting the image from the backend
   const onImageHandler = async (
@@ -309,6 +358,25 @@ const DataMatching = () => {
   // };
 
   // Updating the input field
+  // const changeCurrentCsvDataHandler = (key, value) => {
+  //   if (!imageNotFound) {
+  //     return;
+  //   }
+
+  //   setCsvCurrentData((prevData) => ({
+  //     ...prevData,
+  //     [key]: value,
+  //   }));
+
+  //   setModifiedKeys((prevKeys) => {
+  //     return {
+  //       ...prevKeys,
+  //       [key]: true,
+  //     };
+  //   });
+  // };
+
+  // Updating the input field
   const changeCurrentCsvDataHandler = (key, newValue) => {
     if (!imageNotFound) {
       return;
@@ -329,26 +397,63 @@ const DataMatching = () => {
 
     setCsvCurrentData((prevData) => {
       const previousValue = prevData[key];
-      const [start, end] = templateHeaders?.typeOption?.split("-");
 
-      if (matchedCoordinate.fieldType === "questionsField") {
-        if (newValue.length > 1) {
+      // Check if matchedCoordinate.fieldType is "questionsField"
+      if (matchedCoordinate?.fieldType === "questionsField") {
+        const [start, end] = templateHeaders?.typeOption?.split("-");
+
+        // Check if newValue is a single character or empty string
+        if (newValue.length !== 1 && newValue !== "") {
+          // If newValue is neither a single character nor empty string, return previous data
           return prevData;
         }
+
+        // Convert start and end to character codes
+        const charCodeStart = start.charCodeAt(0);
+        const charCodeEnd = end.charCodeAt(0);
+
+        // Convert newValue to character code
+        const charCodeNewValue = newValue.charCodeAt(0);
+
+        // Check if newValue falls within the range of start to end inclusively
+        if (
+          (charCodeNewValue >= charCodeStart &&
+            charCodeNewValue <= charCodeEnd) ||
+          newValue === ""
+        ) {
+          // Valid input or removal, proceed with updating data
+
+          // Update modified keys
+          setModifiedKeys((prevKeys) => ({
+            ...prevKeys,
+            [key]: [newValue, previousValue],
+          }));
+
+          // Update CSV data
+          return {
+            ...prevData,
+            [key]: newValue,
+          };
+        } else {
+          // Invalid input, return previous data
+          return prevData;
+        }
+      } else {
+        // For non-"questionsField" fields, return previous data
+        // Update modified keys
+        setModifiedKeys((prevKeys) => ({
+          ...prevKeys,
+          [key]: [newValue, previousValue],
+        }));
+
+        return {
+          ...prevData,
+          [key]: newValue,
+        };
       }
-
-      // Set the modified keys with both new and previous values
-      setModifiedKeys((prevKeys) => ({
-        ...prevKeys,
-        [key]: [newValue, previousValue],
-      }));
-
-      return {
-        ...prevData,
-        [key]: newValue,
-      };
     });
   };
+
   const imageFocusHandler = (headerName) => {
     const csvDataKeys = Object.keys(csvData[0]);
     let matchedValue = null;
