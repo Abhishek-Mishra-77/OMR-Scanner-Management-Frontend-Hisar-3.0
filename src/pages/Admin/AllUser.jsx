@@ -12,7 +12,7 @@ import { BiEdit } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { REACT_APP_IP } from "../../services/common";
+import { REACT_APP_IP, onGetVerifiedUserHandler } from "../../services/common";
 import dataContext from "../../Store/DataContext";
 
 import { onGetAllUsersHandler } from "../../services/common";
@@ -26,6 +26,17 @@ export function AllUser() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const token = JSON.parse(localStorage.getItem("userData"));
   const dataCtx = useContext(dataContext);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await onGetVerifiedUserHandler();
+        setCurrentUser(response.user);
+      } catch (error) {}
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -40,7 +51,7 @@ export function AllUser() {
 
     fetchUsers();
   }, [updateSuccess]);
-  
+
   const onModelHandler = async (user) => {
     setOpen(true);
     setSelectedUser(user);
@@ -95,9 +106,9 @@ export function AllUser() {
     }
   };
 
-  const handleDeleteUser = async (userId, loggedInUserId) => {
+  const handleDeleteUser = async (userId) => {
     try {
-      if (userId === loggedInUserId) {
+      if (userId === currentUser?.id) {
         toast.error("You cannot delete yourself.", {
           position: "bottom-right",
           autoClose: 2000,
@@ -164,6 +175,7 @@ export function AllUser() {
   const onUserUpdatedDetailsHandler = (id) => {
     navigate(`/updated-details/${id}`);
   };
+
 
   return (
     <div className="flex justify-center items-center bg-gradient-to-r from-blue-400 to-blue-600 h-[100vh] pt-20">
@@ -307,12 +319,7 @@ export function AllUser() {
                         <td className="whitespace-nowrap px-4 py-4 text-right text-2xl font-semibold">
                           <Link to="#" className="text-red-600">
                             <RiDeleteBin6Line
-                              onClick={() =>
-                                handleDeleteUser(
-                                  user.id,
-                                  dataCtx.userData.user.id
-                                )
-                              }
+                              onClick={() => handleDeleteUser(user.id)}
                             />
                           </Link>
                         </td>

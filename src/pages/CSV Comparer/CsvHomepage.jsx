@@ -188,6 +188,7 @@ const CsvHomepage = () => {
             isOpen={loading}
             onClose={() => {}}
             progress={progress}
+            message="Comparing and matching the files..."
           />
           {/* <div className="flex justify-center m-10 gap-10">
             <div >

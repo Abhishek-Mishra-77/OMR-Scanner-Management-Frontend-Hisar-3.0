@@ -120,6 +120,8 @@ export default function Navbar() {
           navigate("/");
           setIsUserMenuOpen(false);
         } catch (error) {
+          localStorage.clear();
+          navigate("/");
           console.log(error);
         }
       },

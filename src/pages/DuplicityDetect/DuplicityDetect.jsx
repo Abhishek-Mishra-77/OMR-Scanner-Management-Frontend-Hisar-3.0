@@ -4,7 +4,7 @@ import ImageNotFound from "../../components/ImageNotFound/ImageNotFound";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios, { all } from "axios";
+import axios from "axios";
 import { REACT_APP_IP } from "../../services/common";
 import { Dialog, Transition } from "@headlessui/react";
 
@@ -47,6 +47,11 @@ const ImageScanner = () => {
   }, [fileId, token]);
 
   const onUpdateCurrentDataHandler = async () => {
+    if (!modifiedKeys) {
+      toast.success("Row updated successfully.");
+      return;
+    }
+
     try {
       await axios.post(
         `http://${REACT_APP_IP}:4000/update/duplicatedata`,
@@ -65,7 +70,6 @@ const ImageScanner = () => {
       const indexToUpdate = duplicatesData.findIndex((group) =>
         group.sameData.some((item) => item.index === currentRowData.index)
       );
-
       if (indexToUpdate !== -1) {
         const updatedDuplicateData = duplicatesData.map((group, index) => {
           if (index === indexToUpdate) {
@@ -97,9 +101,17 @@ const ImageScanner = () => {
         const filteredAllCurrentData = updatedAllCurrentData.filter(
           (item) => item.row[columnName] !== currentRowData.row[columnName]
         );
-
-        setDuplicatesData(filteredUpdatedDuplicateData);
-        setAllCurrentData(filteredAllCurrentData);
+        console.log(filteredAllCurrentData);
+        if (filteredUpdatedDuplicateData.length !== 0) {
+          setDuplicatesData(filteredUpdatedDuplicateData);
+        } else {
+          setDuplicatesData(updatedDuplicateData);
+        }
+        if (filteredAllCurrentData.length !== 0) {
+          setAllCurrentData(filteredAllCurrentData);
+        } else {
+          setAllCurrentData(updatedAllCurrentData);
+        }
         setModifiedKeys(null);
       }
       toast.success("The row has been updated successfully.");
@@ -113,13 +125,13 @@ const ImageScanner = () => {
     const handleKeyDown = (event) => {
       if (event.key === "PageUp" && currentImageIndex > 0) {
         setCurrentImageIndex(currentImageIndex - 1);
-        setImageUrl(currentRowData.base64Images[currentImageIndex - 1]);
+        setImageUrl(currentRowData.imagePaths[currentImageIndex - 1]);
       } else if (
         event.key === "PageDown" &&
-        currentImageIndex < currentRowData?.base64Images.length - 1
+        currentImageIndex < currentRowData?.imagePaths.length - 1
       ) {
         setCurrentImageIndex(currentImageIndex + 1);
-        setImageUrl(currentRowData.base64Images[currentImageIndex + 1]);
+        setImageUrl(currentRowData.imagePaths[currentImageIndex + 1]);
       } else if (event.altKey && event.key === "s") {
         // Ensure currentRowData is not null before updating
         if (currentRowData) {
@@ -198,7 +210,7 @@ const ImageScanner = () => {
 
       setDuplicatesData(result);
       // setDuplicatesData(response.data.duplicates);
-      const url = response.data?.duplicates[0].base64Images[currentImageIndex];
+      const url = response.data?.duplicates[0].imagePaths[currentImageIndex];
       setCurrentRowData(response.data?.duplicates[0]);
       setImageUrl(url);
       setColumnName(columnName);
@@ -259,7 +271,7 @@ const ImageScanner = () => {
   const onEditModalHandler = (data, index) => {
     setCurrentRowData(data);
     setEditModal(true);
-    setImageUrl(allCurrentData[index].base64Images[currentImageIndex]);
+    setImageUrl(allCurrentData[index].imagePaths[currentImageIndex]);
   };
   const onShowModalHandler = (data) => {
     setAllCurrentData(data.sameData);
@@ -380,7 +392,7 @@ const ImageScanner = () => {
                             </div>
                           </dl>
                         </div>
-                        <div className=" font-semibold my-2 overflow-y-auto h-[15vh] mt-7">
+                        <div className=" font-semibold my-2 overflow-y-auto h-[40vh] mt-7">
                           <dl className="-my-3 divide-y divide-gray-100 text-sm">
                             {duplicatesData?.map((data, index) => (
                               <div
@@ -562,8 +574,10 @@ const ImageScanner = () => {
                                   Object.entries(currentRowData.row).map(
                                     ([key, value], index) => {
                                       if (
+                                        key === "Previous Values" ||
+                                        key === "Updated Values" ||
                                         key === "User Details" ||
-                                        key === "Updated Details" ||
+                                        key === "Updated Col. Name" ||
                                         imageNames.includes(key)
                                       ) {
                                         return null;
@@ -663,7 +677,7 @@ const ImageScanner = () => {
               <div className="mx-auto max-w-screen-xl px-2 lg:py-1 sm:px-6 lg:px-8">
                 <h2 className="text-center text-lg  font-bold text-white w-full ">
                   {currentImageIndex + 1} out of{" "}
-                  {currentRowData?.base64Images.length}
+                  {currentRowData?.imagePaths.length}
                 </h2>
 
                 <div className=" flex justify-center ">
@@ -677,7 +691,8 @@ const ImageScanner = () => {
                         className="w-full overflow-y-auto"
                       >
                         <img
-                          src={`data:image/jpeg;base64,${imageUrl}`}
+                          // src={`data:image/jpeg;base64,${imageUrl}`}
+                          src={`http://${REACT_APP_IP}:4000/images/${imageUrl}`}
                           alt="Selected"
                           style={{
                             width: "48rem",

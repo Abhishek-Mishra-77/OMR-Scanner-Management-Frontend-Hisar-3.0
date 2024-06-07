@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-const ModalWithLoadingBar = ({ isOpen, onClose, progress }) => {
+const ModalWithLoadingBar = ({ isOpen, onClose, progress, message }) => {
   return (
     // Modal backdrop and container
     <div
@@ -14,28 +14,38 @@ const ModalWithLoadingBar = ({ isOpen, onClose, progress }) => {
       {/* Modal container */}
       <div className="relative bg-white rounded-lg p-8 max-w-md mx-auto z-50">
         {/* Loading bar container */}
-        <div className="relative h-4 bg-gray-200 rounded overflow-hidden mb-4">
-          {/* Dynamic loading bar */}
-          <div
-            className="absolute top-0 left-0 h-full bg-blue-500"
-            style={{ width: `${progress}%` }}
-          ></div>
+        <div>
+          <span id="ProgressLabel" className="sr-only">
+            Loading
+          </span>
+
+          <span
+            role="progressbar"
+            aria-labelledby="ProgressLabel"
+            aria-valuenow="50"
+            className="block rounded-full bg-gray-200"
+          >
+            <span
+              className="block h-4 rounded-full bg-indigo-600 text-center text-[10px]/4"
+              style={{ width: `${progress}%` }}
+            >
+              <span className="font-bold text-white">{progress}% </span>
+            </span>
+          </span>
         </div>
 
         {/* Modal content */}
         {progress !== 100 && (
           <div className="mt-6">
-            <h2 className="text-xl font-bold mb-4">
-              Uploading the files to the server
-            </h2>
-            <p className="text-gray-700">{progress}</p>
+            <h2 className="text-xl font-bold mb-4">Uploading Files</h2>
+            <p className="text-gray-700 mb-2">
+              Your files are being uploaded to the server.
+            </p>
           </div>
         )}
         {progress === 100 && (
           <div className="mt-6">
-            <h2 className="text-xl font-bold mb-4">
-              Comparing and matching the files...
-            </h2>
+            <h2 className="text-xl font-bold mb-4">{message}</h2>
           </div>
         )}
 

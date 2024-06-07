@@ -8,6 +8,7 @@ import React, {
 import { useNavigate } from "react-router-dom";
 import ImageNotFound from "../../components/ImageNotFound/ImageNotFound";
 import { MdDelete } from "react-icons/md";
+import { FaInfoCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -30,12 +31,15 @@ const ImageScanner = () => {
   const [editInput, setEditInput] = useState("");
   const [editModal, setEditModal] = useState(false);
   const [open, setOpen] = useState(false);
+  const [typeOfOption, setTypeOfOption] = useState({
+    start: "",
+    end: "",
+  });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const cancelButtonRef = useRef(null);
   const dataCtx = useContext(dataContext);
   const [templateData, setTemplateData] = useState({
     name: "",
-    other: "",
     pageCount: "",
   });
   const [questionRange, setQuestionRange] = useState({
@@ -54,27 +58,37 @@ const ImageScanner = () => {
       if (Object.keys(dataCtx.templateData).length === 0) {
         navigate("/csvuploader");
       } else {
-        const selectedCoordinatesData = dataCtx?.templateData?.metaData.map(
-          (data, index) => {
-            const newObj = {
-              coordinateX: +data.coordinateX,
-              coordinateY: +data.coordinateY,
-              width: +data.width,
-              height: +data.height,
-              pageNo: data.pageNo,
-              fieldType: data.fieldType,
-              fId: index,
-              attribute: data.attribute,
-            };
-            return newObj;
-          }
-        );
-        setTemplateData((prevState) => ({
-          ...prevState,
-          name: dataCtx.templateData.templateData.name,
-          pageCount: dataCtx.templateData.templateData.pageCount,
-        }));
-        setSelectedCoordinates(selectedCoordinatesData);
+        if (dataCtx.templateData) {
+          const selectedCoordinatesData = dataCtx?.templateData?.metaData.map(
+            (data, index) => {
+              const newObj = {
+                coordinateX: +data.coordinateX,
+                coordinateY: +data.coordinateY,
+                width: +data.width,
+                height: +data.height,
+                pageNo: data.pageNo,
+                fieldType: data.fieldType,
+                fId: index,
+                attribute: data.attribute,
+              };
+              return newObj;
+            }
+          );
+          setTemplateData((prevState) => ({
+            ...prevState,
+            name: dataCtx?.templateData?.templateData?.name,
+            pageCount: dataCtx?.templateData?.templateData?.pageCount,
+          }));
+          const [a, b] =
+            dataCtx?.templateData?.templateData?.typeOption?.split("-");
+          setTypeOfOption((prevState) => ({
+            ...prevState,
+            start: a,
+            end: b,
+          }));
+
+          setSelectedCoordinates(selectedCoordinatesData);
+        }
       }
     }
   }, []);
@@ -225,11 +239,16 @@ const ImageScanner = () => {
       return;
     }
 
+    if (typeOfOption.start === typeOfOption.end) {
+      toast.warning("start and end cannot be the same.");
+      return;
+    }
+
     const data = {
       templateData: {
         name: templateData.name,
-        other: templateData.other,
         pageCount: imageURL.length,
+        typeOption: typeOfOption.start + "-" + typeOfOption.end,
       },
       templateId: dataCtx?.templateData?.templateData?.id
         ? dataCtx?.templateData?.templateData?.id
@@ -369,8 +388,56 @@ const ImageScanner = () => {
               </div>
               <div>
                 {/* Form Field Area */}
-                <div className=" bg-gray-100 rounded-3xl px-8 py-6 border-1 border-gray shadow-md mb-10">
+                <div className="bg-gray-100 rounded-3xl px-8 py-6 border-1 border-gray shadow-md mb-10">
                   <form onSubmit={onSubmitHandler}>
+                    <div className="flex items-center justify-between gap-4 bg-green-100 px-4 py-3 mt-2 text-green-700 rounded-lg shadow-md">
+                      <div className="flex items-center gap-2">
+                        <FaInfoCircle className="h-6 w-6 text-green-700" />
+                        <p className="text-sm font-medium">
+                          Start with 'a', 'A', or '1'. End with 'd', 'D', or
+                          '4'.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex  mt-4 gap-x-8">
+                      <div className="flex items-center  gap-2">
+                        <span className="font-bold">Start</span>
+                        <input
+                          type="text"
+                          id="Quantity"
+                          required
+                          value={typeOfOption.start}
+                          onChange={(e) => {
+                            if (e.target.value.length <= 1) {
+                              setTypeOfOption({
+                                ...typeOfOption,
+                                start: e.target.value,
+                              });
+                            }
+                          }}
+                          className="h-8 w-10 rounded-lg border-2 border-gray-200 text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                        />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold">End</span>
+                        <input
+                          type="text"
+                          id="Quantity"
+                          required
+                          value={typeOfOption.end}
+                          onChange={(e) => {
+                            if (e.target.value.length <= 1) {
+                              setTypeOfOption({
+                                ...typeOfOption,
+                                end: e.target.value,
+                              });
+                            }
+                          }}
+                          className="h-8 w-10 rounded-lg border-2 border-gray-200 text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                        />
+                      </div>
+                    </div>
+
                     <input
                       required
                       className="input w-full font-semibold bg-white  border-none rounded-xl p-3 mt-6 shadow-lg shadow-blue-100 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
@@ -384,20 +451,7 @@ const ImageScanner = () => {
                       }
                       placeholder="enter template name.."
                     />
-                    <input
-                      required
-                      className="input w-full font-semibold bg-white border-none rounded-xl p-3 mt-6 shadow-lg shadow-blue-100   focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none focus:outline-none"
-                      type="text"
-                      value={templateData.other}
-                      onChange={(e) =>
-                        setTemplateData({
-                          ...templateData,
-                          other: e.target.value,
-                        })
-                      }
-                      placeholder="enter other.."
-                    />
-                    <button className="ms-auto group  mt-6 flex items-center  rounded-3xl bg-indigo-600 hover:shadow-lg hover:shadow-blue-200  py-2 px-4 transition-colors hover:bg-teal-700 focus:outline-none focus:ring">
+                    <button className="ms-auto group rounded-3xl  mt-6 flex items-center   bg-indigo-600 hover:shadow-lg hover:shadow-blue-200  py-2 px-4 transition-colors hover:bg-teal-700 focus:outline-none focus:ring">
                       <span className="font-medium  flex text-white transition-colors group-hover:text-white  group-active:text-white mx-auto">
                         Save Template
                       </span>
