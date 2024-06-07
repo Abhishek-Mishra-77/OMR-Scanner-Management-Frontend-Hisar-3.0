@@ -562,7 +562,7 @@ const ImageScanner = () => {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-row lg:flex-col justify-center items-center lg:w-[96%] lg:ms-3">
+                <div className="flex flex-row lg:flex-col justify-center items-center lg:w-[96%] lg:ms-3 lg:mt-5">
                   <div className="mx-6 inline-block align-bottom lg:mt-2  bg-teal-100 rounded-xl  text-left shadow-md transform transition-all  sm:align-middle  w-[90%] lg:w-full">
                     <div className="px-4 py-2 lg:py-3">
                       <div className="sm:flex w-full">
@@ -676,7 +676,7 @@ const ImageScanner = () => {
           ) : (
             <div className=" w-[75%]">
               <div className="mx-auto max-w-screen-xl px-2 lg:py-1 sm:px-6 lg:px-8">
-                <h2 className="text-center text-lg  font-bold text-white w-full ">
+                <h2 className="text-center text-lg my-3 font-bold text-white w-full ">
                   {currentImageIndex + 1} out of{" "}
                   {currentRowData?.imagePaths.length}
                 </h2>
@@ -687,9 +687,9 @@ const ImageScanner = () => {
                       <div
                         style={{
                           position: "relative",
-                          border: "1px solid purple",
+                          
                         }}
-                        className="w-full overflow-y-auto"
+                        className="w-full overflow-y-auto pb-4"
                       >
                         <img
                           // src={`data:image/jpeg;base64,${imageUrl}`}
