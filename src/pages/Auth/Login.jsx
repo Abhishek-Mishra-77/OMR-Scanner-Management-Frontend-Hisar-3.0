@@ -29,8 +29,8 @@ export default function Login() {
 
       if (response.status === 200) {
         localStorage.setItem("userData", JSON.stringify(response.data.token));
-        dataCtx.modifyIslogin(true);
-        dataCtx.modifyLoginData(response.data);
+        dataCtx?.modifyIslogin(true);
+        dataCtx?.modifyLoginData(response.data);
         toast.success("Login Successfull", {
           position: "bottom-left",
           autoClose: 1000,

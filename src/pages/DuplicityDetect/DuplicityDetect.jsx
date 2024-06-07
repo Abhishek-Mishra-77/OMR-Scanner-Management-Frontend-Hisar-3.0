@@ -390,120 +390,11 @@ const ImageScanner = () => {
                             </div>
                           </dl>
                         </div>
-                        <div className=" font-semibold pb-4 overflow-y-auto h-[10vh] lg:h-[40vh] mt-7" style={{scrollbarWidth: "thin"}}>
+                        <div
+                          className=" font-semibold pb-4 overflow-y-auto h-[10vh] lg:h-[40vh] mt-7"
+                          style={{ scrollbarWidth: "thin" }}
+                        >
                           <dl className="-my-3 divide-y divide-gray-100 text-sm">
-                          {duplicatesData?.map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex justify-around gap-1 py-3 text-center even:bg-gray-50 sm:grid-cols-4 "
-                              >
-                                <dt className="font-medium text-md justify-center whitespace-normal items-center flex w-1/3">
-                                  {data?.sameData[0]?.row[columnName]}
-                                </dt>
-                                <dd className="font-medium items-center text-md w-1/3 flex justify-center ">
-                                  {data.sameData.length}
-                                </dd>
-
-                                <div className=" w-1/3 ">
-                                  <div className="relative">
-                                    <div className="inline-flex items-center overflow-hidden rounded-2xl border bg-white">
-                                      <button
-                                        onClick={() =>
-                                          onShowModalHandler(data, index)
-                                        }
-                                        className="border-e px-3 py-2 bg-blue-500 text-white text-sm/none  hover:bg-gray-50 hover:text-gray-700"
-                                      >
-                                        View
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                             {duplicatesData?.map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex justify-around gap-1 py-3 text-center even:bg-gray-50 sm:grid-cols-4 "
-                              >
-                                <dt className="font-medium text-md justify-center whitespace-normal items-center flex w-1/3">
-                                  {data?.sameData[0]?.row[columnName]}
-                                </dt>
-                                <dd className="font-medium items-center text-md w-1/3 flex justify-center ">
-                                  {data.sameData.length}
-                                </dd>
-
-                                <div className=" w-1/3 ">
-                                  <div className="relative">
-                                    <div className="inline-flex items-center overflow-hidden rounded-2xl border bg-white">
-                                      <button
-                                        onClick={() =>
-                                          onShowModalHandler(data, index)
-                                        }
-                                        className="border-e px-3 py-2 bg-blue-500 text-white text-sm/none  hover:bg-gray-50 hover:text-gray-700"
-                                      >
-                                        View
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                            {duplicatesData?.map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex justify-around gap-1 py-3 text-center even:bg-gray-50 sm:grid-cols-4 "
-                              >
-                                <dt className="font-medium text-md justify-center whitespace-normal items-center flex w-1/3">
-                                  {data?.sameData[0]?.row[columnName]}
-                                </dt>
-                                <dd className="font-medium items-center text-md w-1/3 flex justify-center ">
-                                  {data.sameData.length}
-                                </dd>
-
-                                <div className=" w-1/3 ">
-                                  <div className="relative">
-                                    <div className="inline-flex items-center overflow-hidden rounded-2xl border bg-white">
-                                      <button
-                                        onClick={() =>
-                                          onShowModalHandler(data, index)
-                                        }
-                                        className="border-e px-3 py-2 bg-blue-500 text-white text-sm/none  hover:bg-gray-50 hover:text-gray-700"
-                                      >
-                                        View
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                            {duplicatesData?.map((data, index) => (
-                              <div
-                                key={index}
-                                className="flex justify-around gap-1 py-3 text-center even:bg-gray-50 sm:grid-cols-4 "
-                              >
-                                <dt className="font-medium text-md justify-center whitespace-normal items-center flex w-1/3">
-                                  {data?.sameData[0]?.row[columnName]}
-                                </dt>
-                                <dd className="font-medium items-center text-md w-1/3 flex justify-center ">
-                                  {data.sameData.length}
-                                </dd>
-
-                                <div className=" w-1/3 ">
-                                  <div className="relative">
-                                    <div className="inline-flex items-center overflow-hidden rounded-2xl border bg-white">
-                                      <button
-                                        onClick={() =>
-                                          onShowModalHandler(data, index)
-                                        }
-                                        className="border-e px-3 py-2 bg-blue-500 text-white text-sm/none  hover:bg-gray-50 hover:text-gray-700"
-                                      >
-                                        View
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
                             {duplicatesData?.map((data, index) => (
                               <div
                                 key={index}
@@ -671,7 +562,7 @@ const ImageScanner = () => {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-row lg:flex-col justify-center items-center lg:w-[96%] lg:ms-3">
+                <div className="flex flex-row lg:flex-col justify-center items-center lg:w-[96%] lg:ms-3 lg:mt-5">
                   <div className="mx-6 inline-block align-bottom lg:mt-2  bg-teal-100 rounded-xl  text-left shadow-md transform transition-all  sm:align-middle  w-[90%] lg:w-full">
                     <div className="px-4 py-2 lg:py-3">
                       <div className="sm:flex w-full">
@@ -785,7 +676,7 @@ const ImageScanner = () => {
           ) : (
             <div className=" w-[75%]">
               <div className="mx-auto max-w-screen-xl px-2 lg:py-1 sm:px-6 lg:px-8">
-                <h2 className="text-center text-lg  font-bold text-white w-full ">
+                <h2 className="text-center text-lg my-3 font-bold text-white w-full ">
                   {currentImageIndex + 1} out of{" "}
                   {currentRowData?.imagePaths.length}
                 </h2>
@@ -796,9 +687,9 @@ const ImageScanner = () => {
                       <div
                         style={{
                           position: "relative",
-                          border: "1px solid purple",
+                          
                         }}
-                        className="w-full overflow-y-auto"
+                        className="w-full overflow-y-auto pb-4"
                       >
                         <img
                           // src={`data:image/jpeg;base64,${imageUrl}`}
