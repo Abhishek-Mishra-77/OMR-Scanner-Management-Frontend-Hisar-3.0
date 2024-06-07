@@ -29,8 +29,8 @@ export default function Login() {
 
       if (response.status === 200) {
         localStorage.setItem("userData", JSON.stringify(response.data.token));
-        dataCtx.modifyIslogin(true);
-        dataCtx.modifyLoginData(response.data);
+        dataCtx?.modifyIslogin(true);
+        dataCtx?.modifyLoginData(response.data);
         toast.success("Login Successfull", {
           position: "bottom-left",
           autoClose: 1000,
@@ -54,7 +54,7 @@ export default function Login() {
       }
     } catch (error) {
       console.error("Login request failed:", error.message);
-      toast.error(error.response.data.error, {
+      toast.error(error?.response?.data?.error, {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
