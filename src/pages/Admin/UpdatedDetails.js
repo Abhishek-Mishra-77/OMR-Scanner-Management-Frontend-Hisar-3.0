@@ -3,6 +3,7 @@ import { onGetTaskHandler } from "../../services/common";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { REACT_APP_IP } from "../../services/common";
+import { toast } from "react-toastify";
 
 function UpdatedDetails() {
   const [isVisible, setIsVisible] = useState(true);
@@ -68,20 +69,12 @@ function UpdatedDetails() {
       setCurrentTask(taskData);
       console.log(response);
     } catch (error) {
+      toast.error(error?.response?.data?.error);
       console.log(error);
     }
   };
 
   const totalPages = Math.ceil(allTasks.length / rowsPerPage);
-
-  const rowIndexMin =
-    updatedData && updatedData.rowIndex
-      ? Math.min(...updatedData.rowIndex) + 1
-      : 0;
-  const rowIndexMax =
-    updatedData && updatedData.rowIndex
-      ? Math.max(...updatedData.rowIndex) + 1
-      : 0;
 
   const renderTableRows = () => {
     const startIndex = (currentPage - 1) * rowsPerPage;
@@ -324,37 +317,43 @@ function UpdatedDetails() {
                 </div>
 
                 <div className="divide-y divide-gray-200 text-center overflow-y-auto h-[280px]">
-                  {Array.from({ length: updatedData.rowIndex.length })
-                    .filter((_, index) => {
-                      const currentRowIndex = updatedData.rowIndex[index];
+                  {Array.from({ length: updatedData.rowIndex.length }).map(
+                    (_, index) => {
+                      const updatedKeyData =
+                        updatedData?.updatedColumn[index]?.split(",") || [];
+                      const updatedCurrentData =
+                        updatedData?.currentData[index]?.split(",") || [];
+                      const previousData =
+                        updatedData?.previousData[index]?.split(",") || [];
                       return (
-                        currentRowIndex >= currentTask?.min &&
-                        currentRowIndex <= currentTask?.max &&
-                        rowIndexMin >= currentTask?.min &&
-                        rowIndexMax <= currentTask?.max
+                        <>
+                          {updatedKeyData.map((d, i) => (
+                            <div
+                              key={i}
+                              className={`flex border ${
+                                i % 2 === 0 ? "odd:bg-blue-50" : ""
+                              }`}
+                            >
+                              <div className=" flex whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
+                                <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
+                                  {d}
+                                </div>
+                              </div>
+                              <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
+                                {updatedData?.rowIndex[index]}
+                              </div>
+                              <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
+                                {updatedCurrentData[i]}
+                              </div>
+                              <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
+                                {previousData[i]}
+                              </div>
+                            </div>
+                          ))}
+                        </>
                       );
-                    })
-                    .map((_, index) => (
-                      <div
-                        key={index}
-                        className={`flex ${
-                          index % 2 === 0 ? "odd:bg-blue-50" : ""
-                        }`}
-                      >
-                        <div className="whitespace-nowrap px-4 py-3 font-medium text-gray-900 w-1/4">
-                          {updatedData?.updatedColumn[index]}
-                        </div>
-                        <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                          {updatedData?.rowIndex[index]}
-                        </div>
-                        <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                          {updatedData?.currentData[index]}
-                        </div>
-                        <div className="whitespace-nowrap px-4 py-3 text-gray-700 w-1/4">
-                          {updatedData?.previousData[index]}
-                        </div>
-                      </div>
-                    ))}
+                    }
+                  )}
                 </div>
                 <div className="flex justify-center py-4">
                   {/* {renderPageNumbers} */}
