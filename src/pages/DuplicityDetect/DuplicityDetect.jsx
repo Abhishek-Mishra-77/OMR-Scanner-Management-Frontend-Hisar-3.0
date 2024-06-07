@@ -357,7 +357,7 @@ const ImageScanner = () => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col w-full justify-center items-center lg:flex-row pt-20  ">
+        <div className="flex flex-col w-full justify-center items-center lg:items-start`` lg:flex-row pt-20  ">
           {/* LEFT SECTION  */}
           <div className="flex w-full my-2 lg:my-7 lg:w-[30%] xl:w-[25%] ">
             <div className="text-center sm:block sm:p-0 w-full">
