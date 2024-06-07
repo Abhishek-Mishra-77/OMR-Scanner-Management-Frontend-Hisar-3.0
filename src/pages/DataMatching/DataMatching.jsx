@@ -1080,11 +1080,11 @@ const DataMatching = () => {
               </>
             )}
             {!popUp && (
-              <div className=" flex flex-col lg:flex-row md:flex-col-reverse bg-gradient-to-r from-blue-600 to-purple-700 dataEntry">
+              <div className=" flex flex-col lg:flex-row  bg-gradient-to-r from-blue-600 to-purple-700 dataEntry pt-20">
                 {/* LEFT SECTION */}
-                <div className=" border-e lg:w-3/12 xl:w-2/12 order-lg-1 second ">
-                  <div className=" flex flex-col overflow-hidden w-[100%]">
-                    <article className="pt-10 shadow transition lg:pt-28 hover:shadow-lg mx-auto overflow-auto h-[100vh]">
+                <div className=" border-e lg:w-3/12 xl:w-[20%] order-lg-1 ">
+                  <div className="overflow-hidden w-[100%] ">
+                    <article className="py-10 mt-5 lg:mt-16 shadow transition  hover:shadow-lg mx-auto overflow-auto lg:h-[60vh] rounded-lg flex flex-row lg:flex-col lg:items-center w-[95%] bg-blue-500">
                       {csvCurrentData &&
                         Object.entries({ ...csvData[0] }).map(
                           ([key, value], i) => {
@@ -1098,7 +1098,7 @@ const DataMatching = () => {
                               return (
                                 <div
                                   key={i}
-                                  className="w-5/6 px-3 py-1  overflow-x font-bold"
+                                  className="w-5/6 px-3 lg:px-0 py-1  overflow-x font-bold justify-center items-center"
                                 >
                                   <label className=" w-full overflow-hidden  rounded-md  font-semibold  py-2 shadow-sm  ">
                                     <span className="text-sm text-white font-bold flex">
@@ -1128,7 +1128,7 @@ const DataMatching = () => {
                   {/* View image */}
                 </div>
                 {/* RIGHT SECTION */}
-                <div className="w-full lg:w-9/12 xl:w-10/12 order-1 pt-20 order-lg-2  matchingMain">
+                <div className="w-full lg:w-[80%] xl:w-10/12 matchingMain">
                   {imageUrls.length === 0 ? (
                     <div className="flex justify-center items-center ">
                       <div className="mt-10">
@@ -1200,14 +1200,16 @@ const DataMatching = () => {
                           )}
                         </div>
                       </div>
-                      <h3 className="ms-5 text-lg font-semibold py-3 text-white">
-                        Data No : {currentIndex} out of {csvData.length - 1}
-                        <span className="m-20">
+                      <div className="flex justify-between">
+                        <h3 className="ms-5 text-lg font-semibold py-3 text-white">
+                          Data No : {currentIndex} out of {csvData.length}
+                        </h3>
+                        <h3 className=" text-lg font-semibold py-3 text-white">
                           {" "}
                           Image : {currentImageIndex + 1} Out of{" "}
                           {imageUrls.length}
-                        </span>
-                      </h3>
+                        </h3>
+                      </div>
                       <div className="flex justify-center my-4">
                         <button
                           onClick={zoomInHandler}
@@ -1235,7 +1237,7 @@ const DataMatching = () => {
                         style={{
                           position: "relative",
                           border: "2px solid gray",
-                          width: "50rem",
+                          width: "48rem",
                           height: "23rem",
                           overflow: "auto",
                         }}
@@ -1274,7 +1276,7 @@ const DataMatching = () => {
                           )}
                       </div>
                       <div className="w-full xl:w-2/3 xl:px-6 mx-auto text-white">
-                        <div className="mt-4 w-full ">
+                        <div className="my-4 w-full ">
                           <label
                             className="text-xl font-semibold ms-2 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             htmlFor="questions"
