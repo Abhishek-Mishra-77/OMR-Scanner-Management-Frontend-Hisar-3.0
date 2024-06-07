@@ -41,7 +41,6 @@ export default function Login() {
           theme: "dark",
         });
       } else {
-        console.error("Login failed:", response?.data?.error);
         toast.error("Login failed: Try Again!!", {
           position: "bottom-right",
           autoClose: 2000,
