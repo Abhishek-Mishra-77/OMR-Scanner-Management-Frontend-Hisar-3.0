@@ -93,7 +93,7 @@ const CsvUploader = () => {
     const fileInput = event.target.files[0];
     handleFileUpload(
       fileInput,
-      ["zip", "folder"],
+      ["zip", "folder", "rar"],
       "Please upload a ZIP file or a folder.",
       setImageFolder
     );
@@ -390,7 +390,7 @@ const CsvUploader = () => {
                   src={UploadFile}
                   alt="uploadIcon"
                   width={"25%"}
-                  className=" mx-auto mt-5 pt-3 mb-4"
+                  className="mx-auto mt-5 pt-3 mb-4"
                 />
 
                 <h2 className=" text-xl font-semibold text-white mb-4 mt-5">
@@ -406,7 +406,7 @@ const CsvUploader = () => {
                     <input
                       id="image-folder-upload"
                       type="file"
-                      accept=".zip,.folder"
+                      accept=".zip,.folder,.rar"
                       multiple
                       name="file"
                       onChange={onImageFolderHandler}

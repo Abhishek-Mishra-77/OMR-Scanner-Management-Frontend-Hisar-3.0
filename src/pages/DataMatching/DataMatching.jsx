@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import ImageNotFound from "../../components/ImageNotFound/ImageNotFound";
 import { toast } from "react-toastify";
@@ -32,6 +32,7 @@ const DataMatching = () => {
   const [allDataChecked, setAllDataChecked] = useState(false);
   const [imageNotFound, setImageNotFound] = useState(true);
   const [dataTypeChecker, setDataTypeChecker] = useState("");
+  const [currentFocusIndex, setCurrentFocusIndex] = useState(0);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [currentIndex, setCurrentIndex] = useState(1);
   const [compareTask, setCompareTask] = useState([]);
@@ -41,6 +42,7 @@ const DataMatching = () => {
   const imageRef = useRef(null);
   const token = JSON.parse(localStorage.getItem("userData"));
   const navigate = useNavigate();
+  const inputRefs = useRef([]);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -192,53 +194,40 @@ const DataMatching = () => {
     }
   }, [csvData, currentTaskData, setCsvCurrentData, onCsvUpdateHandler]);
 
-  // Sortcuts buttons
-  // useEffect(() => {
-  //   if (!popUp) {
-  //     const handleKeyDown = (event) => {
-  //       if (event.ctrlKey && event.key === "ArrowLeft") {
-  //         setPopUp(true);
-  //       } else if (event.altKey && event.key === "s") {
-  //         console.log("fdljknfj");
-  //         setCsvCurrentData((prevData) => ({
-  //           ...prevData,
-  //         }));
-  //         onCsvUpdateHandler();
-  //       } else if (event.key === "ArrowLeft" || event.key === "PageUp") {
-  //         if (currentImageIndex > 0) {
-  //           setCurrentImageIndex(currentImageIndex - 1);
-  //           setSelectedCoordinates(false);
-  //           setZoomLevel(1);
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Tab") {
+      e.preventDefault();
 
-  //           if (imageRef.current) {
-  //             imageRef.current.style.transform = "none";
-  //             imageRef.current.style.transformOrigin = "initial";
-  //           }
-  //         } else {
-  //           onImageHandler("prev", currentIndex, csvData, currentTaskData);
-  //           setCurrentImageIndex(0);
-  //         }
-  //       } else if (event.key === "ArrowRight" || event.key === "PageDown") {
-  //         if (currentImageIndex < imageUrls.length - 1) {
-  //           setCurrentImageIndex(currentImageIndex + 1);
-  //           setSelectedCoordinates(false);
-  //           setZoomLevel(1);
-  //           if (imageRef.current) {
-  //             imageRef.current.style.transform = "none";
-  //             imageRef.current.style.transformOrigin = "initial";
-  //           }
-  //         } else {
-  //           onImageHandler("next", currentIndex, csvData, currentTaskData);
-  //           setCurrentImageIndex(0);
-  //         }
-  //       }
-  //     };
-  //     window.addEventListener("keydown", handleKeyDown);
-  //     return () => {
-  //       window.removeEventListener("keydown", handleKeyDown);
-  //     };
-  //   }
-  // }, [csvData, currentTaskData, setCsvCurrentData, onCsvUpdateHandler]);
+      let nextIndex = index;
+      let loopedOnce = false;
+
+      // Determine the direction based on whether Shift key is pressed
+      const direction = e.shiftKey ? -1 : 1;
+
+      // Loop until we find a valid input or we have looped through all inputs
+      while (!loopedOnce || nextIndex !== index) {
+        nextIndex =
+          (nextIndex + direction + inputRefs.current.length) %
+          inputRefs.current.length;
+        const [nextKey, nextValue] = Object.entries(csvCurrentData)[nextIndex];
+
+        // Check if nextValue is a string before calling includes method
+        if (
+          nextValue === "" ||
+          (typeof nextValue === "string" && nextValue.includes("*"))
+        ) {
+          setCurrentFocusIndex(nextIndex);
+          inputRefs.current[nextIndex].focus();
+          break;
+        }
+
+        // If we've looped back to the original index, stop looping
+        if (nextIndex === index) {
+          loopedOnce = true;
+        }
+      }
+    }
+  };
 
   // Api for getting the image from the backend
   const onImageHandler = async (
@@ -1084,7 +1073,10 @@ const DataMatching = () => {
                 {/* LEFT SECTION */}
                 <div className=" border-e lg:w-3/12 xl:w-[20%] order-lg-1 ">
                   <div className="overflow-hidden w-[100%] ">
-                    <article style={{scrollbarWidth: "thin"}} className="py-10 mt-5 lg:mt-16 shadow transition  hover:shadow-lg mx-auto overflow-y-auto lg:h-[80vh] rounded-lg flex flex-row lg:flex-col lg:items-center w-[95%] bg-blue-500">
+                    <article
+                      style={{ scrollbarWidth: "thin" }}
+                      className="py-10 mt-5 lg:mt-16 shadow transition  hover:shadow-lg mx-auto overflow-y-auto lg:h-[80vh] rounded-lg flex flex-row lg:flex-col lg:items-center w-[95%] bg-blue-500"
+                    >
                       {csvCurrentData &&
                         Object.entries({ ...csvData[0] }).map(
                           ([key, value], i) => {
@@ -1107,8 +1099,27 @@ const DataMatching = () => {
                                   </label>
                                   <input
                                     type="text"
-                                    className="mt-1 border-none p-2 focus:border-transparent text-center rounded-lg focus:outline-none focus:ring-0 sm:text-sm w-48"
-                                    value={csvCurrentData[key]}
+                                    className={`mt-1 border-none p-2 focus:border-transparent text-center rounded-lg focus:outline-none focus:ring-0 sm:text-sm w-48
+                                      ${
+                                        csvCurrentData[key] === "" ||
+                                        (csvCurrentData[key] &&
+                                          typeof csvCurrentData[key] ===
+                                            "string" &&
+                                          (csvCurrentData[key].includes("*") ||
+                                            csvCurrentData[key].includes(" ")))
+                                          ? "bg-red-500 text-white"
+                                          : "bg-white"
+                                      }
+
+                                      ${
+                                        i === currentFocusIndex
+                                          ? "bg-yellow-300"
+                                          : ""
+                                      }
+                                      `}
+                                    ref={(el) => (inputRefs.current[i] = el)}
+                                    value={csvCurrentData[key] || ""}
+                                    onKeyDown={(e) => handleKeyDown(e, i)}
                                     onChange={(e) =>
                                       changeCurrentCsvDataHandler(
                                         key,
@@ -1117,7 +1128,6 @@ const DataMatching = () => {
                                     }
                                     onFocus={() => imageFocusHandler(key)}
                                   />
-                                  
                                 </div>
                               );
                             }
@@ -1203,36 +1213,36 @@ const DataMatching = () => {
                       </div>
                       <div className="flex justify-between">
                         <h3 className="ms-5 text-lg font-semibold py-3 text-white">
-                          Data No : {currentIndex} out of {csvData.length}
+                          Data No : {currentIndex} out of {csvData.length - 1}
                         </h3>
                         <div className="flex justify-center my-3">
-                        <button
-                          onClick={zoomInHandler}
-                          className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
-                        >
-                          Zoom In
-                        </button>
+                          <button
+                            onClick={zoomInHandler}
+                            className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
+                          >
+                            Zoom In
+                          </button>
 
-                        <button
-                          onClick={onInialImageHandler}
-                          className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
-                        >
-                          Initial
-                        </button>
-                        <button
-                          onClick={zoomOutHandler}
-                          className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
-                        >
-                          Zoom Out
-                        </button>
-                      </div>
+                          <button
+                            onClick={onInialImageHandler}
+                            className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
+                          >
+                            Initial
+                          </button>
+                          <button
+                            onClick={zoomOutHandler}
+                            className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
+                          >
+                            Zoom Out
+                          </button>
+                        </div>
                         <h3 className=" text-lg font-semibold py-3 text-white">
                           {" "}
                           Image : {currentImageIndex + 1} Out of{" "}
                           {imageUrls.length}
                         </h3>
                       </div>
-                      
+
                       <div
                         ref={imageContainerRef}
                         className="mx-auto bg-white"
@@ -1242,7 +1252,7 @@ const DataMatching = () => {
                           width: "48rem",
                           height: "23rem",
                           overflow: "auto",
-                          scrollbarWidth: "thin"
+                          scrollbarWidth: "thin",
                         }}
                       >
                         <img
@@ -1286,7 +1296,10 @@ const DataMatching = () => {
                           >
                             Questions:
                           </label>
-                          <div className="flex overflow-auto max-h-[360px] mt-3 ms-2 xl:ms-2" style={{scrollbarWidth: "thin"}}>
+                          <div
+                            className="flex overflow-auto max-h-[360px] mt-3 ms-2 xl:ms-2"
+                            style={{ scrollbarWidth: "thin" }}
+                          >
                             <div className="flex flex-wrap">
                               {csvCurrentData &&
                                 Object.entries(csvCurrentData).map(
@@ -1317,9 +1330,34 @@ const DataMatching = () => {
                                             <input
                                               type="text"
                                               id={`Quantity${i}`}
-                                              className="h-7 w-7 border-transparent text-center text-black rounded text-sm"
+                                              className={`h-7 w-7 text-center text-black rounded text-sm ${
+                                                csvCurrentData[key] === "" ||
+                                                (csvCurrentData[key] &&
+                                                  typeof csvCurrentData[key] ===
+                                                    "string" &&
+                                                  (csvCurrentData[key].includes(
+                                                    "*"
+                                                  ) ||
+                                                    csvCurrentData[
+                                                      key
+                                                    ].includes(" ")))
+                                                  ? "bg-red-500 text-white"
+                                                  : "bg-white"
+                                              }
+                                                  ${
+                                                    i === currentFocusIndex
+                                                      ? "bg-yellow-300 text-white"
+                                                      : ""
+                                                  }
+                                              `}
+                                              ref={(el) =>
+                                                (inputRefs.current[i] = el)
+                                              }
+                                              value={csvCurrentData[key] || ""}
+                                              onKeyDown={(e) =>
+                                                handleKeyDown(e, i)
+                                              }
                                               placeholder={value}
-                                              value={csvCurrentData[key]}
                                               onChange={(e) =>
                                                 changeCurrentCsvDataHandler(
                                                   key,
