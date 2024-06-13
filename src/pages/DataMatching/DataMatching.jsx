@@ -10,6 +10,7 @@ import {
 } from "../../services/common";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { LuLoader } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import AdminAssined from "./AdminAssined";
 
@@ -38,6 +39,7 @@ const DataMatching = () => {
   const [compareTask, setCompareTask] = useState([]);
   const [csvData, setCsvData] = useState([]);
   const [userRole, setUserRole] = useState();
+  const [loading, setLoading] = useState(false);
   const imageContainerRef = useRef(null);
   const imageRef = useRef(null);
   const token = JSON.parse(localStorage.getItem("userData"));
@@ -194,34 +196,39 @@ const DataMatching = () => {
     }
   }, [csvData, currentTaskData, setCsvCurrentData, onCsvUpdateHandler]);
 
-  const handleKeyDown = (e, index) => {
+  const handleKeyDownJump = (e, index) => {
     if (e.key === "Tab") {
       e.preventDefault();
 
       let nextIndex = index;
       let loopedOnce = false;
-
-      // Determine the direction based on whether Shift key is pressed
       const direction = e.shiftKey ? -1 : 1;
 
-      // Loop until we find a valid input or we have looped through all inputs
       while (!loopedOnce || nextIndex !== index) {
+        // Calculate the next index
         nextIndex =
           (nextIndex + direction + inputRefs.current.length) %
           inputRefs.current.length;
+
         const [nextKey, nextValue] = Object.entries(csvCurrentData)[nextIndex];
 
-        // Check if nextValue is a string before calling includes method
+        // Check if nextValue meets the condition
         if (
           nextValue === "" ||
-          (typeof nextValue === "string" && nextValue.includes("*"))
+          (nextValue &&
+            typeof nextValue === "string" &&
+            (nextValue.includes("*") || nextValue.includes(" ")))
         ) {
+          // Update focus index
           setCurrentFocusIndex(nextIndex);
-          inputRefs.current[nextIndex].focus();
+          // Ensure the input reference exists and is focusable
+          if (inputRefs.current[nextIndex]) {
+            inputRefs.current[nextIndex].focus();
+          }
           break;
         }
 
-        // If we've looped back to the original index, stop looping
+        // Check if we have looped back to the original index
         if (nextIndex === index) {
           loopedOnce = true;
         }
@@ -547,6 +554,7 @@ const DataMatching = () => {
       toast.warning("Please enter the number of blanks.");
       return;
     }
+    setLoading(true);
     const conditions = {
       Blank: blankChecked ? Number(blankCount) : 0,
       "*": multChecked,
@@ -615,9 +623,10 @@ const DataMatching = () => {
           updatedTasks
         );
       }
-
+      setLoading(false);
       setPopUp(false);
     } catch (error) {
+      setLoading(false);
       toast.error(error.message);
     }
   };
@@ -1047,11 +1056,21 @@ const DataMatching = () => {
                                 onTaskStartHandler(currentTaskData)
                               }
                               type="button"
-                              className=" my-3 ml-3 w-full sm:w-auto inline-flex justify-center rounded-xl
-               border border-transparent px-4 py-2 bg-teal-600 text-base leading-6 font-semibold text-white shadow-sm hover:bg-teal-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                              disabled={loading ? true : false}
+                              className={`my-3 ml-3 w-full sm:w-auto inline-flex justify-center rounded-xl border border-transparent px-4 py-2 bg-teal-600 text-base leading-6 font-semibold text-white shadow-sm hover:bg-teal-500 focus:outline-none focus:border-teal-700 focus:shadow-outline-teal transition ease-in-out duration-150 sm:text-sm sm:leading-5 ${
+                                loading ? "opacity-50 cursor-not-allowed" : ""
+                              }`}
                             >
-                              Confirm
+                              {loading ? (
+                                <div className="flex items-center justify-center">
+                                  <span className="mr-2">Loading...</span>
+                                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                </div>
+                              ) : (
+                                "Confirm"
+                              )}
                             </button>
+
                             <button
                               onClick={() => setStartModal(true)}
                               type="button"
@@ -1119,7 +1138,7 @@ const DataMatching = () => {
                                       `}
                                     ref={(el) => (inputRefs.current[i] = el)}
                                     value={csvCurrentData[key] || ""}
-                                    onKeyDown={(e) => handleKeyDown(e, i)}
+                                    onKeyDown={(e) => handleKeyDownJump(e, i)}
                                     onChange={(e) =>
                                       changeCurrentCsvDataHandler(
                                         key,
@@ -1355,7 +1374,7 @@ const DataMatching = () => {
                                               }
                                               value={csvCurrentData[key] || ""}
                                               onKeyDown={(e) =>
-                                                handleKeyDown(e, i)
+                                                handleKeyDownJump(e, i)
                                               }
                                               placeholder={value}
                                               onChange={(e) =>
