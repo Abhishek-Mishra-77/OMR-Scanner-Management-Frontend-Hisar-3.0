@@ -144,7 +144,7 @@ const DataMatching = () => {
       toast.success("Data updated successfully.");
     } catch (error) {
       console.error("API error:", error);
-      toast.error(error.message);
+      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -627,7 +627,8 @@ const DataMatching = () => {
       setPopUp(false);
     } catch (error) {
       setLoading(false);
-      toast.error(error.message);
+      console.log(error)
+      toast.error(error?.response?.data?.error);
     }
   };
 
