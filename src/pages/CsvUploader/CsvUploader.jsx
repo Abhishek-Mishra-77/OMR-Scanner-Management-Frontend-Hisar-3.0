@@ -221,7 +221,7 @@ const CsvUploader = () => {
 
   const onTemplateRemoveHandler = async (id) => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `http://${REACT_APP_IP}:4000/delete/template/${id}`,
         {},
         {
@@ -235,6 +235,8 @@ const CsvUploader = () => {
       setRemoveModal(false);
       toast.success("Succesfully template removed.");
     } catch (error) {
+      toast.error(error?.response?.data?.error);
+      setRemoveModal(false);
       console.error("Error uploading files: ", error);
     }
   };
