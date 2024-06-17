@@ -335,43 +335,6 @@ const DataMatching = () => {
     }
   };
 
-  // const changeCurrentCsvDataHandler = (key, value) => {
-  //   if (!imageNotFound) {
-  //     return;
-  //   }
-
-  //   setCsvCurrentData((prevData) => ({
-  //     ...prevData,
-  //     [key]: value,
-  //   }));
-
-  //   setModifiedKeys((prevKeys) => {
-  //     return {
-  //       ...prevKeys,
-  //       [key]: true,
-  //     };
-  //   });
-  // };
-
-  // Updating the input field
-  // const changeCurrentCsvDataHandler = (key, value) => {
-  //   if (!imageNotFound) {
-  //     return;
-  //   }
-
-  //   setCsvCurrentData((prevData) => ({
-  //     ...prevData,
-  //     [key]: value,
-  //   }));
-
-  //   setModifiedKeys((prevKeys) => {
-  //     return {
-  //       ...prevKeys,
-  //       [key]: true,
-  //     };
-  //   });
-  // };
-
   // Updating the input field
   const changeCurrentCsvDataHandler = (key, newValue) => {
     if (!imageNotFound) {
@@ -397,7 +360,7 @@ const DataMatching = () => {
       // Check if matchedCoordinate.fieldType is "questionsField"
       if (matchedCoordinate?.fieldType === "questionsField") {
         const [start, end] = templateHeaders?.typeOption?.split("-");
-
+        newValue = newValue.trim();
         // Check if newValue is a single character or empty string
         if (newValue.length !== 1 && newValue !== "") {
           // If newValue is neither a single character nor empty string, return previous data
@@ -627,7 +590,7 @@ const DataMatching = () => {
       setPopUp(false);
     } catch (error) {
       setLoading(false);
-      console.log(error)
+      console.log(error);
       toast.error(error?.response?.data?.error);
     }
   };
@@ -1361,12 +1324,12 @@ const DataMatching = () => {
                                                     csvCurrentData[
                                                       key
                                                     ].includes(" ")))
-                                                  ? "bg-red-500 text-white"
+                                                  ? "bg-red-500 text-black"
                                                   : "bg-white"
                                               }
                                                   ${
                                                     i === currentFocusIndex
-                                                      ? "bg-yellow-300 text-white"
+                                                      ? "bg-yellow-300  text-black"
                                                       : ""
                                                   }
                                               `}
