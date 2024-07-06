@@ -8,6 +8,7 @@ import {
   onGetVerifiedUserHandler,
   REACT_APP_IP,
 } from "../../services/common";
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { LuLoader } from "react-icons/lu";
@@ -45,6 +46,7 @@ const DataMatching = () => {
   const token = JSON.parse(localStorage.getItem("userData"));
   const navigate = useNavigate();
   const inputRefs = useRef([]);
+  const [confirmationModal, setConfirmationModal] = useState(false);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -378,7 +380,8 @@ const DataMatching = () => {
         if (
           (charCodeNewValue >= charCodeStart &&
             charCodeNewValue <= charCodeEnd) ||
-          newValue === ""
+          newValue === "" ||
+          newValue === "*"
         ) {
           // Valid input or removal, proceed with updating data
 
@@ -628,6 +631,7 @@ const DataMatching = () => {
 
       setPopUp(true);
       setStartModal(true);
+      setConfirmationModal(false);
       toast.success("task complted successfully.");
     } catch (error) {
       toast.error(error.message);
@@ -1054,11 +1058,24 @@ const DataMatching = () => {
             {!popUp && (
               <div className=" flex flex-col lg:flex-row  bg-gradient-to-r from-blue-600 to-purple-700 dataEntry pt-20">
                 {/* LEFT SECTION */}
-                <div className=" border-e lg:w-3/12 xl:w-[20%] order-lg-1 ">
+                <div className=" border-e lg:w-3/12 xl:w-[20%] order-lg-1">
                   <div className="overflow-hidden w-[100%] ">
+                    <div className="flex flex-col justify-center items-center">
+                      <h3 className="ms-5 text-lg font-semibold  text-white">
+                        Data : {currentIndex} out of {csvData.length - 1}
+                      </h3>
+                      {currentIndex === csvData.length - 1 && (
+                        <button
+                          onClick={() => setConfirmationModal(true)}
+                          className="px-2 py-2 bg-teal-600 text-white rounded-2xl hover:bg-teal-700 "
+                        >
+                          Task Completed
+                        </button>
+                      )}
+                    </div>
                     <article
                       style={{ scrollbarWidth: "thin" }}
-                      className="py-10 mt-5 lg:mt-16 shadow transition  hover:shadow-lg mx-auto overflow-y-auto lg:h-[80vh] rounded-lg flex flex-row lg:flex-col lg:items-center w-[95%] bg-blue-500"
+                      className="py-10 mt-5 lg:mt-8 shadow transition  hover:shadow-lg mx-auto overflow-y-auto lg:h-[80vh] rounded-lg flex flex-row lg:flex-col lg:items-center w-[95%] bg-blue-500"
                     >
                       {csvCurrentData &&
                         Object.entries({ ...csvData[0] }).map(
@@ -1139,23 +1156,23 @@ const DataMatching = () => {
                     </div>
                   ) : (
                     <div className="flex-col">
-                      <div className="flex float-right gap-4 mt-2 mr-4 ">
+                      {/* <div className="flex float-right gap-4 mt-2 mr-4 ">
                         <div className="">
-                          {/* <button
+                           <button
                           onClick={() => setPopUp(true)}
                           className=" px-6 py-2 bg-blue-600 text-white rounded-3xl mx-2 hover:bg-blue-700"
                         >
                           Back
-                        </button> */}
-                          {/* <Button
+                        </button> 
+                           <Button
                           onClick={onCsvUpdateHandler}
                           variant="contained"
                           color="info"
                         >
                           update
-                        </Button> */}
+                        </Button> 
 
-                          {/* <button
+                          <button
                           className="px-6 py-2 bg-blue-600 text-white rounded-3xl mx-2 hover:bg-blue-700"
                           onClick={() =>
                             onImageHandler(
@@ -1168,9 +1185,9 @@ const DataMatching = () => {
                           endIcon={<ArrowBackIosIcon />}
                         >
                           Prev
-                        </button> */}
+                        </button>
 
-                          {/* <button
+                         <button
                           className="px-6 py-2 bg-blue-600 text-white rounded-3xl mx-2 hover:bg-blue-700"
                           onClick={() =>
                             onImageHandler(
@@ -1183,7 +1200,7 @@ const DataMatching = () => {
                           endIcon={<ArrowForwardIosIcon />}
                         >
                           Next
-                        </button> */}
+                        </button> 
                           {currentIndex === csvData.length - 1 && (
                             <button
                               onClick={onCompleteHandler}
@@ -1193,47 +1210,45 @@ const DataMatching = () => {
                             </button>
                           )}
                         </div>
-                      </div>
-                      <div className="flex justify-between">
-                        <h3 className="ms-5 text-lg font-semibold py-3 text-white">
-                          Data No : {currentIndex} out of {csvData.length - 1}
-                        </h3>
-                        <div className="flex justify-center my-3">
-                          <button
-                            onClick={zoomInHandler}
-                            className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
-                          >
-                            Zoom In
-                          </button>
+                      </div> */}
+                      {/* <div className="flex justify-between">
+                          <h3 className="ms-5 text-lg font-semibold py-3 text-white">
+                            Data No : {currentIndex} out of {csvData.length - 1}
+                          </h3> 
+                          <div className="flex justify-center my-3">
+                            <button
+                              onClick={zoomInHandler}
+                              className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
+                            >
+                              Zoom In
+                            </button>
 
-                          <button
-                            onClick={onInialImageHandler}
-                            className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
-                          >
-                            Initial
-                          </button>
-                          <button
-                            onClick={zoomOutHandler}
-                            className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
-                          >
-                            Zoom Out
-                          </button>
-                        </div>
-                        <h3 className=" text-lg font-semibold py-3 text-white">
-                          {" "}
-                          Image : {currentImageIndex + 1} Out of{" "}
-                          {imageUrls.length}
-                        </h3>
-                      </div>
-
+                            <button
+                              onClick={onInialImageHandler}
+                              className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
+                            >
+                              Initial
+                            </button>
+                            <button
+                              onClick={zoomOutHandler}
+                              className="px-6 py-2 bg-blue-400 text-white rounded-3xl mx-2 hover:bg-blue-500"
+                            >
+                              Zoom Out
+                            </button>
+                          </div> 
+                           <h3 className=" text-lg font-semibold py-3 text-white">
+                            {" "}
+                            Image : {currentImageIndex + 1} Out of{" "}
+                            {imageUrls.length}
+                          </h3> 
+                        </div> */}
                       <div
                         ref={imageContainerRef}
                         className="mx-auto bg-white"
                         style={{
                           position: "relative",
-                          border: "2px solid gray",
-                          width: "48rem",
-                          height: "23rem",
+                          width: "50rem",
+                          height: "18rem",
                           overflow: "auto",
                           scrollbarWidth: "thin",
                         }}
@@ -1243,7 +1258,7 @@ const DataMatching = () => {
                           alt="Selected"
                           ref={imageRef}
                           style={{
-                            width: "48rem",
+                            width: "48.5rem",
                             transform: `scale(${zoomLevel})`,
                             transformOrigin: "center center",
                           }}
@@ -1272,7 +1287,7 @@ const DataMatching = () => {
                           )}
                       </div>
                       <div className="w-full xl:w-2/3 xl:px-6 mx-auto text-white">
-                        <div className="my-4 w-full ">
+                        <div className="my-2 w-full ">
                           <label
                             className="text-xl font-semibold ms-2 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             htmlFor="questions"
@@ -1280,7 +1295,7 @@ const DataMatching = () => {
                             Questions:
                           </label>
                           <div
-                            className="flex overflow-auto max-h-[360px] mt-3 ms-2 xl:ms-2"
+                            className="flex overflow-auto max-h-[200px] mt-3 ms-2 xl:ms-2"
                             style={{ scrollbarWidth: "thin" }}
                           >
                             <div className="flex flex-wrap">
@@ -1367,6 +1382,14 @@ const DataMatching = () => {
               </div>
             )}
           </div>
+
+          <ConfirmationModal
+            confirmationModal={confirmationModal}
+            onSubmitHandler={onCompleteHandler}
+            setConfirmationModal={setConfirmationModal}
+            heading={"Task Submission Confirmation"}
+            message={"Please review the newly updated heading."}
+          />
         </div>
       )}
       {userRole === "Admin" && <AdminAssined />}

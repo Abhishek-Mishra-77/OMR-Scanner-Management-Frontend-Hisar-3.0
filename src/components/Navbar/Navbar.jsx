@@ -175,7 +175,7 @@ export default function Navbar() {
     <>
       <div className={`fixed w-full z-10 bg-white  backdrop-blur-sm `}>
         <div
-          className={`mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8 ${
+          className={`mx-auto flex max-w-7xl items-center justify-between sm:px-6 lg:px-8 ${
             isMenuOpen ? "hidden " : ""
           }`}
         >
